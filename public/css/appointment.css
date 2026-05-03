@@ -1,0 +1,129 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink: #f0437a;
+  --pink-light: #fce8ef;
+  --blue-light: #d6eaf8;
+  --teal: #5bb8c4;
+  --dark: #1a1a2e;
+  --gray: #6b7280;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Ponomar", serif;
+  background: linear-gradient(135deg, #fce8ef 0%, #ffffff 50%, #d6eaf8 100%);
+  background-attachment: fixed;
+  padding-top: 0;
+  min-height: 100vh;
+}
+.appt-hero {
+  padding: 120px 48px 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appt-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--dark);
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.appt-hero p {
+  font-size: 1rem;
+  color: var(--dark);
+  margin-bottom: 48px;
+  opacity: 0.75;
+}
+
+.appointment-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  gap: 0;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.appt-field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  padding: 8px 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.appt-field:hover {
+  background: #f9f9f9;
+}
+
+.appt-icon {
+  font-size: 1.5rem;
+  color: var(--dark);
+  flex-shrink: 0;
+}
+
+.appt-field-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.appt-label {
+  font-size: 0.75rem;
+  color: var(--gray);
+  font-weight: 400;
+}
+
+.appt-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.appt-divider {
+  width: 1px;
+  height: 44px;
+  background: #e0e0e0;
+  flex-shrink: 0;
+}
+
+.appt-btn {
+  background: #5b5bd6;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: 12px;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.appt-btn:hover {
+  background: #4a4ac4;
+}
