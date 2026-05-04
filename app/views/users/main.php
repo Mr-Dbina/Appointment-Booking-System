@@ -43,7 +43,6 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </div>
-
 <section class="doctors" id="doctors">
   <div class="section-header">
     <h2>Meet Our Expert Dogtors</h2>
@@ -80,11 +79,10 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </section>
-
 <section class="services" id="services">
   <div class="section-header">
     <h2>Our Service</h2>
-    <p>Whether it’s a routine check-up to keep your health on track or an unexpected concern that needs immediate attention, our general medicine team is here for you every step of the way. We take the time to listen carefully to your symptoms, concerns, and questions, ensuring that you feel heard and understood. More than that, we provide care with genuine compassion and dedication, prioritizing your comfort and peace of mind, so you can feel confident and supported throughout your healthcare journey.</p>  <div class="services-grid">
+    <p>Whether it’s a routine check-up or an unexpected concern, our general medicine team is here to listen, diagnose, and provide compassionate care—prioritizing your comfort and peace of mind every step of the way.</p>  <div class="services-grid">
     <div class="service-card bg-1">
       <img src="<?= $base ?>/public/images/obgyn.png" alt="OB-GYN" />
       <div class="service-overlay"></div>
@@ -119,7 +117,6 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </section>
-
 <div class="story" id="about">
   <img src="<?= $base ?>/public/images/clinic.png" alt="Clinic" class="story-img" />
   <div class="story-content">
@@ -128,8 +125,6 @@ $base = "http://localhost/appointment_booking_system";
     <a href="#" class="btn-story">Read More</a>
   </div>
 </div>
-
 <?php include __DIR__ . '/../shared/footer.html'; ?>
-
 </body>
 </html>
