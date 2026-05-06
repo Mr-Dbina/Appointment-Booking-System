@@ -36,7 +36,7 @@ $base = "http://localhost/appointment_booking_system";
                 </div>
             </div>
             <div class="appt-divider"></div>
-            <button class="appt-btn">Book Appointment</button>
+            <button class="appt-btn">Book Appointments</button>
         </div>       
     </div>           
 
