@@ -19,18 +19,18 @@ $base = "http://localhost/appointment_booking_system";
     <h1>Compassionate care, precise medicine — every patient, every time.</h1>
     <p>Your health is not just our priority — it is our purpose. We deliver trusted medical care with warmth, expertise, and a commitment to your well-being at every step</p>
     <div class="hero-btns">
-      <a href="/app/views/users/service.php" class="btn-outline">
+      <a href="<?= $base ?>/app/views/users/service.php" class="btn-outline">
         <i class="fa-solid fa-briefcase-medical"></i>
         Clinic Services
       </a>
-      <a href="/app/views/users/appointment.php" class="btn-pink">
+      <a href="<?= $base ?> /app/views/users/appointment.php" class="btn-pink">
         <i class="fa-solid fa-calendar-check"></i>
         Book Appointment
       </a>
     </div>
   </div>
   <div class="hero-image-wrap">
-    <img src="<?= $base ?>/public/images/checkup.png" alt="Doctor with patient" class="hero-img" />
+    <img src="<?= $base ?>/public/images/checkk.png" alt="Doctor with patient" class="hero-img" />
     <div class="hero-stats">
       <div class="stat-card">
         <div class="num">400+</div>
@@ -84,7 +84,7 @@ $base = "http://localhost/appointment_booking_system";
     <h2>Our Service</h2>
     <p>Whether it’s a routine check-up or an unexpected concern, our general medicine team is here to listen, diagnose, and provide compassionate care—prioritizing your comfort and peace of mind every step of the way.</p>  <div class="services-grid">
     <div class="service-card bg-1">
-      <img src="<?= $base ?>/public/images/obgyn.png" alt="OB-GYN" />
+      <img src="<?= $base ?>/public/images/ob.png" alt="OB-GYN" />
       <div class="service-overlay"></div>
       <div class="service-text">
         <h3>OB-GYN</h3>
@@ -92,7 +92,7 @@ $base = "http://localhost/appointment_booking_system";
       </div>
     </div>
     <div class="service-card bg-2">
-      <img src="<?= $base ?>/public/images/general_medicine.png" alt="General Medicine" />
+      <img src="<?= $base ?>/public/images/gen.png" alt="General Medicine" />
       <div class="service-overlay"></div>
       <div class="service-text">
         <h3>General Medicine</h3>
@@ -100,7 +100,7 @@ $base = "http://localhost/appointment_booking_system";
       </div>
     </div>
     <div class="service-card bg-3">
-      <img src="<?= $base ?>/public/images/pedia.png" alt="Pediatrics" />
+      <img src="<?= $base ?>/public/images/ped.png" alt="Pediatrics" />
       <div class="service-overlay"></div>
       <div class="service-text">
         <h3>Pediatrics</h3>
@@ -108,7 +108,7 @@ $base = "http://localhost/appointment_booking_system";
       </div>
     </div>
     <div class="service-card bg-4">
-      <img src="<?= $base ?>/public/images/derma.png" alt="Dermatology" />
+      <img src="<?= $base ?>/public/images/dermatology.png" alt="Dermatology" />
       <div class="service-overlay"></div>
       <div class="service-text">
         <h3>Dermatology</h3>
