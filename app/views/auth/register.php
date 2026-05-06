@@ -1,10 +1,12 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Care Clinic – Patient Registration</title>
+    <title>Happy Care Clinic</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap"
@@ -14,7 +16,8 @@ $base = "http://localhost/appointment_booking_system";
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       rel="stylesheet"
     />
-  <link rel="stylesheet" href="<?= $base ?>/public/css/register.css">
+    <link rel="stylesheet" href="<?= $base ?>/public/css/register.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <div class="page">
@@ -53,9 +56,7 @@ $base = "http://localhost/appointment_booking_system";
           <div class="field-row">
             <div class="field">
               <input type="date" id="dob" />
-              <span class="icon"
-                ><i class="fa-solid fa-calendar-days"></i
-              ></span>
+              <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
             </div>
             <div class="field">
               <select
@@ -88,6 +89,7 @@ $base = "http://localhost/appointment_booking_system";
             </label>
           </div>
           <div class="divider"></div>
+          <div id="formMessage" style="display:none;"></div>
           <button class="btn-register"><span>Register</span></button>
           <p class="signin">
             Already have account?
@@ -123,5 +125,8 @@ $base = "http://localhost/appointment_booking_system";
         </div>
       </div>
     </div>
-        <script src="http://localhost/appointment_booking_system/public/js/lock.js"></script>
+
+    <script src="<?= $base ?>/public/js/lock.js"></script>
+    <script src="<?= $base ?>/public/js/register.js"></script>
   </body>
+</html>
