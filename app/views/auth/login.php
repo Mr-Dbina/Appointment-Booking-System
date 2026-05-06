@@ -67,19 +67,7 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </div>
-<script>
-const togglePwd = document.getElementById("togglePwd");
-const pwdInput = document.getElementById("password");
-
-togglePwd.addEventListener("click", () => {
-  const isHidden = pwdInput.type === "password";
-  pwdInput.type = isHidden ? "text" : "password";
-
-  togglePwd.innerHTML = isHidden
-    ? '<i class="fa-solid fa-lock-open"></i>'
-    : '<i class="fa-solid fa-lock"></i>';
-});
-</script>
+      <script src="http://localhost/appointment_booking_system/public/js/lock.js"></script>
 
 </body>
 </html>

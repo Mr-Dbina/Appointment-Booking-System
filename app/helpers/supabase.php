@@ -1,10 +1,7 @@
 <?php
-// Load .env manually (or use vlucas/phpdotenv via composer)
 $env = parse_ini_file(__DIR__ . '/../../../.env');
-
-define('SUPABASE_URL',  $env['SUPABASE_URL']);
-define('SUPABASE_KEY',  $env['SUPABASE_SERVICE_KEY']);
-define('ENCRYPT_KEY',   $env['ENCRYPT_KEY']);
+define('SUPABASE_URL', $env['SUPABASE_URL']);
+define('SUPABASE_KEY', $env['SUPABASE_SERVICE_KEY']);
 
 function supabase_rpc(string $function, array $params): array {
     $ch = curl_init(SUPABASE_URL . '/rest/v1/rpc/' . $function);
