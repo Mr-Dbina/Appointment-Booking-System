@@ -1,0 +1,103 @@
+/* General Dashboard Styling */
+body {
+  background-color: #f4f7f6; /* Added a light background so the white cards pop */
+  margin: 0;
+  padding: 20px;
+}
+
+.profile-dashboard {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Sidebar Styling */
+.profile-sidebar {
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7eb3, #ff758c);
+  margin-bottom: 15px;
+}
+
+.user-details { text-align: center; margin-bottom: 20px; }
+.user-details h2 { font-size: 1.2rem; margin: 0 0 5px 0; }
+.user-role { color: #888; font-size: 0.9rem; }
+
+.user-contact {
+  width: 100%;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.user-contact p {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.btn-primary, .btn-secondary {
+  width: 100%; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;
+}
+.btn-primary { background: #e84a7e; color: white; transition: background 0.2s; }
+.btn-primary:hover { background: #d6386c; }
+.btn-secondary { background: white; border: 1px solid #ddd; color: #333; transition: background 0.2s; }
+.btn-secondary:hover { background: #f0f0f0; }
+
+.security-badge {
+  margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; font-size: 0.8rem; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.security-badge p { margin: 5px 0 0 0; color: #666; }
+
+/* Main Content & Tabs */
+.profile-content {
+  flex: 1; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.profile-tabs {
+  list-style: none; padding: 0; margin: 0; display: flex; gap: 20px; border-bottom: 2px solid #eee;
+}
+
+.tab-link {
+  padding: 10px 15px; cursor: pointer; color: #888; font-weight: bold; position: relative; transition: color 0.2s;
+}
+.tab-link:hover { color: #555; }
+
+.tab-link.active { color: #e84a7e; }
+.tab-link.active::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: #e84a7e;
+}
+
+.tab-pane { display: none; padding-top: 40px; animation: fadeIn 0.3s ease-in-out; }
+.tab-pane.active { display: block; }
+
+/* Empty State */
+.empty-state { text-align: center; color: #666; margin-top: 40px; }
+.calendar-illustration { font-size: 4rem; margin-bottom: 20px; }
+.empty-state h3 { color: #333; margin-bottom: 10px; }
+.empty-state .btn-primary { width: auto; padding: 12px 30px; margin-top: 20px; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

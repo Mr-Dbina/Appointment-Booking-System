@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile - Clinic Appointment System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="profile-dashboard">
+        <aside class="profile-sidebar">
+            <div class="profile-avatar">
+                <div class="avatar-circle"></div>
+            </div>
+            <div class="user-details">
+                <h2>Christian Nickhos A. Divina</h2>
+                <span class="user-role">Patient</span>
+            </div>
+            <div class="user-contact">
+                <p>📧 christiandivina2316@gmail.com</p>
+                <p>📍 Legazpi City, Albay</p>
+            </div>
+            <div class="sidebar-actions">
+                <button class="btn-primary edit-profile">Edit Profile</button>
+                <button class="btn-secondary logout">Logout</button>
+            </div>
+            <div class="security-badge">
+                🛡️
+                <div>
+                    <strong>Your information is secure</strong>
+                    <p>We protect your personal data and keep it private.</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="profile-content">
+            <div class="tabs-container">
+                <ul class="profile-tabs">
+                    <li class="tab-link active" data-tab="appointment-history">Appointment History</li>
+                    <li class="tab-link" data-tab="payment-history">Payment History</li>
+                    <li class="tab-link" data-tab="change-password">Change Password</li>
+                </ul>
+            </div>
+
+            <div id="appointment-history" class="tab-pane active">
+                <div class="empty-state">
+                    <div class="calendar-illustration">📅 ❌</div>
+                    <h3>No appointment history</h3>
+                    <p>You haven't booked any appointments yet.<br>When you do, they will appear here.</p>
+                    <button class="btn-primary">Book an Appointment</button>
+                </div>
+            </div>
+
+            <div id="payment-history" class="tab-pane">
+                <h3>Payment History</h3>
+                <p>Your previous transactions will appear here.</p>
+            </div>
+
+            <div id="change-password" class="tab-pane">
+                <h3>Change Password</h3>
+                <p>Password update form goes here.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
