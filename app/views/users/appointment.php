@@ -21,7 +21,6 @@ $base = "http://localhost/appointment_booking_system";
 
         <div class="appointment-bar">
 
-            <!-- ── 1. Service search field ── -->
             <div class="appt-field" id="service-field">
                 <i class="fa-solid fa-magnifying-glass appt-icon"></i>
                 <div class="appt-field-text">
@@ -104,11 +103,9 @@ $base = "http://localhost/appointment_booking_system";
             <div class="appt-divider"></div>
             <button class="appt-btn" onclick="confirmBooking()">Book Appointment</button>
             
-  <!-- ── Payment Modal ── -->
   <div id="paymentOverlay" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
     <div class="pay-modal">
 
-      <!-- Header -->
       <div class="pay-header">
         <div class="pay-brand">
         <img
@@ -204,8 +201,6 @@ $base = "http://localhost/appointment_booking_system";
       <div class="pay-success" id="paySuccess">
         <div class="receipt-wrap">
           <div class="receipt-card">
-
-            <!-- Receipt Header -->
             <div class="receipt-header">
               <div class="receipt-brand">
             <img
