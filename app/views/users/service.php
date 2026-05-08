@@ -1,8 +1,6 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,7 +23,7 @@ $base = "http://localhost/appointment_booking_system";
     <div class="service-body">
       <h2>OBY-GYN</h2>
       <p>An OB-GYN consultation provides care for women's reproductive health, including check-ups, pregnancy care, family planning, and screenings. It also diagnoses and treats menstrual issues, infections, and hormonal concerns while promoting preventive care and overall well-being.</p>
-         <a href="#" class="btn-book">Explore Now </a>
+         <a href="<?= $base ?>/app/views/users/ob_service.php" class="btn-book">Explore Now </a>
     </div>
   </div>
   <div class="service-card bg-general">
@@ -34,7 +32,7 @@ $base = "http://localhost/appointment_booking_system";
     <div class="service-body">
       <h2>General Medicine</h2>
       <p>The general medicine visit is concerned with the wellbeing of the individual as a whole. The general medicine visit involves regular health checks for adults, the diagnosis of common diseases, and treatment. Early detection of illness, symptom management, and proper medication usage and care are ensured by a general medicine visit.</p>
-         <a href="#" class="btn-book">Explore Now </a>
+         <a href="<?= $base ?>/app/views/users/gen_service.php" class="btn-book">Explore Now </a>
     </div>
   </div>
   <div class="service-card bg-pediatrics">
@@ -43,7 +41,7 @@ $base = "http://localhost/appointment_booking_system";
     <div class="service-body">
       <h2>Pediatrics</h2>
       <p>A pediatric consultation focuses on a child's overall health and development, including routine check-ups, growth monitoring, vaccinations, and early detection of illnesses. It helps address common childhood conditions, developmental concerns, and provides guidance on nutrition and care. Overall, it ensures children grow healthy, strong, and on track developmentally.</p>
-      <a href="#" class="btn-book">Explore Now </a>
+      <a href="<?= $base ?>/app/views/users/pedia_service.php" class="btn-book">Explore Now </a>
     </div>
   </div>
   <div class="service-card bg-derma">
@@ -52,10 +50,9 @@ $base = "http://localhost/appointment_booking_system";
     <div class="service-body">
       <h2>Dermatology</h2>
       <p>A dermatology consultation focuses on skin, hair, and nail health, providing diagnosis and treatment for conditions like acne, rashes, infections, and other skin concerns. It also includes preventive care, skin assessments, and personalized treatment plans. Overall, it helps maintain healthy, clear, and confident skin.</p>
-         <a href="#" class="btn-book">Explore Now </a>
+         <a href="<?= $base ?>/app/views/users/derma_service.php" class="btn-book">Explore Now </a>
     </div>
   </div>
 </div>
   <?php include __DIR__ . '/../shared/footer.html'; ?>
 </body>
-</html>
