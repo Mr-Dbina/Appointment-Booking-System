@@ -28,7 +28,7 @@ $base = "http://localhost/appointment_booking_system";
     <p>Beyond our state-of-the-art diagnostic tools, Happy Care Clinic is built on a foundation of clinical excellence. Our medical protocols are overseen by our lead specialists, ensuring that every treatment plan from routine check-ups to complex chronic care is backed by the latest evidence-based research and a deep commitment to patient safety.</p>
   </div>
   <div class="mission-img">
-    <img src="<?php echo $base; ?>/public/images/mission.png" alt="Doctor with patient" />
+    <img src="<?php echo $base; ?>/public/images/missions.png" alt="Doctor with patient" />
   </div>
 </section>
 <section class="why">
