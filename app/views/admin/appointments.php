@@ -16,7 +16,10 @@ $appointments = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointments — Happy Care Clinic Admin</title>
-    <?php include __DIR__ . '/admin_styles.php'; ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $base; ?>/public/css/admin.css">
 </head>
 <body>
 <div class="layout">
@@ -113,6 +116,6 @@ $appointments = [
         </div>
     </main>
 </div>
-<?php include __DIR__ . '/admin_js.php'; ?>
+<script src="<?php echo $base; ?>/public/js/admin.js"></script>
 </body>
 </html>
