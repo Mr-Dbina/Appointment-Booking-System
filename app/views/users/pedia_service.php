@@ -1,17 +1,11 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Care Clinic – Pediatrics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css"/>
-</head>
-
+<link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css"/>
+<?php include __DIR__ . '/../shared/head.html'; ?>
 <?php include __DIR__ . '/../shared/nav.html'; ?>
 <a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
-<section class="hero" style="background: url('http://localhost/appointment_booking_system/public/images/pedia_service.png') center/cover no-repeat;">
+<section class="hero" style="background: url('<?= $base ?>/public/images/pedia_service.png') center/cover no-repeat;">
   <div class="hero-content">
     <h1>Pediatrics</h1>
     <p>

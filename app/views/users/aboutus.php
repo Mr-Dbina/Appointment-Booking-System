@@ -1,22 +1,12 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us — Happy Care Clinic</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="<?php echo $base; ?>/public/css/aboutus.css" />
-</head>
-<body>
+  <link rel="stylesheet" href="<?= $base ?>/public/css/aboutus.css"/>
+  <?php include __DIR__ . '/../shared/head.html'; ?>
   <?php include __DIR__ . '/../shared/nav.html'; ?>
 <div class="hero-banner">
   <div class="brand">
-    <img src="<?php echo $base; ?>/public/images/logo.png"/>
+    <img src="<?= $base ?>/public/images/logo.png"/>
     <span>Happy Care Clinic</span>
   </div>
   <h1>At Happy Care Clinic, we believe that medical excellence shouldn't feel clinical. We combine cutting-edge "precise medicine" with a "compassionate care" philosophy to ensure every visit is personal, effective, and stress-free.</h1>
@@ -28,12 +18,12 @@ $base = "http://localhost/appointment_booking_system";
     <p>Beyond our state-of-the-art diagnostic tools, Happy Care Clinic is built on a foundation of clinical excellence. Our medical protocols are overseen by our lead specialists, ensuring that every treatment plan from routine check-ups to complex chronic care is backed by the latest evidence-based research and a deep commitment to patient safety.</p>
   </div>
   <div class="mission-img">
-    <img src="<?php echo $base; ?>/public/images/missions.png" alt="Doctor with patient" />
+    <img src="<?= $base ?>/public/images/missions.png" alt="Doctor with patient" />
   </div>
 </section>
 <section class="why">
   <div class="why-img">
-    <img src="<?php echo $base; ?>/public/images/choose.png" alt="Medical professionals" />
+    <img src="<?= $base ?>/public/images/choose.png" alt="Medical professionals" />
   </div>
   <div class="why-text">
     <h2>Why Choose Us</h2>
@@ -73,5 +63,3 @@ $base = "http://localhost/appointment_booking_system";
   </div>
 </div>
 <?php include __DIR__ . '/../shared/footer.html'; ?>
-</body>
-</html>

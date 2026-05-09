@@ -1,17 +1,9 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Care Clinic</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= $base ?>/public/css/index.css" />
+  <?php include __DIR__ . '/../shared/head.html'; ?>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="<?= $base ?>/public/css/index.css" />
   <script>
     (async () => {
       const { createClient } = supabase;
@@ -25,8 +17,6 @@ $base = "http://localhost/appointment_booking_system";
       }
     })();
   </script>
-</head>
-<body>
   <?php include __DIR__ . '/../shared/nav.html'; ?>
   <div class="hero">
     <div class="hero-text">
@@ -155,5 +145,3 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
   <?php include __DIR__ . '/../shared/footer.html'; ?>
-</body>
-</html>
