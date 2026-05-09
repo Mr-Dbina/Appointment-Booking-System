@@ -10,7 +10,7 @@ $base = "http://localhost/appointment_booking_system";
 </head>
 
 <?php include __DIR__ . '/../shared/nav.html'; ?>
-<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back to Services</a>
+<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
 <section class="hero" style="background: url('http://localhost/appointment_booking_system/public/images/obygyn_service.png') center/cover no-repeat;">
   <div class="hero-content">
     <h1>OB-GYN</h1>
