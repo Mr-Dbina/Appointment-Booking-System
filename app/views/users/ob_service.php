@@ -28,7 +28,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Prenatal Check-up</h3>
               <p>Comprehensive prenatal care and regular check-ups to monitor the health of both mother and baby throughout pregnancy.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Prenatal+Check-up" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Prenatal Check-up</div>
@@ -40,7 +40,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Ultrasound</h3>
               <p>Accurate ultrasound services for pregnancy monitoring, diagnosis, and overall reproductive health assessment.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Ultrasound" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Ultrasound</div>
@@ -52,7 +52,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Family Planning</h3>
               <p>Professional family planning consultations and guidance to help you make informed reproductive health decisions.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Family+Planning" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Family Planning</div>
@@ -64,7 +64,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Menstrual Problems Consultation</h3>
               <p>Expert consultations for irregular periods, menstrual pain, hormonal concerns, and reproductive wellness.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Menstrual+Problems+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Menstrual Problems Consultation</div>
@@ -76,7 +76,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Pregnancy Test &amp; Monitoring</h3>
               <p>Reliable pregnancy testing and continuous monitoring to ensure a healthy and safe pregnancy journey.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Pregnancy+Test+%26+Monitoring" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Pregnancy Test &amp; Monitoring</div>
@@ -88,7 +88,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Pap Smear / Cervical Screening</h3>
               <p>Preventive cervical screening services designed to detect abnormalities early and protect women's health.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Pap+Smear+%2F+Cervical+Screening" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Pap Smear / Cervical Screening</div>

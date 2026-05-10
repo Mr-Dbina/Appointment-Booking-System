@@ -23,76 +23,94 @@ $base = "http://localhost/appointment_booking_system";
       <div class="carousel-track" id="carouselTrack">
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/parental.png" alt="Prenatal Check-up"/>
+            <img src="<?= $base ?>/public/images/gen_checkup.jpg" alt="General Check-up"/>
             <div class="card-overlay">
-              <h3>Prenatal Check-up</h3>
-              <p>Comprehensive prenatal care and regular check-ups to monitor the health of both mother and baby throughout pregnancy.</p>
-              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <h3>General Check-up</h3>
+              <p>Routine health assessments and medical consultations to help monitor and maintain your overall well-being.</p>              <span class="card-price">₱500</span>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=General+Check-up" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Prenatal Check-up</div>
+          <div class="card-label">General Check-up</div>
         </div>
+
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/ultrasound.png" alt="Ultrasound"/>
+            <img src="<?= $base ?>/public/images/vacine.jpg" alt="Vaccination / Immunization"/>
             <div class="card-overlay">
-              <h3>Ultrasound</h3>
-              <p>Accurate ultrasound services for pregnancy monitoring, diagnosis, and overall reproductive health assessment.</p>
+              <h3>Vaccination / Immunization</h3>
+              <p>Up-to-date vaccination and immunization services to protect you and your family from preventable diseases.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Vaccination+%2F+Immunization" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Ultrasound</div>
+          <div class="card-label">Vaccination / Immunization</div>
         </div>
+
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/fam_plan.png" alt="Family Planning"/>
+            <img src="<?= $base ?>/public/images/flu.jpg" alt="Family Planning"/>
             <div class="card-overlay">
-              <h3>Family Planning</h3>
-              <p>Professional family planning consultations and guidance to help you make informed reproductive health decisions.</p>
+              <h3>Fever / Flu Consultation</h3>
+              <p>Professional consultation for fever and flu symptoms to ensure proper diagnosis and treatment.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Fever+%2F+Flu+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Family Planning</div>
+          <div class="card-label">Fever / Flu Consultation</div>
         </div>
+
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/menstra.png" alt="Menstrual Problems"/>
+            <img src="<?= $base ?>/public/images/blood.jpg" alt="Blood Pressure Monitoring"/>
             <div class="card-overlay">
-              <h3>Menstrual Problems Consultation</h3>
-              <p>Expert consultations for irregular periods, menstrual pain, hormonal concerns, and reproductive wellness.</p>
+              <h3>Blood Pressure Monitoring</h3>
+              <p>Regular monitoring of blood pressure to assess cardiovascular health and manage hypertension.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Blood+Pressure+Monitoring" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Menstrual Problems Consultation</div>
+          <div class="card-label">Blood Pressure Monitoring</div>
         </div>
+
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/parents.png" alt="Pregnancy Test"/>
+            <img src="<?= $base ?>/public/images/diabetes.jpg" alt="Diabetes Screening"/>
             <div class="card-overlay">
-              <h3>Pregnancy Test &amp; Monitoring</h3>
-              <p>Reliable pregnancy testing and continuous monitoring to ensure a healthy and safe pregnancy journey.</p>
+              <h3>Diabetes Screening</h3>
+              <p>Comprehensive diabetes screening to detect and manage blood sugar levels effectively.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Diabetes+Screening" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Pregnancy Test &amp; Monitoring</div>
+          <div class="card-label">Diabetes Screening</div>
         </div>
+
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/cervics.png" alt="Pap Smear"/>
+            <img src="<?= $base ?>/public/images/med_cert.jpg" alt="Medical Certificate"/>
             <div class="card-overlay">
-              <h3>Pap Smear / Cervical Screening</h3>
-              <p>Preventive cervical screening services designed to detect abnormalities early and protect women's health.</p>
+              <h3>Medical Certificate</h3>
+              <p>Issuance of medical certificates for various purposes, including sick leave, academic requirements, and legal documentation.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Medical+Certificate" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Pap Smear / Cervical Screening</div>
+          <div class="card-label">Medical Certificate</div>
         </div>
+
+                <div class="service-card">
+          <div class="card-img-wrap">
+            <img src="<?= $base ?>/public/images/follow.jpg" alt="Follow-up Consultation"/>
+            <div class="card-overlay">
+              <h3>Follow-up Consultation</h3>
+              <p>Follow-up consultations for ongoing health management and treatment adjustments.</p>
+              <span class="card-price">₱500</span>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Follow-up+Consultation" class="btn-learn">Book Appointment</a>
+            </div>
+          </div>
+          <div class="card-label">Follow-up Consultation</div>
+        </div>
+
       </div>
     </div>
 <div class="carousel-controls">

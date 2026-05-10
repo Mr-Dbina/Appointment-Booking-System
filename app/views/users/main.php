@@ -64,7 +64,7 @@ $base = "http://localhost/appointment_booking_system";
         <img src="<?= $base ?>/public/images/luca.png" alt="Dr. Luca" />
         <div class="doctor-info">
           <div class="name">Dr. Luca</div>
-          <div class="spec">M.D., DPBS (Surgery)</div>
+          <div class="spec">M.D., DPDS (Dermatology)</div>
         </div>
       </div>
       <div class="doctor-card">

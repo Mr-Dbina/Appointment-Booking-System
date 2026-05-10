@@ -23,75 +23,50 @@ $base = "http://localhost/appointment_booking_system";
       <div class="carousel-track" id="carouselTrack">
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/parental.png" alt="Prenatal Check-up"/>
+            <img src="<?= $base ?>/public/images/development.jpg" alt="Growth & Development Monitoring"/>
             <div class="card-overlay">
-              <h3>Prenatal Check-up</h3>
-              <p>Comprehensive prenatal care and regular check-ups to monitor the health of both mother and baby throughout pregnancy.</p>
-              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <h3>Growth &amp; Development Monitoring</h3>
+              <p>Regular check-ups to monitor a child’s growth, development, and overall health at every stage.</p>              <span class="card-price">₱500</span>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Growth+%26+Development+Monitoring" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Prenatal Check-up</div>
+          <div class="card-label">Growth & Development Monitoring</div>
         </div>
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/ultrasound.png" alt="Ultrasound"/>
+            <img src="<?= $base ?>/public/images/nutrition.jpg" alt="Nutrition Consultation"/>
             <div class="card-overlay">
-              <h3>Ultrasound</h3>
-              <p>Accurate ultrasound services for pregnancy monitoring, diagnosis, and overall reproductive health assessment.</p>
+              <h3>Nutrition Consultation</h3>
+              <p>Personalized nutrition advice and guidance to support healthy growth and development.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Nutrition+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Ultrasound</div>
+          <div class="card-label">Nutrition Consultation</div>
         </div>
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/fam_plan.png" alt="Family Planning"/>
+            <img src="<?= $base ?>/public/images/new_born.jpg" alt="Newborn Care"/>
             <div class="card-overlay">
-              <h3>Family Planning</h3>
-              <p>Professional family planning consultations and guidance to help you make informed reproductive health decisions.</p>
+              <h3>Newborn Care</h3>
+              <p>Comprehensive care and guidance for new parents to ensure the health and well-being of their newborns.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Newborn+Care" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Family Planning</div>
+          <div class="card-label">Newborn Care</div>
         </div>
         <div class="service-card">
           <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/menstra.png" alt="Menstrual Problems"/>
+            <img src="<?= $base ?>/public/images/fever.jpg" alt="Fever / Cough Consultation"/>
             <div class="card-overlay">
-              <h3>Menstrual Problems Consultation</h3>
-              <p>Expert consultations for irregular periods, menstrual pain, hormonal concerns, and reproductive wellness.</p>
+              <h3>Fever / Cough Consultation</h3>
+              <p>Expert consultations for fever and cough symptoms in children.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/app/views/users/appointment.php?service=Fever+%2F+Cough+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
-          <div class="card-label">Menstrual Problems Consultation</div>
-        </div>
-        <div class="service-card">
-          <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/parents.png" alt="Pregnancy Test"/>
-            <div class="card-overlay">
-              <h3>Pregnancy Test &amp; Monitoring</h3>
-              <p>Reliable pregnancy testing and continuous monitoring to ensure a healthy and safe pregnancy journey.</p>
-              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
-            </div>
-          </div>
-          <div class="card-label">Pregnancy Test &amp; Monitoring</div>
-        </div>
-        <div class="service-card">
-          <div class="card-img-wrap">
-            <img src="<?= $base ?>/public/images/cervics.png" alt="Pap Smear"/>
-            <div class="card-overlay">
-              <h3>Pap Smear / Cervical Screening</h3>
-              <p>Preventive cervical screening services designed to detect abnormalities early and protect women's health.</p>
-              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php" class="btn-learn">Book Appointment</a>
-            </div>
-          </div>
-          <div class="card-label">Pap Smear / Cervical Screening</div>
+          <div class="card-label">Fever / Cough Consultation</div>
         </div>
       </div>
     </div>

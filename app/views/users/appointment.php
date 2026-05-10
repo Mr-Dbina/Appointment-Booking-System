@@ -91,7 +91,7 @@ $base = "http://localhost/appointment_booking_system";
       <div class="pay-header">
         <div class="pay-brand">
         <img
-           class="pay-brand-icon" src="http://localhost/appointment_booking_system/public/images/logo.png"
+           class="pay-brand-icon" src="<?= $base ?>/public/images/logo.png"
         />
           <div class="pay-brand-name">
             Happy Care Clinic
