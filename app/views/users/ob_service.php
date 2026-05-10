@@ -1,19 +1,11 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Care Clinic – OB-GYN</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css"/>
-</head>
-
+<link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css" />
+<?php include __DIR__ . '/../shared/head.html'; ?>
 <?php include __DIR__ . '/../shared/nav.html'; ?>
-
-<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back to Services</a>
-
-<section class="hero">
+<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
+<section class="hero" style="background: url('<?= $base ?>/public/images/obygyn_service.png') center/cover no-repeat;">
   <div class="hero-content">
     <h1>OB-GYN</h1>
     <p>
@@ -24,15 +16,11 @@ $base = "http://localhost/appointment_booking_system";
     </p>
   </div>
 </section>
-
 <section class="services-section">
   <h2>Services</h2>
-
   <div class="carousel-wrapper">
-
     <div class="carousel-track-container">
       <div class="carousel-track" id="carouselTrack">
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/parental.png" alt="Prenatal Check-up"/>
@@ -45,7 +33,6 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Prenatal Check-up</div>
         </div>
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/ultrasound.png" alt="Ultrasound"/>
@@ -58,7 +45,6 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Ultrasound</div>
         </div>
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/fam_plan.png" alt="Family Planning"/>
@@ -71,7 +57,6 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Family Planning</div>
         </div>
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/menstra.png" alt="Menstrual Problems"/>
@@ -84,7 +69,6 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Menstrual Problems Consultation</div>
         </div>
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/parents.png" alt="Pregnancy Test"/>
@@ -97,7 +81,6 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Pregnancy Test &amp; Monitoring</div>
         </div>
-
         <div class="service-card">
           <div class="card-img-wrap">
             <img src="<?= $base ?>/public/images/cervics.png" alt="Pap Smear"/>
@@ -110,27 +93,13 @@ $base = "http://localhost/appointment_booking_system";
           </div>
           <div class="card-label">Pap Smear / Cervical Screening</div>
         </div>
-
       </div>
     </div>
-
-    <div class="carousel-controls">
-      <button class="carousel-btn" id="prevBtn" aria-label="Previous">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div class="carousel-dots" id="dotsContainer"></div>
-      <button class="carousel-btn" id="nextBtn" aria-label="Next">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-
+<div class="carousel-controls">
+  <div class="carousel-dots" id="dotsContainer"></div>
+</div>  
   </div>
 </section>
-
 <?php include __DIR__ . '/../shared/footer.html'; ?>
 <script>const BASE_URL = "<?= $base ?>";</script>
 <script src="<?= $base ?>/public/js/service_service.js"></script>
