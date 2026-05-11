@@ -2,8 +2,8 @@
 $base = "http://localhost/appointment_booking_system";
 ?>
   <link rel="stylesheet" href="<?= $base ?>/public/css/aboutus.css"/>
-  <?php include __DIR__ . '/../shared/head.html'; ?>
-  <?php include __DIR__ . '/../shared/nav.html'; ?>
+  <?php include __DIR__ . '/../shared/head.php'; ?>
+  <?php include __DIR__ . '/../shared/nav.php'; ?>
 <div class="hero-banner">
   <div class="brand">
     <img src="<?= $base ?>/public/images/logo.png"/>
@@ -62,4 +62,4 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/../shared/footer.html'; ?>
+<?php include __DIR__ . '/../shared/footer.php'; ?>

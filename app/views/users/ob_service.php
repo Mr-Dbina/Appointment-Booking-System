@@ -2,8 +2,8 @@
 $base = "http://localhost/appointment_booking_system";
 ?>
 <link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css" />
-<?php include __DIR__ . '/../shared/head.html'; ?>
-<?php include __DIR__ . '/../shared/nav.html'; ?>
+<?php include __DIR__ . '/../shared/head.php'; ?>
+<?php include __DIR__ . '/../shared/nav.php'; ?>
 <a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
 <section class="hero" style="background: url('<?= $base ?>/public/images/obygyn_service.png') center/cover no-repeat;">
   <div class="hero-content">
@@ -100,6 +100,6 @@ $base = "http://localhost/appointment_booking_system";
 </div>  
   </div>
 </section>
-<?php include __DIR__ . '/../shared/footer.html'; ?>
+<?php include __DIR__ . '/../shared/footer.php'; ?>
 <script>const BASE_URL = "<?= $base ?>";</script>
 <script src="<?= $base ?>/public/js/service_service.js"></script>
