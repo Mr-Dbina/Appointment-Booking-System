@@ -1,3 +1,5 @@
+const BASE_URL = "http://localhost/appointment_booking_system";
+
 const serviceDropdown = document.getElementById("serviceDropdown");
 const apptInput = document.getElementById("apptInput");
 const clearBtn = document.getElementById("clearBtn");
@@ -43,6 +45,7 @@ function openDropdown() {
 function clearService(e) {
   e.stopPropagation();
   apptInput.value = "";
+  selectedServiceId = null;
   clearBtn.style.display = "none";
   filterServices("");
   showRotator();
@@ -50,9 +53,10 @@ function clearService(e) {
   openDropdown();
 }
 
-function selectService(e, name) {
+function selectService(e, name, serviceId = null) {
   if (e) e.stopPropagation();
   apptInput.value = name;
+  selectedServiceId = serviceId;
   clearBtn.style.display = "inline";
   hideRotator();
   filterServices(name);
@@ -106,27 +110,13 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ============================================================
-// DATE & TIME PANEL
-// ============================================================
-
-const TIME_SLOTS = [
-  "9:00 AM – 9:30 AM",
-  "9:30 AM – 10:00 AM",
-  "10:00 AM – 10:30 AM",
-  "10:30 AM – 11:00 AM",
-  "11:00 AM – 11:30 AM",
-  "1:00 PM – 1:30 PM",
-  "1:30 PM – 2:00 PM",
-  "2:00 PM – 2:30 PM",
-  "3:00 PM – 3:30 PM",
-];
-
 const LIMITED_THRESHOLD = 3;
 
 let dtpYear, dtpMonth;
 let selectedDate = null;
-let selectedSlot = null;
+let selectedSlot = null; // full slot object { id, label, start_time, end_time, status }
+let selectedServiceId = null;
+let slotsCache = {}; // { "YYYY-MM-DD": [...slots] }
 
 const todayDate = new Date();
 todayDate.setHours(0, 0, 0, 0);
@@ -135,79 +125,12 @@ function isWeekend(y, m, d) {
   return [0, 6].includes(new Date(y, m - 1, d).getDay());
 }
 
-function getSlotStatus(dateStr, idx) {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  if (isWeekend(y, m, d)) return "na";
-  const seed = (y * 500 + m * 50 + d * 10 + idx * 3) % 7;
-  return seed < 2 ? "booked" : "available";
-}
-
-function getDayStatus(y, m, d) {
-  if (isWeekend(y, m, d)) return "na";
-  const dateStr = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-  const availCount = TIME_SLOTS.filter(
-    (_, i) => getSlotStatus(dateStr, i) === "available",
-  ).length;
-  if (availCount === 0) return "booked";
-  if (availCount < LIMITED_THRESHOLD) return "limited";
-  return "available";
-}
-
-function statusCfg(dayStatus, availCount) {
-  const map = {
-    booked: {
-      badge: "Fully Booked",
-      badgeCls: "booked",
-      count: "0",
-      countCls: "booked",
-      label: "slots available",
-      icon: "fa-solid fa-circle-xmark",
-      iconColor: "#ef4444",
-      slotText: "Fully Booked",
-      slotColor: "#ef4444",
-    },
-    limited: {
-      badge: "Limited Slots",
-      badgeCls: "limited",
-      count: availCount,
-      countCls: "limited",
-      label: "slots left",
-      icon: "fa-solid fa-circle-exclamation",
-      iconColor: "#f59e0b",
-      slotText: `${availCount} slots left`,
-      slotColor: "#f59e0b",
-    },
-    na: {
-      badge: "Not Available",
-      badgeCls: "na",
-      count: "",
-      countCls: "",
-      label: "",
-      icon: "fa-solid fa-circle-minus",
-      iconColor: "#9ca3af",
-      slotText: "Not Available",
-      slotColor: "#9ca3af",
-    },
-    available: {
-      badge: "Available",
-      badgeCls: "available",
-      count: availCount,
-      countCls: "available",
-      label: "slots available",
-      icon: "fa-solid fa-circle-check",
-      iconColor: "#22c55e",
-      slotText: `${availCount} slots available`,
-      slotColor: "#16a34a",
-    },
-  };
-  return map[dayStatus];
-}
-
 function openDatetimePanel() {
   dtpYear = todayDate.getFullYear();
   dtpMonth = todayDate.getMonth();
   selectedDate = null;
   selectedSlot = null;
+  slotsCache = {};
   renderCalendar();
   resetSlotsPanel();
   document.getElementById("dtpOverlay").classList.add("open");
@@ -269,7 +192,6 @@ function renderCalendar() {
     const isToday = cellDate.getTime() === todayDate.getTime();
     const isSel = selectedDate === dateStr;
     const wknd = isWeekend(dtpYear, m, d);
-    const status = wknd || isPast ? "na" : getDayStatus(dtpYear, m, d);
 
     let cls = "cal-cell";
     if (isPast) cls += " cal-past";
@@ -277,9 +199,10 @@ function renderCalendar() {
     if (isSel) cls += " cal-selected";
     if (wknd) cls += " cal-na";
 
-    const clickable = !isPast && !wknd && status !== "booked";
+    const clickable = !isPast && !wknd;
     const onclick = clickable ? `onclick="selectDate('${dateStr}')"` : "";
-    const dotHtml = isPast ? "" : `<span class="cal-dot ${status}"></span>`;
+    const dotHtml =
+      isPast || wknd ? "" : `<span class="cal-dot available"></span>`;
 
     html += `<div class="${cls}" ${onclick}><span class="cal-num">${d}</span>${dotHtml}</div>`;
   }
@@ -298,7 +221,7 @@ function resetSlotsPanel() {
     </div>`;
 }
 
-function selectDate(dateStr) {
+async function selectDate(dateStr) {
   selectedDate = dateStr;
   selectedSlot = null;
   renderCalendar();
@@ -309,28 +232,83 @@ function selectDate(dateStr) {
     day: "numeric",
     year: "numeric",
   });
-  const availCount = TIME_SLOTS.filter(
-    (_, i) => getSlotStatus(dateStr, i) === "available",
-  ).length;
-  const dayStatus = getDayStatus(y, m, d);
-  const cfg = statusCfg(dayStatus, availCount);
+
+  document.getElementById("slotsHeader").style.display = "flex";
+  document.getElementById("slotsDate").textContent = formatted;
+  document.getElementById("slotsCount").textContent = "Loading slots...";
+  document.getElementById("slotsCount").style.color = "#6b7280";
+  document.getElementById("slotList").innerHTML =
+    `<div class="slots-empty"><i class="fa-solid fa-spinner fa-spin"></i><p>Fetching available slots...</p></div>`;
+  document.getElementById("slotsFooter").style.display = "none";
+
+  let slots = slotsCache[dateStr];
+  if (!slots) {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/app/api/get_slots.php?date=${dateStr}`,
+      );
+      const json = await res.json();
+      slots = json.slots || [];
+      slotsCache[dateStr] = slots;
+    } catch (err) {
+      document.getElementById("slotList").innerHTML =
+        `<div class="slots-empty"><i class="fa-solid fa-circle-exclamation" style="color:#ef4444"></i><p>Failed to load slots. Please try again.</p></div>`;
+      return;
+    }
+  }
+
+  const availCount = slots.filter((s) => s.status !== "booked").length;
+  const dayStatus =
+    availCount === 0
+      ? "booked"
+      : availCount < LIMITED_THRESHOLD
+        ? "limited"
+        : "available";
+  const statusMap = {
+    available: {
+      badge: "Available",
+      cls: "available",
+      color: "#16a34a",
+      text: `${availCount} slots available`,
+      icon: "fa-solid fa-circle-check",
+      iconColor: "#22c55e",
+    },
+    limited: {
+      badge: "Limited Slots",
+      cls: "limited",
+      color: "#f59e0b",
+      text: `${availCount} slots left`,
+      icon: "fa-solid fa-circle-exclamation",
+      iconColor: "#f59e0b",
+    },
+    booked: {
+      badge: "Fully Booked",
+      cls: "booked",
+      color: "#ef4444",
+      text: "Fully Booked",
+      icon: "fa-solid fa-circle-xmark",
+      iconColor: "#ef4444",
+    },
+  };
+  const cfg = statusMap[dayStatus];
 
   document.getElementById("calSummary").style.display = "flex";
   document.getElementById("summaryDate").textContent = formatted;
 
   const badge = document.getElementById("summaryBadge");
   badge.textContent = cfg.badge;
-  badge.className = `cal-summary-badge ${cfg.badgeCls}`;
+  badge.className = `cal-summary-badge ${cfg.cls}`;
 
   const countEl = document.getElementById("summaryCount");
-  countEl.textContent = cfg.count;
-  countEl.className = `cal-summary-count ${cfg.countCls}`;
+  countEl.textContent = availCount > 0 ? availCount : "0";
+  countEl.className = `cal-summary-count ${cfg.cls}`;
 
   const labelEl = document.querySelector(".cal-summary-count-label");
   if (labelEl) {
-    labelEl.innerHTML = cfg.label
-      ? `${cfg.label}<br><small>You can book an appointment on this date.</small>`
-      : "";
+    labelEl.innerHTML =
+      availCount > 0
+        ? `slots available<br><small>You can book an appointment on this date.</small>`
+        : "";
   }
 
   const iconWrap = document.querySelector(".cal-summary-icon");
@@ -340,37 +318,46 @@ function selectDate(dateStr) {
     if (iconEl) iconEl.className = cfg.icon;
   }
 
-  renderSlots(dateStr, formatted, availCount, dayStatus);
+  document.getElementById("slotsCount").textContent = cfg.text;
+  document.getElementById("slotsCount").style.color = cfg.color;
+
+  window._currentSlots = slots;
+  renderSlots(slots);
 }
 
-function renderSlots(dateStr, formatted, availCount, dayStatus) {
-  document.getElementById("slotsHeader").style.display = "flex";
-  document.getElementById("slotsDate").textContent = formatted;
-
-  const cfg = statusCfg(dayStatus, availCount);
-  const countEl = document.getElementById("slotsCount");
-  countEl.textContent = cfg.slotText;
-  countEl.style.color = cfg.slotColor;
+function renderSlots(slots) {
+  if (!slots.length) {
+    document.getElementById("slotList").innerHTML =
+      `<div class="slots-empty"><i class="fa-regular fa-calendar"></i><p>No slots available for this date.</p></div>`;
+    return;
+  }
 
   let html = "";
-  TIME_SLOTS.forEach((time, i) => {
-    const slotSt = getSlotStatus(dateStr, i);
-    const isBooked = slotSt === "booked";
-    const isSel = selectedSlot === i;
+  slots.forEach((slot, i) => {
+    const isBooked = slot.status === "booked";
+    const isSel = selectedSlot && selectedSlot.id === slot.id;
 
     let rowCls = "slot-row";
     if (isBooked) rowCls += " slot-booked";
     if (isSel) rowCls += " slot-selected";
 
     const iconCls = isBooked ? "gray" : isSel ? "blue" : "green";
-    const badgeCls = isBooked ? "booked" : "available";
-    const badgeTxt = isBooked ? "Booked" : "Available";
+    const badgeCls = isBooked
+      ? "booked"
+      : slot.status === "limited"
+        ? "limited"
+        : "available";
+    const badgeTxt = isBooked
+      ? "Booked"
+      : slot.status === "limited"
+        ? "Limited"
+        : "Available";
     const click = isBooked ? "" : `onclick="selectSlot(${i})"`;
 
     html += `
       <div class="${rowCls}" id="slot-${i}" ${click}>
         <i class="fa-regular fa-clock slot-icon ${iconCls}"></i>
-        <span class="slot-time">${time}</span>
+        <span class="slot-time">${slot.label}</span>
         <span class="slot-badge ${badgeCls}">${badgeTxt}</span>
       </div>`;
   });
@@ -380,7 +367,8 @@ function renderSlots(dateStr, formatted, availCount, dayStatus) {
 }
 
 function selectSlot(idx) {
-  selectedSlot = idx;
+  selectedSlot = window._currentSlots[idx];
+  renderSlots(window._currentSlots);
 
   const [y, m, d] = selectedDate.split("-").map(Number);
   const formatted = new Date(y, m - 1, d).toLocaleDateString("en-US", {
@@ -388,26 +376,19 @@ function selectSlot(idx) {
     day: "numeric",
     year: "numeric",
   });
-  const availCount = TIME_SLOTS.filter(
-    (_, i) => getSlotStatus(selectedDate, i) === "available",
-  ).length;
-  const dayStatus = getDayStatus(y, m, d);
-
-  renderSlots(selectedDate, formatted, availCount, dayStatus);
 
   document.getElementById("slotsFooter").style.display = "flex";
   document.getElementById("sfiValue").textContent =
-    `${formatted} | ${TIME_SLOTS[idx]}`;
+    `${formatted} | ${selectedSlot.label}`;
 }
 
-function confirmBooking() {
-  // Validate service
+async function confirmBooking() {
   if (!apptInput.value.trim()) {
     alert("Please select a service first.");
     return;
   }
 
-  if (selectedDate && selectedSlot !== null) {
+  if (selectedDate && selectedSlot) {
     const [y, m, d] = selectedDate.split("-").map(Number);
     const formatted = new Date(y, m - 1, d).toLocaleDateString("en-US", {
       month: "long",
@@ -415,11 +396,11 @@ function confirmBooking() {
       year: "numeric",
     });
     document.getElementById("datetimeDisplay").textContent =
-      `${formatted} · ${TIME_SLOTS[selectedSlot]}`;
+      `${formatted} · ${selectedSlot.label}`;
     closeDatetimePanel();
   }
 
-  if (!selectedDate || selectedSlot === null) {
+  if (!selectedDate || !selectedSlot) {
     alert("Please select a date and time first.");
     return;
   }
@@ -436,15 +417,93 @@ function closePayment() {
   document.body.style.overflow = "";
 }
 
-function processPayment() {
+// UPDATED: calls PHP API to save appointment + payment
+async function processPayment() {
   const btn = document.getElementById("btnPay");
   btn.classList.add("loading");
 
-  setTimeout(() => {
+  // Get Supabase auth token from localStorage
+  const sessionKey = Object.keys(localStorage).find(
+    (k) => k.startsWith("sb-") && k.endsWith("-auth-token"),
+  );
+  const session = sessionKey
+    ? JSON.parse(localStorage.getItem(sessionKey))
+    : null;
+  const authToken = session?.access_token || "";
+
+  if (!authToken) {
     btn.classList.remove("loading");
-    document.getElementById("payMain").classList.add("hidden");
-    document.getElementById("paySuccess").classList.add("show");
-  }, 1800);
+    alert("You must be logged in to book an appointment.");
+    return;
+  }
+
+  if (!selectedServiceId) {
+    btn.classList.remove("loading");
+    alert("Please select a valid service from the dropdown.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BASE_URL}/app/api/process_appointment.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service_id: selectedServiceId,
+        time_slot_id: selectedSlot.id,
+        auth_token: authToken,
+      }),
+    });
+
+    const json = await res.json();
+
+    if (!json.success) {
+      btn.classList.remove("loading");
+      alert("Booking failed: " + (json.error || "Unknown error"));
+      return;
+    }
+
+    // Update payment modal rows with real data
+    const apptDate = new Date(json.slot_date).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const start = new Date("1970-01-01T" + json.start_time).toLocaleTimeString(
+      "en-US",
+      { hour: "numeric", minute: "2-digit" },
+    );
+    const end = new Date("1970-01-01T" + json.end_time).toLocaleTimeString(
+      "en-US",
+      { hour: "numeric", minute: "2-digit" },
+    );
+
+    document.querySelector(".pay-row:nth-child(2) .pay-row-right").textContent =
+      apptInput.value;
+    document.querySelector(".pay-row:nth-child(3) .pay-row-right").textContent =
+      `${apptDate} · ${start} – ${end}`;
+    document.querySelector(".pay-row:nth-child(4) .pay-row-right").textContent =
+      json.payment_ref;
+    document.querySelector(".pay-row:nth-child(5) .pay-row-right").textContent =
+      json.appointment_no;
+
+    if (document.getElementById("rDate")) {
+      document.getElementById("rDate").textContent =
+        new Date().toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+    }
+
+    setTimeout(() => {
+      btn.classList.remove("loading");
+      document.getElementById("payMain").classList.add("hidden");
+      document.getElementById("paySuccess").classList.add("show");
+    }, 1800);
+  } catch (err) {
+    btn.classList.remove("loading");
+    alert("Network error. Please try again.");
+  }
 }
 
 function printReceipt() {
@@ -479,11 +538,11 @@ document
   .addEventListener("click", function (e) {
     if (e.target === this) closePayment();
   });
-
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");
+  const serviceId = params.get("service_id");
   if (service) {
-    selectService(null, decodeURIComponent(service));
+    selectService(null, decodeURIComponent(service), serviceId || null);
   }
 });
