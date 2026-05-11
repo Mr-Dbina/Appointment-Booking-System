@@ -1,7 +1,7 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-  <?php include __DIR__ . '/../shared/head.html'; ?>
+  <?php include __DIR__ . '/../shared/head.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="<?= $base ?>/public/css/index.css" />
   <script>
@@ -17,7 +17,7 @@ $base = "http://localhost/appointment_booking_system";
       }
     })();
   </script>
-  <?php include __DIR__ . '/../shared/nav.html'; ?>
+  <?php include __DIR__ . '/../shared/nav.php'; ?>
   <div class="hero">
     <div class="hero-text">
       <h1>Compassionate care, precise medicine — every patient, every time.</h1>
@@ -144,4 +144,4 @@ $base = "http://localhost/appointment_booking_system";
       <a href="#" class="btn-story">Read More</a>
     </div>
   </div>
-  <?php include __DIR__ . '/../shared/footer.html'; ?>
+  <?php include __DIR__ . '/../shared/footer.php'; ?>

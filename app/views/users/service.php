@@ -2,8 +2,8 @@
 $base = "http://localhost/appointment_booking_system";
 ?>
   <link rel="stylesheet" href="<?= $base ?>/public/css/services.css" />
-  <?php include __DIR__ . '/../shared/head.html'; ?>
-  <?php include __DIR__ . '/../shared/nav.html'; ?>
+  <?php include __DIR__ . '/../shared/head.php'; ?>
+  <?php include __DIR__ . '/../shared/nav.php'; ?>
 <div class="hero-banner">
   <h1>Our Services</h1>
   <p>It doesn't matter if you're getting your usual physical or if you have some issue that you need help with – our general medical doctors are always there, ready to listen, diagnose and help. Our mission is early diagnosis and treatment so we can make sure you remain in peak condition.</p>
@@ -46,4 +46,4 @@ $base = "http://localhost/appointment_booking_system";
     </div>
   </div>
 </div>
-  <?php include __DIR__ . '/../shared/footer.html'; ?>
+  <?php include __DIR__ . '/../shared/footer.php'; ?>
