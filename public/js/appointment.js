@@ -400,10 +400,6 @@ function selectSlot(idx) {
     `${formatted} | ${TIME_SLOTS[idx]}`;
 }
 
-// ============================================================
-// BOOKING & PAYMENT — only ONE confirmBooking function!
-// ============================================================
-
 function confirmBooking() {
   // Validate service
   if (!apptInput.value.trim()) {
@@ -411,7 +407,6 @@ function confirmBooking() {
     return;
   }
 
-  // If coming from calendar panel, update display then close
   if (selectedDate && selectedSlot !== null) {
     const [y, m, d] = selectedDate.split("-").map(Number);
     const formatted = new Date(y, m - 1, d).toLocaleDateString("en-US", {
@@ -424,13 +419,11 @@ function confirmBooking() {
     closeDatetimePanel();
   }
 
-  // Validate date & time
   if (!selectedDate || selectedSlot === null) {
     alert("Please select a date and time first.");
     return;
   }
 
-  // Open payment modal
   document.getElementById("paymentOverlay").classList.add("active");
   document.body.style.overflow = "hidden";
   document.getElementById("payMain").classList.remove("hidden");
@@ -487,9 +480,6 @@ document
     if (e.target === this) closePayment();
   });
 
-// ============================================================
-// AUTO-SELECT SERVICE FROM URL PARAMETER
-// ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");

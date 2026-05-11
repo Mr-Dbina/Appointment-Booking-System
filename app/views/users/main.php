@@ -88,7 +88,7 @@ $base = "http://localhost/appointment_booking_system";
     <h2>Our Service</h2>
     <p>Whether it's a routine check-up or an unexpected concern, our general medicine team is here to listen, diagnose, and provide compassionate care—prioritizing your comfort and peace of mind every step of the way.</p>
   </div>
-  <a class="back-btn" href="<?= $base ?>/app/views/users/service.php">View More Services ⮞</a>
+  <a class="back-btn" href="<?= $base ?>/app/views/users/service.php">View Services ⮞</a>
     <div class="services-grid">
         <div class="service-card bg-1">
           <div class="card-img-wrap">

@@ -1073,6 +1073,7 @@ body {
 }
 .btn-pay.loading {
   opacity: 0.8;
+  margin: center;
   pointer-events: none;
 }
 .btn-pay .spinner {
@@ -1088,7 +1089,7 @@ body {
   display: block;
 }
 .btn-pay.loading .btn-pay-label {
-  opacity: 0;
+  display: none;
 }
 @keyframes spin {
   to {

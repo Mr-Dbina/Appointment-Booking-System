@@ -22,7 +22,7 @@ $base = "http://localhost/appointment_booking_system";
       <p class="sub">Access records, appointment &amp; more</p>
 
       <div id="formMessage" class="form-message"></div>
-
+      
       <div class="field">
         <input type="email" id="email" placeholder="Email Address" autocomplete="email">
       </div>
