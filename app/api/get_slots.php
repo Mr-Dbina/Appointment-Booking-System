@@ -29,19 +29,43 @@ if ($result['status'] !== 200) {
 
 $slots = $result['body'] ?? [];
 
-$formatted = array_map(function ($slot) {
-    $start = date('g:i A', strtotime($slot['start_time']));
-    $end   = date('g:i A', strtotime($slot['end_time']));
-    return [
-        'id'          => $slot['id'],
-        'doctor_id'   => $slot['doctor_id'],
-        'doctor_name' => $slot['doctor_name'],
-        'start_time'  => $slot['start_time'],
-        'end_time'    => $slot['end_time'],
-        'label'       => $start . ' – ' . $end,
-        'status'      => $slot['status'],    // available | limited | booked
-        'remaining'   => $slot['remaining'],
-    ];
-}, $slots);
+// Group by start_time — merge all doctors' slots into one per time
+$grouped = [];
+
+foreach ($slots as $slot) {
+    $key = $slot['start_time'];
+
+    if (!isset($grouped[$key])) {
+        $start = date('g:i A', strtotime($slot['start_time']));
+        $end   = date('g:i A', strtotime($slot['end_time']));
+
+        $grouped[$key] = [
+            'id'         => $slot['id'],
+            'start_time' => $slot['start_time'],
+            'end_time'   => $slot['end_time'],
+            'label'      => $start . ' – ' . $end,
+            'status'     => $slot['status'],
+            'remaining'  => (int) $slot['remaining'],
+            'slot_ids'   => [$slot['id']],
+        ];
+    } else {
+        // Accumulate remaining slots across all doctors
+        $grouped[$key]['remaining'] += (int) $slot['remaining'];
+        $grouped[$key]['slot_ids'][] = $slot['id'];
+
+        // Pick best status: available > limited > booked
+        $priority = ['available' => 3, 'limited' => 2, 'booked' => 1];
+        $current  = $priority[$grouped[$key]['status']] ?? 0;
+        $incoming = $priority[$slot['status']] ?? 0;
+
+        if ($incoming > $current) {
+            $grouped[$key]['status'] = $slot['status'];
+            $grouped[$key]['id']     = $slot['id'];
+        }
+    }
+}
+
+// Re-index and return
+$formatted = array_values($grouped);
 
 echo json_encode(['slots' => $formatted]);

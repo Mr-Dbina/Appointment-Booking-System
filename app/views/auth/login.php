@@ -77,5 +77,3 @@ $base = "http://localhost/appointment_booking_system";
 
 <script src="<?= $base ?>/public/js/lock.js"></script>
 <script src="<?= $base ?>/public/js/login.js"></script>
-</body>
-</html>
