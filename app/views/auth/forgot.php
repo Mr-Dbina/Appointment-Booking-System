@@ -1,25 +1,9 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Care Clinic – Patient Portal</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <head>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        rel="stylesheet"
-      />
-      <link href="<?= $base ?>/public/css/login.css" rel="stylesheet" />
-    </head>
-  </head>
+
+  <link href="<?= $base ?>/public/css/login.css" rel="stylesheet" />
+  <include __DIR__ . '/../shared/head.html'; ?>
   <body>
     <div class="page">
       <!-- LEFT: FORM -->
@@ -29,40 +13,19 @@ $base = "http://localhost/appointment_booking_system";
           <h1>Don’t worry,<br />we’ve got you covered</h1>
           <p class="sub">We’ll guide you through resetting your password</p>
           <div class="field">
-            <input
-              type="email"
-              id="password"
-              placeholder="New Password"
-              autocomplete="new-password"
-            />
+            <input type="password" id="password" placeholder="New Password" autocomplete="new-password"/>
           </div>
           <div class="field">
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm Password"
-              autocomplete="confirm-password"
-            />
-            <span class="icon" id="togglePwd"
-              ><i class="fa-solid fa-lock"></i
-            ></span>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" autocomplete="confirm-password"/>
           </div>
-          <div class="row-mid">
-            <label><input type="checkbox" /> Keep me logged in</label>
-            <a href="#">Forgot Password?</a>
-          </div>
-          <button class="btn-login"><span>Log in</span></button>
+          <button class="btn-login"><span>Reset Password</span></button>
           <div class="divider"></div>
-          <p class="register">
-            Not Registered Yet?
-            <a href="/app/views/auth/register.php">Create an account</a>
-          </p>
         </div>
       </div>
       <div class="right">
         <img
           class="bg"
-          src="/public/images/background_login.png"
+          src="<?= $base ?>/public/images/background_login.png"
           alt="Medical background"
         />
         <div class="overlay"></div>
@@ -72,7 +35,7 @@ $base = "http://localhost/appointment_booking_system";
               <h2>Happy Care Clinic</h2>
               <span>TRUSTED MEDICAL CARE</span>
             </div>
-            <img src="/public/images/logo.png" alt="Happy Care Clinic Logo" />
+            <img src="<?= $base ?>/public/images/logo.png" alt="Happy Care Clinic Logo" />
           </div>
           <div class="hero-text">
             <span class="line line-pink">HEALING WITH</span>

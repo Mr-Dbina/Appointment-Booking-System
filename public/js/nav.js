@@ -27,12 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   searchInput.addEventListener("input", () => {
-    if (searchInput.value.length > 0) {
-      searchClear.classList.add("visible");
-    } else {
-      searchClear.classList.remove("visible");
-    }
+    searchClear.classList.toggle("visible", searchInput.value.length > 0);
   });
+
   searchClear.addEventListener("click", () => {
     searchInput.value = "";
     searchClear.classList.remove("visible");
@@ -45,41 +42,30 @@ document.addEventListener("DOMContentLoaded", () => {
       searchClear.classList.remove("visible");
     }
   });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  window.addEventListener("scroll", () => {
-    const nav = document.querySelector("nav");
-    if (window.scrollY > 80) {
-      nav.classList.add("scrolled");
-    } else {
-      nav.classList.remove("scrolled");
-    }
+  const userToggle = document.querySelector(".user-menu-toggle");
+  const userDropdown = document.querySelector(".user-dropdown");
+  const bellToggle = document.querySelector(".bell-menu-toggle");
+  const bellDropdown = document.querySelector(".bell-dropdown");
+
+  userToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const opening = !userDropdown.classList.contains("open");
+    userDropdown.classList.toggle("open");
+    if (opening) bellDropdown.classList.remove("open"); // close bell
   });
-});
-const userToggle = document.querySelector(".user-menu-toggle");
-const userDropdown = document.querySelector(".user-dropdown");
 
-userToggle.addEventListener("click", (e) => {
-  e.stopPropagation();
-  userDropdown.classList.toggle("open");
-});
+  bellToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const opening = !bellDropdown.classList.contains("open");
+    bellDropdown.classList.toggle("open");
+    if (opening) userDropdown.classList.remove("open"); // close profile
+  });
 
-document.addEventListener("click", (e) => {
-  if (!userToggle.contains(e.target)) {
-    userDropdown.classList.remove("open");
-  }
-});
-const bellToggle = document.querySelector(".bell-menu-toggle");
-const bellDropdown = document.querySelector(".bell-dropdown");
-
-bellToggle.addEventListener("click", (e) => {
-  e.stopPropagation();
-  bellDropdown.classList.toggle("open");
-});
-
-document.addEventListener("click", (e) => {
-  if (!bellToggle.contains(e.target)) {
-    bellDropdown.classList.remove("open");
-  }
+  // outside click — check the dropdown itself, not the toggle
+  // because dropdowns are nested inside the toggle div
+  document.addEventListener("click", (e) => {
+    if (!userToggle.contains(e.target)) userDropdown.classList.remove("open");
+    if (!bellToggle.contains(e.target)) bellDropdown.classList.remove("open");
+  });
 });
