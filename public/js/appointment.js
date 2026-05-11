@@ -50,7 +50,6 @@ function clearService(e) {
   openDropdown();
 }
 
-// UPDATED: e is optional so it works from URL param too
 function selectService(e, name) {
   if (e) e.stopPropagation();
   apptInput.value = name;
@@ -106,6 +105,10 @@ document.addEventListener("click", (e) => {
     serviceDropdown.classList.remove("open");
   }
 });
+
+// ============================================================
+// DATE & TIME PANEL
+// ============================================================
 
 const TIME_SLOTS = [
   "9:00 AM – 9:30 AM",
@@ -219,7 +222,10 @@ function closeDatetimePanel() {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeDatetimePanel();
+  if (e.key === "Escape") {
+    closeDatetimePanel();
+    closePayment();
+  }
 });
 
 document
@@ -252,10 +258,8 @@ function renderCalendar() {
   const startOffset = (firstDay + 6) % 7;
 
   let html = "";
-
-  for (let i = 0; i < startOffset; i++) {
+  for (let i = 0; i < startOffset; i++)
     html += '<div class="cal-cell cal-empty"></div>';
-  }
 
   for (let d = 1; d <= daysInMonth; d++) {
     const m = dtpMonth + 1;
@@ -265,7 +269,6 @@ function renderCalendar() {
     const isToday = cellDate.getTime() === todayDate.getTime();
     const isSel = selectedDate === dateStr;
     const wknd = isWeekend(dtpYear, m, d);
-
     const status = wknd || isPast ? "na" : getDayStatus(dtpYear, m, d);
 
     let cls = "cal-cell";
@@ -276,7 +279,6 @@ function renderCalendar() {
 
     const clickable = !isPast && !wknd && status !== "booked";
     const onclick = clickable ? `onclick="selectDate('${dateStr}')"` : "";
-
     const dotHtml = isPast ? "" : `<span class="cal-dot ${status}"></span>`;
 
     html += `<div class="${cls}" ${onclick}><span class="cal-num">${d}</span>${dotHtml}</div>`;
@@ -340,25 +342,31 @@ function selectDate(dateStr) {
 
   renderSlots(dateStr, formatted, availCount, dayStatus);
 }
+
 function renderSlots(dateStr, formatted, availCount, dayStatus) {
   document.getElementById("slotsHeader").style.display = "flex";
   document.getElementById("slotsDate").textContent = formatted;
+
   const cfg = statusCfg(dayStatus, availCount);
   const countEl = document.getElementById("slotsCount");
   countEl.textContent = cfg.slotText;
   countEl.style.color = cfg.slotColor;
+
   let html = "";
   TIME_SLOTS.forEach((time, i) => {
     const slotSt = getSlotStatus(dateStr, i);
     const isBooked = slotSt === "booked";
     const isSel = selectedSlot === i;
+
     let rowCls = "slot-row";
     if (isBooked) rowCls += " slot-booked";
     if (isSel) rowCls += " slot-selected";
+
     const iconCls = isBooked ? "gray" : isSel ? "blue" : "green";
     const badgeCls = isBooked ? "booked" : "available";
     const badgeTxt = isBooked ? "Booked" : "Available";
     const click = isBooked ? "" : `onclick="selectSlot(${i})"`;
+
     html += `
       <div class="${rowCls}" id="slot-${i}" ${click}>
         <i class="fa-regular fa-clock slot-icon ${iconCls}"></i>
@@ -366,11 +374,14 @@ function renderSlots(dateStr, formatted, availCount, dayStatus) {
         <span class="slot-badge ${badgeCls}">${badgeTxt}</span>
       </div>`;
   });
+
   document.getElementById("slotList").innerHTML = html;
   document.getElementById("slotsFooter").style.display = "none";
 }
+
 function selectSlot(idx) {
   selectedSlot = idx;
+
   const [y, m, d] = selectedDate.split("-").map(Number);
   const formatted = new Date(y, m - 1, d).toLocaleDateString("en-US", {
     month: "long",
@@ -381,16 +392,26 @@ function selectSlot(idx) {
     (_, i) => getSlotStatus(selectedDate, i) === "available",
   ).length;
   const dayStatus = getDayStatus(y, m, d);
+
   renderSlots(selectedDate, formatted, availCount, dayStatus);
+
   document.getElementById("slotsFooter").style.display = "flex";
   document.getElementById("sfiValue").textContent =
     `${formatted} | ${TIME_SLOTS[idx]}`;
 }
+
+// ============================================================
+// BOOKING & PAYMENT — only ONE confirmBooking function!
+// ============================================================
+
 function confirmBooking() {
+  // Validate service
   if (!apptInput.value.trim()) {
     alert("Please select a service first.");
     return;
   }
+
+  // If coming from calendar panel, update display then close
   if (selectedDate && selectedSlot !== null) {
     const [y, m, d] = selectedDate.split("-").map(Number);
     const formatted = new Date(y, m - 1, d).toLocaleDateString("en-US", {
@@ -402,16 +423,35 @@ function confirmBooking() {
       `${formatted} · ${TIME_SLOTS[selectedSlot]}`;
     closeDatetimePanel();
   }
+
+  // Validate date & time
   if (!selectedDate || selectedSlot === null) {
     alert("Please select a date and time first.");
     return;
   }
-  const overlay = document.getElementById("paymentOverlay");
-  overlay.classList.add("active");
+
+  // Open payment modal
+  document.getElementById("paymentOverlay").classList.add("active");
   document.body.style.overflow = "hidden";
   document.getElementById("payMain").classList.remove("hidden");
   document.getElementById("paySuccess").classList.remove("show");
   document.getElementById("btnPay").classList.remove("loading");
+}
+
+function closePayment() {
+  document.getElementById("paymentOverlay").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function processPayment() {
+  const btn = document.getElementById("btnPay");
+  btn.classList.add("loading");
+
+  setTimeout(() => {
+    btn.classList.remove("loading");
+    document.getElementById("payMain").classList.add("hidden");
+    document.getElementById("paySuccess").classList.add("show");
+  }, 1800);
 }
 
 function printReceipt() {
@@ -447,10 +487,9 @@ document
     if (e.target === this) closePayment();
   });
 
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") closePayment();
-});
-
+// ============================================================
+// AUTO-SELECT SERVICE FROM URL PARAMETER
+// ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");
