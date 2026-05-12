@@ -222,7 +222,7 @@ $base = "http://localhost/appointment_booking_system";
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Amount</span>
-                <span class="receipt-value amount" id="rAmount">₱500.00</span>
+                <span class="receipt-value amount" id="rAmount"></span>
               </div>
             </div>
             <div class="receipt-vat-note">

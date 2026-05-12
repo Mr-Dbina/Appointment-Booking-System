@@ -505,6 +505,8 @@ async function processPayment() {
       "₱" + parseFloat(json.amount).toFixed(2);
 
     document.getElementById("rDate").textContent = today;
+    document.getElementById("rName").textContent = json.patient_name || "—"; // ← add
+    document.getElementById("rEmail").textContent = json.patient_email || "—"; // ← add
     document.getElementById("rDoctor").textContent = json.doctor_name || "—";
     document.getElementById("rService").textContent = apptInput.value;
     document.getElementById("rDateTime").textContent = dateTimeStr;
