@@ -1,8 +1,8 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<?php include __DIR__ . '/../shared/nav.php'; ?>
 <?php include __DIR__ . '/../shared/head.php'; ?>
+<?php include __DIR__ . '/../shared/nav.php'; ?>
 <link rel="stylesheet" href="<?= $base ?>/public/css/profile.css">
 
 <div class="profile-page">

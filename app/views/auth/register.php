@@ -63,8 +63,6 @@ $base = "http://localhost/appointment_booking_system";
                   </div>
                   <div class="dob-grid" id="dobGrid"></div>
                 </div>
-
-                <!-- Year/Month picker mode -->
                 <div id="dobYMMode" style="display:none;">
                   <div class="dob-ym-grid" id="dobYMGrid"></div>
                 </div>
@@ -85,49 +83,37 @@ $base = "http://localhost/appointment_booking_system";
               <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
           </div>
-
-          <!-- Address -->
-          <p class="section-label">Address</p>
-
-          <div class="field-row">
-            <div class="field">
-              <select id="region" class="unselected" onchange="onRegionChange()">
-                <option value="" disabled selected>Region</option>
-              </select>
-              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+ 
+          <div class="addr-wrapper" id="addressWrapper">
+ 
+            <!-- The single pill button -->
+            <button type="button" class="addr-pill" id="addressPill">
+              <i class="fa-solid fa-location-dot addr-icon"></i>
+              <span id="addressPillText" class="placeholder">Region / Province / City / Barangay</span>
+              <i class="fa-solid fa-chevron-down addr-chevron"></i>
+            </button>
+ 
+            <!-- Dropdown panel -->
+            <div class="addr-dropdown" id="addressDropdown">
+              <input
+                type="text"
+                class="addr-search"
+                id="addressSearch"
+                placeholder="Search…"
+                autocomplete="off"
+              />
+              <div class="addr-list" id="addressList"></div>
             </div>
-            <div class="field">
-              <select id="province" class="unselected" onchange="onProvinceChange()" disabled>
-                <option value="" disabled selected>Province</option>
-              </select>
-              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
-            </div>
+            <input type="hidden" id="hiddenRegion" />
+            <input type="hidden" id="hiddenProvince" />
+            <input type="hidden" id="hiddenCity" />
+            <input type="hidden" id="hiddenBarangay" />
           </div>
-
-          <div class="field-row">
-            <div class="field">
-              <select id="city" class="unselected" onchange="onCityChange()" disabled>
-                <option value="" disabled selected>City / Municipality</option>
-              </select>
-              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
-            </div>
-            <div class="field">
-              <select id="barangay" class="unselected" disabled>
-                <option value="" disabled selected>Barangay</option>
-              </select>
-              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
-            </div>
-          </div>
-
-          <div class="field">
-            <input type="text" id="street" placeholder="Street / House No. / Subdivision" />
-          </div>
-
-          <!-- Password -->
+ 
           <div class="field">
             <input type="password" id="password" placeholder="Password" autocomplete="new-password" />
             <span class="icon clickable" id="togglePwd">
-              <i class="fa-solid fa-lock"></i>
+              <i class="fa-solid fa-lock"></i>s
             </span>
           </div>
 
