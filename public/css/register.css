@@ -197,6 +197,7 @@ body {
   height: 100%;
   cursor: pointer;
 }
+
 .terms-row {
   display: flex;
   align-items: flex-start;
@@ -293,6 +294,7 @@ body {
   text-decoration: underline;
 }
 
+/* ── RIGHT PANEL ── */
 .right {
   width: 54%;
   flex-shrink: 0;
@@ -306,7 +308,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 70% center;
+  object-position: center center;
   filter: brightness(0.55) saturate(1.1);
 }
 
@@ -327,7 +329,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0px 44px;
+  padding: 0 44px;
+  overflow: hidden;
 }
 
 .brand {
@@ -367,37 +370,44 @@ body {
   flex-shrink: 0;
 }
 
+/* ── HERO TEXT FIX ── */
 .hero-text {
   transform: translateY(-20px);
+  overflow: hidden;
 }
 
 .hero-text .line {
   display: block;
-  font-size: clamp(2.4rem, 4.5vw, 4.4rem);
+  font-size: clamp(1.8rem, 3.5vw, 4.4rem);
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .line-pink {
   color: var(--pink);
 }
+
 .line-cyan {
   color: var(--cyan);
 }
+
 .line-white {
   color: var(--white);
 }
 
 .hero-sub {
   margin-top: 16px;
-  font-size: 0.93rem;
+  font-size: clamp(0.78rem, 1vw, 0.93rem);
   color: rgba(255, 255, 255, 0.88);
-  max-width: 480px;
+  max-width: 100%;
   line-height: 1.6;
 }
-/* ── Add this to BOTH register.css AND login.css ── */
 
+/* ── FORM MESSAGE ── */
 .form-message {
   display: none;
   padding: 12px 16px;
@@ -418,4 +428,266 @@ body {
   background: #dcfce7;
   color: #16a34a;
   border: 1px solid #bbf7d0;
+}
+
+/* ── CUSTOM DATE PICKER ── */
+.dob-trigger {
+  width: 100%;
+  padding: 12px 46px 12px 20px;
+  border-radius: 50px;
+  border: 1.5px solid var(--input-border);
+  background: rgba(255, 255, 255, 0.9);
+  font-family: "Ponomar", serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+  display: flex;
+  align-items: center;
+}
+
+.dob-trigger.placeholder {
+  color: #bba0a8;
+}
+
+.dob-trigger:focus,
+.dob-trigger.open {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255, 39, 104, 0.12);
+}
+
+.dob-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+.dob-overlay.active {
+  display: block;
+}
+
+.dob-cal {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1000;
+  background: #fff;
+  border: 1.5px solid var(--input-border);
+  border-radius: 20px;
+  box-shadow:
+    0 16px 48px rgba(255, 39, 104, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  width: 280px;
+  animation: calPop 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dob-cal.active {
+  display: block;
+}
+
+@keyframes calPop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dob-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dob-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pink);
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.dob-nav-btn:hover {
+  background: rgba(255, 39, 104, 0.08);
+}
+
+.dob-month-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.dob-month-label:hover {
+  background: rgba(255, 39, 104, 0.06);
+}
+
+.dob-day-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.dob-day-headers span {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--pink);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 0;
+}
+
+.dob-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dob-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  border: none;
+  background: none;
+  font-family: "Ponomar", serif;
+}
+
+.dob-day:hover:not(.empty):not(.selected) {
+  background: rgba(255, 39, 104, 0.1);
+  color: var(--pink);
+}
+
+.dob-day.today:not(.selected) {
+  border: 1.5px solid var(--pink);
+  color: var(--pink);
+  font-weight: 700;
+}
+
+.dob-day.selected {
+  background: var(--pink);
+  color: #fff;
+  font-weight: 700;
+}
+
+.dob-day.other-month {
+  color: #d4b0bc;
+}
+
+.dob-day.empty {
+  cursor: default;
+}
+
+.dob-day.disabled {
+  color: #e0c0c8;
+  cursor: not-allowed;
+}
+
+.dob-ym-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dob-ym-item {
+  padding: 6px 4px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: "Ponomar", serif;
+  color: var(--text);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.dob-ym-item:hover {
+  background: rgba(255, 39, 104, 0.1);
+  color: var(--pink);
+}
+
+.dob-ym-item.selected {
+  background: var(--pink);
+  color: #fff;
+  font-weight: 700;
+}
+
+.dob-cal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #f0c0cc;
+}
+
+.dob-cal-footer button {
+  background: none;
+  border: none;
+  font-family: "Ponomar", serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.dob-cal-footer .dob-clear {
+  color: var(--sub);
+}
+
+.dob-cal-footer .dob-clear:hover {
+  background: #f5f5f5;
+}
+
+.dob-cal-footer .dob-today {
+  color: var(--pink);
+  font-weight: 700;
+}
+
+.dob-cal-footer .dob-today:hover {
+  background: rgba(255, 39, 104, 0.08);
+}
+
+/* ── ADDRESS SECTION ── */
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 6px 0 8px;
 }

@@ -1,19 +1,10 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Care Clinic</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<?= $base ?>/public/css/register.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  </head>
-  <body>
+<?php include __DIR__ . '/../shared/head.php'; ?>
+<link rel="stylesheet" href="<?= $base ?>/public/css/register.css">
+<link rel="stylesheet" href="<?= $base ?>/public/css/register_additions.css">
+
     <div class="page">
       <div class="left">
         <div class="card">
@@ -23,6 +14,7 @@ $base = "http://localhost/appointment_booking_system";
 
           <div id="formMessage" class="form-message"></div>
 
+          <!-- Name -->
           <div class="field-row">
             <div class="field">
               <input type="text" id="firstName" placeholder="First Name" autocomplete="given-name" />
@@ -32,6 +24,7 @@ $base = "http://localhost/appointment_booking_system";
             </div>
           </div>
 
+          <!-- Contact -->
           <div class="field">
             <input type="email" id="email" placeholder="Email Address" autocomplete="email" />
           </div>
@@ -40,11 +33,49 @@ $base = "http://localhost/appointment_booking_system";
             <input type="tel" id="phone" placeholder="Phone Number" autocomplete="tel" />
           </div>
 
+          <!-- DOB + Sex -->
           <div class="field-row">
-            <div class="field">
-              <input type="date" id="dob" />
+            <!-- Custom Date Picker -->
+            <div class="field" id="dobField" style="position:relative;">
+              <button type="button" class="dob-trigger placeholder" id="dobTrigger" onclick="toggleDobCal(event)">
+                Date of Birth
+              </button>
               <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
+              <input type="hidden" id="dob" />
+
+              <div class="dob-cal" id="dobCal">
+                <!-- Nav -->
+                <div class="dob-nav">
+                  <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(-1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <span class="dob-month-label" id="dobMonthLabel" onclick="toggleYMPicker()"></span>
+                  <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Day mode -->
+                <div id="dobDayMode">
+                  <div class="dob-day-headers">
+                    <span>Su</span><span>Mo</span><span>Tu</span>
+                    <span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                  </div>
+                  <div class="dob-grid" id="dobGrid"></div>
+                </div>
+
+                <!-- Year/Month picker mode -->
+                <div id="dobYMMode" style="display:none;">
+                  <div class="dob-ym-grid" id="dobYMGrid"></div>
+                </div>
+
+                <div class="dob-cal-footer">
+                  <button type="button" class="dob-clear" onclick="dobClear()">Clear</button>
+                  <button type="button" class="dob-today" onclick="dobSelectToday()">Today</button>
+                </div>
+              </div>
             </div>
+
             <div class="field">
               <select id="sex" class="unselected" onchange="this.classList.remove('unselected')">
                 <option value="" disabled selected>Sex</option>
@@ -55,6 +86,44 @@ $base = "http://localhost/appointment_booking_system";
             </div>
           </div>
 
+          <!-- Address -->
+          <p class="section-label">Address</p>
+
+          <div class="field-row">
+            <div class="field">
+              <select id="region" class="unselected" onchange="onRegionChange()">
+                <option value="" disabled selected>Region</option>
+              </select>
+              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="field">
+              <select id="province" class="unselected" onchange="onProvinceChange()" disabled>
+                <option value="" disabled selected>Province</option>
+              </select>
+              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <select id="city" class="unselected" onchange="onCityChange()" disabled>
+                <option value="" disabled selected>City / Municipality</option>
+              </select>
+              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="field">
+              <select id="barangay" class="unselected" disabled>
+                <option value="" disabled selected>Barangay</option>
+              </select>
+              <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <input type="text" id="street" placeholder="Street / House No. / Subdivision" />
+          </div>
+
+          <!-- Password -->
           <div class="field">
             <input type="password" id="password" placeholder="Password" autocomplete="new-password" />
             <span class="icon clickable" id="togglePwd">
@@ -109,6 +178,6 @@ $base = "http://localhost/appointment_booking_system";
     </div>
 
     <script src="<?= $base ?>/public/js/lock.js"></script>
+    <script src="<?= $base ?>/public/js/dob.js"></script>
+    <script src="<?= $base ?>/public/js/address.js"></script>
     <script src="<?= $base ?>/public/js/register.js"></script>
-  </body>
-</html>

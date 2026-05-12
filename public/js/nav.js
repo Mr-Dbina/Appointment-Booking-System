@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ── Scroll behaviour ──────────────────────────────────────────────
   const nav = document.querySelector("nav");
-
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 80) {
-      nav.classList.add("scrolled");
-    } else {
-      nav.classList.remove("scrolled");
-    }
+    nav.classList.toggle("scrolled", window.scrollY > 80);
   });
 
+  // ── Search ────────────────────────────────────────────────────────
   const searchBox = document.querySelector(".search-box");
   const searchInput = document.querySelector(".search-input");
   const searchClear = document.querySelector(".search-clear");
@@ -43,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ── Dropdowns ─────────────────────────────────────────────────────
   const userToggle = document.querySelector(".user-menu-toggle");
   const userDropdown = document.querySelector(".user-dropdown");
   const bellToggle = document.querySelector(".bell-menu-toggle");
@@ -52,20 +50,102 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     const opening = !userDropdown.classList.contains("open");
     userDropdown.classList.toggle("open");
-    if (opening) bellDropdown.classList.remove("open"); // close bell
+    if (opening) bellDropdown.classList.remove("open");
   });
 
   bellToggle.addEventListener("click", (e) => {
     e.stopPropagation();
     const opening = !bellDropdown.classList.contains("open");
     bellDropdown.classList.toggle("open");
-    if (opening) userDropdown.classList.remove("open"); // close profile
+    if (opening) userDropdown.classList.remove("open");
   });
 
-  // outside click — check the dropdown itself, not the toggle
-  // because dropdowns are nested inside the toggle div
   document.addEventListener("click", (e) => {
     if (!userToggle.contains(e.target)) userDropdown.classList.remove("open");
     if (!bellToggle.contains(e.target)) bellDropdown.classList.remove("open");
   });
+
+  // ── Notifications ─────────────────────────────────────────────────
+  const bellBody = document.getElementById("bell-body");
+  const bellCount = document.getElementById("bell-count");
+  const badge = document.getElementById("notif-badge");
+
+  function getStatusClass(status) {
+    switch (status.toLowerCase()) {
+      case "confirmed":
+        return "notif-status--confirmed";
+      case "pending":
+        return "notif-status--pending";
+      case "cancelled":
+        return "notif-status--cancelled";
+      default:
+        return "";
+    }
+  }
+
+  function getStatusIcon(status) {
+    switch (status.toLowerCase()) {
+      case "confirmed":
+        return "fa-circle-check";
+      case "pending":
+        return "fa-clock";
+      case "cancelled":
+        return "fa-circle-xmark";
+      default:
+        return "fa-calendar";
+    }
+  }
+
+  function renderNotifications(notifications) {
+    if (!notifications || notifications.length === 0) {
+      bellBody.innerHTML = `
+        <div class="bell-empty">
+          <i class="fa-solid fa-bell-slash"></i>
+          <p>No notifications</p>
+        </div>`;
+      badge.style.display = "none";
+      bellCount.textContent = "";
+      return;
+    }
+
+    // Show badge
+    badge.style.display = "block";
+    bellCount.textContent = notifications.length;
+
+    // Render cards
+    bellBody.innerHTML = notifications
+      .map(
+        (n) => `
+      <div class="notif-card">
+        <div class="notif-icon-wrap">
+          <i class="fa-solid ${getStatusIcon(n.status)}"></i>
+        </div>
+        <div class="notif-content">
+          <p class="notif-message">${n.message}</p>
+          <div class="notif-meta">
+            <span class="notif-appt-no">#${n.appointment_no}</span>
+            <span class="notif-status ${getStatusClass(n.status)}">${n.status_label}</span>
+          </div>
+        </div>
+      </div>
+    `,
+      )
+      .join("");
+  }
+
+  async function fetchNotifications() {
+    try {
+      const res = await fetch(
+        "http://localhost/appointment_booking_system/app/api/get_notification.php",
+      );
+      const data = await res.json();
+      renderNotifications(data.notifications);
+    } catch (err) {
+      console.error("Notification fetch error:", err);
+    }
+  }
+
+  // Initial load + refresh every 2 minutes
+  fetchNotifications();
+  setInterval(fetchNotifications, 2 * 60 * 1000);
 });
