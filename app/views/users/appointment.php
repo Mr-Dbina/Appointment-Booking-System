@@ -76,23 +76,21 @@ $base = "http://localhost/appointment_booking_system";
                 </div>
             </div>
             <div class="appt-divider"></div>
-<div class="appt-field" id="datetime-field" onclick="openDatetimePanel()">
-    <i class="fa-solid fa-calendar-days appt-icon"></i>
-    <div class="appt-field-text">
-        <span class="appt-label-static">Appointment</span>
-        <span class="appt-value" id="datetimeDisplay">Select date &amp; time</span>
-    </div>
-</div>
+            <div class="appt-field" id="datetime-field" onclick="openDatetimePanel()">
+                <i class="fa-solid fa-calendar-days appt-icon"></i>
+                <div class="appt-field-text">
+                    <span class="appt-label-static">Appointment</span>
+                    <span class="appt-value" id="datetimeDisplay">Select date &amp; time</span>
+                </div>
+            </div>
             <div class="appt-divider"></div>
             <button class="appt-btn" onclick="confirmBooking()">Book Appointment</button>
-            
+
   <div id="paymentOverlay" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
     <div class="pay-modal">
       <div class="pay-header">
         <div class="pay-brand">
-        <img
-           class="pay-brand-icon" src="<?= $base ?>/public/images/logo.png"
-        />
+          <img class="pay-brand-icon" src="<?= $base ?>/public/images/logo.png" />
           <div class="pay-brand-name">
             Happy Care Clinic
             <span>Medical &amp; Wellness Center</span>
@@ -112,42 +110,42 @@ $base = "http://localhost/appointment_booking_system";
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 Doctor
               </div>
-              <div class="pay-row-right">Dr. Maria Santos</div>
+              <div class="pay-row-right" id="payDoctor">—</div>
             </div>
             <div class="pay-row">
               <div class="pay-row-left">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 Service
               </div>
-              <div class="pay-row-right">General Check-up</div>
+              <div class="pay-row-right" id="payService">—</div>
             </div>
             <div class="pay-row">
               <div class="pay-row-left">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Date &amp; Time
               </div>
-              <div class="pay-row-right">May 15, 2025 &nbsp;·&nbsp; 9:00 AM – 9:30 AM</div>
+              <div class="pay-row-right" id="payDateTime">—</div>
             </div>
             <div class="pay-row">
               <div class="pay-row-left">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                 Payment Reference
               </div>
-              <div class="pay-row-right" style="font-size:.8rem;font-weight:600;letter-spacing:.03em;color:#6b7280">PAY-20250515-000123</div>
+              <div class="pay-row-right" id="payRef" style="font-size:.8rem;font-weight:600;letter-spacing:.03em;color:#6b7280">—</div>
             </div>
             <div class="pay-row">
               <div class="pay-row-left">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                 Appointment No.
               </div>
-              <div class="pay-row-right" style="font-size:.8rem;font-weight:600;letter-spacing:.03em;color:#6b7280">APT-20250515-0456</div>
+              <div class="pay-row-right" id="payApptNo" style="font-size:.8rem;font-weight:600;letter-spacing:.03em;color:#6b7280">—</div>
             </div>
             <div class="pay-row">
               <div class="pay-row-left">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 Amount
               </div>
-              <div class="pay-row-right amount">₱500.00</div>
+              <div class="pay-row-right amount" id="payAmount">₱500.00</div>
             </div>
           </div>
           <div class="pay-info-box">
@@ -178,9 +176,7 @@ $base = "http://localhost/appointment_booking_system";
           <div class="receipt-card">
             <div class="receipt-header">
               <div class="receipt-brand">
-            <img
-           class="receipt-logo" src="<?= $base ?>/public/images/logo.png"
-        />
+                <img class="receipt-logo" src="<?= $base ?>/public/images/logo.png" />
                 <div>
                   <div class="receipt-clinic-name">Happy Care Clinic</div>
                 </div>
@@ -199,34 +195,34 @@ $base = "http://localhost/appointment_booking_system";
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Date</span>
-                <span class="receipt-value" id="rDate">May 15, 2025</span>
+                <span class="receipt-value" id="rDate">—</span>
               </div>
             </div>
             <div class="receipt-section">
               <div class="receipt-section-title">Appointment Details</div>
               <div class="receipt-row">
                 <span class="receipt-label">Doctor</span>
-                <span class="receipt-value">Dr. Maria Santos</span>
+                <span class="receipt-value" id="rDoctor">—</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Service</span>
-                <span class="receipt-value">General Check-up</span>
+                <span class="receipt-value" id="rService">—</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Date &amp; Time</span>
-                <span class="receipt-value">May 15, 2025 · 9:00–9:30 AM</span>
+                <span class="receipt-value" id="rDateTime">—</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Payment reference</span>
-                <span class="receipt-value">PAY-20250515-000123</span>
+                <span class="receipt-value" id="rPayRef">—</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Appointment no.</span>
-                <span class="receipt-value">APT-20250515-0456</span>
+                <span class="receipt-value" id="rApptNo">—</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Amount</span>
-                <span class="receipt-value amount">₱500.00</span>
+                <span class="receipt-value amount" id="rAmount">₱500.00</span>
               </div>
             </div>
             <div class="receipt-vat-note">
@@ -325,7 +321,6 @@ $base = "http://localhost/appointment_booking_system";
                         <button class="dtp-book-btn" onclick="confirmBooking()">Book Appointment</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

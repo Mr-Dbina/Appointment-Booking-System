@@ -1,33 +1,74 @@
 <?php
+// ============================================================
+//  app/api/register_api.php
+//  Called by register.js after successful Supabase sign-up.
+//  Sends a branded welcome + email-verification email.
+// ============================================================
+
 header('Content-Type: application/json');
 
-$data      = json_decode(file_get_contents('php://input'), true);
-$base      = 'http://localhost/appointment_booking_system';
-$firstName = htmlspecialchars($data['firstName'] ?? 'Patient');
-$to        = $data['email'] ?? '';
+require_once __DIR__ . '/../helpers/mailer.php';
+require_once __DIR__ . '/../helpers/supabase.php';
 
-if (!$to) {
-    echo json_encode(['success' => false, 'message' => 'No email provided.']);
+$raw  = file_get_contents('php://input');
+$data = json_decode($raw, true);
+
+$email     = trim($data['email']     ?? '');
+$firstName = trim($data['firstName'] ?? '');
+
+if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['ok' => false, 'error' => 'Invalid email.']);
     exit;
 }
 
-$subject = 'Welcome to Happy Care Clinic!';
-$body    = "
-<div style='font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#fff;border-radius:16px;'>
-  <h2 style='color:#1a1a2e;'>Hi, {$firstName}! 👋</h2>
-  <p style='color:#6b7280;'>Your account has been created successfully.</p>
-  <p style='color:#6b7280;'>Check your inbox for a verification email from Supabase to activate your account.</p>
-  <a href='{$base}/app/views/auth/login.php'
-     style='display:inline-block;background:#5b5bd6;color:#fff;padding:14px 28px;
-            border-radius:12px;text-decoration:none;font-weight:700;margin:16px 0;'>
-    Go to Login
-  </a>
-  <p style='color:#9ca3af;font-size:12px;'>If you didn't create this account, ignore this email.</p>
-</div>";
+// ── Generate verification token ───────────────────────────────────────────────
+$token   = bin2hex(random_bytes(32));
+$expires = date('c', strtotime('+24 hours'));
 
-$headers  = "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-$headers .= "From: Happy Care Clinic <no-reply@happycareclinic.com>\r\n";
+// Save token to patients table (match by email via Supabase)
+supabase_patch(
+    'patients',
+    '?email=eq.' . urlencode($email),
+    [
+        'verification_token' => $token,
+        'token_expires_at'   => $expires,
+        'email_verified'     => false,
+    ]
+);
 
-$sent = mail($to, $subject, $body, $headers);
-echo json_encode(['success' => $sent]);
+$base      = 'http://localhost/appointment_booking_system';
+$verifyUrl = "$base/app/views/auth/verify.php?token=$token";
+$name      = $firstName ?: 'Patient';
+
+// ── Build email body ──────────────────────────────────────────────────────────
+$body = email_template(<<<HTML
+  <h2 style="margin:0 0 8px;color:#1a1a2e;font-size:1.3rem;">
+    Welcome, {$name}! 👋
+  </h2>
+  <p style="margin:0 0 20px;color:#555;font-size:.93rem;line-height:1.65;">
+    Thank you for registering with <strong>Happy Care Clinic</strong>.
+    Please verify your email address to activate your account and start
+    booking appointments.
+  </p>
+  <div style="text-align:center;margin:28px 0;">
+    <a href="{$verifyUrl}"
+       style="display:inline-block;background:linear-gradient(90deg,#ff2768,#ff6fa3);
+              color:#fff;text-decoration:none;padding:14px 36px;border-radius:50px;
+              font-weight:700;font-size:.97rem;letter-spacing:.03em;">
+      ✅ Verify My Email
+    </a>
+  </div>
+  <p style="margin:0;color:#999;font-size:.8rem;text-align:center;">
+    This link expires in <strong>24 hours</strong>.<br>
+    If you did not create an account, you can safely ignore this email.
+  </p>
+HTML);
+
+$result = send_mail(
+    $email,
+    $name,
+    '✅ Verify Your Email — Happy Care Clinic',
+    $body
+);
+
+echo json_encode($result);

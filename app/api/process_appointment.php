@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../helpers/supabase.php';
+
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -40,6 +41,7 @@ if ($userStatus !== 200 || empty($userBody['id'])) {
 
 $patientId = $userBody['id'];
 
+// ── Step 2: Verify time slot is available ──────────────────────────────────
 $slotResult = supabase_get(
     'time_slots',
     '?id=eq.' . urlencode($slotId) . '&is_available=eq.true'
@@ -61,6 +63,7 @@ if ($slot['booked_count'] >= $slot['max_patients']) {
 
 $doctorId = $slot['doctor_id'];
 
+// ── Step 3: Check for duplicate booking ────────────────────────────────────
 $dupResult = supabase_get(
     'appointments',
     '?patient_id=eq.' . urlencode($patientId)
@@ -74,6 +77,7 @@ if (!empty($dupResult['body'])) {
     exit;
 }
 
+// ── Step 4: Get service details (name + price) ─────────────────────────────
 $serviceResult = supabase_get('services', '?id=eq.' . urlencode($serviceId));
 
 if ($serviceResult['status'] !== 200 || empty($serviceResult['body'])) {
@@ -82,61 +86,48 @@ if ($serviceResult['status'] !== 200 || empty($serviceResult['body'])) {
     exit;
 }
 
-$price = $serviceResult['body'][0]['price'];
+$service      = $serviceResult['body'][0];
+$price        = $service['price'];
+$serviceName  = $service['name'];
 
-$ch = curl_init(SUPABASE_URL . '/rest/v1/appointments');
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => json_encode([
-        'patient_id'   => $patientId,
-        'doctor_id'    => $doctorId,
-        'service_id'   => $serviceId,
-        'time_slot_id' => $slotId,
-        'status'       => 'pending',
-    ]),
-    CURLOPT_HTTPHEADER     => [
-        'apikey: '               . SUPABASE_KEY,
-        'Authorization: Bearer ' . SUPABASE_KEY,
-        'Content-Type: application/json',
-        'Prefer: return=representation',
-    ],
-]);
-$apptBody   = json_decode(curl_exec($ch), true);
-$apptStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+// ── Step 5: Get doctor details (name) ──────────────────────────────────────
+$doctorResult = supabase_get('doctors', '?id=eq.' . urlencode($doctorId));
 
-if ($apptStatus !== 201 || empty($apptBody)) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Failed to create appointment']);
+if ($doctorResult['status'] !== 200 || empty($doctorResult['body'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Doctor not found']);
     exit;
 }
 
-$appointment   = $apptBody[0];
+$doctorName = $doctorResult['body'][0]['name'];
+
+// ── Step 6: Insert appointment ─────────────────────────────────────────────
+$apptResult = supabase_post('appointments', [
+    'patient_id'   => $patientId,
+    'doctor_id'    => $doctorId,
+    'service_id'   => $serviceId,
+    'time_slot_id' => $slotId,
+    'status'       => 'pending',
+]);
+
+if ($apptResult['status'] !== 201 || empty($apptResult['body'])) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to create appointment', 'debug' => $apptResult]);
+    exit;
+}
+
+$appointment   = $apptResult['body'][0];
 $appointmentId = $appointment['id'];
 $appointmentNo = $appointment['appointment_no'];
 
-$ch = curl_init(SUPABASE_URL . '/rest/v1/payments');
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => json_encode([
-        'appointment_id' => $appointmentId,
-        'amount'         => $price,
-        'status'         => 'paid',
-    ]),
-    CURLOPT_HTTPHEADER     => [
-        'apikey: '               . SUPABASE_KEY,
-        'Authorization: Bearer ' . SUPABASE_KEY,
-        'Content-Type: application/json',
-        'Prefer: return=representation',
-    ],
+// ── Step 7: Insert payment record ──────────────────────────────────────────
+$payResult = supabase_post('payments', [
+    'appointment_id' => $appointmentId,
+    'amount'         => $price,
+    'status'         => 'paid',
 ]);
-$payBody   = json_decode(curl_exec($ch), true);
-$payStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
 
-if ($payStatus !== 201 || empty($payBody)) {
+if ($payResult['status'] !== 201 || empty($payResult['body'])) {
     // Rollback: cancel the appointment
     supabase_patch(
         'appointments',
@@ -148,13 +139,16 @@ if ($payStatus !== 201 || empty($payBody)) {
     exit;
 }
 
-$paymentRef = $payBody[0]['payment_ref'];
+$paymentRef = $payResult['body'][0]['payment_ref'];
 
+// ── Step 8: Return full success response ───────────────────────────────────
 echo json_encode([
     'success'        => true,
     'appointment_no' => $appointmentNo,
     'payment_ref'    => $paymentRef,
     'amount'         => $price,
+    'doctor_name'    => $doctorName,
+    'service_name'   => $serviceName,
     'slot_date'      => $slot['slot_date'],
     'start_time'     => $slot['start_time'],
     'end_time'       => $slot['end_time'],

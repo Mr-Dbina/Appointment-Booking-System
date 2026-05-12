@@ -53,14 +53,24 @@ function clearService(e) {
   openDropdown();
 }
 
-function selectService(e, name, serviceId = null) {
+async function selectService(e, name) {
   if (e) e.stopPropagation();
   apptInput.value = name;
-  selectedServiceId = serviceId;
+  selectedServiceId = null;
   clearBtn.style.display = "inline";
   hideRotator();
   filterServices(name);
   serviceDropdown.classList.remove("open");
+
+  try {
+    const res = await fetch(
+      `${BASE_URL}/app/api/get_service.php?name=${encodeURIComponent(name)}`,
+    );
+    const json = await res.json();
+    selectedServiceId = json.id ?? null;
+  } catch (err) {
+    selectedServiceId = null;
+  }
 }
 
 function filterServices(query) {
@@ -114,9 +124,9 @@ const LIMITED_THRESHOLD = 3;
 
 let dtpYear, dtpMonth;
 let selectedDate = null;
-let selectedSlot = null; // full slot object { id, label, start_time, end_time, status }
+let selectedSlot = null;
 let selectedServiceId = null;
-let slotsCache = {}; // { "YYYY-MM-DD": [...slots] }
+let slotsCache = {};
 
 const todayDate = new Date();
 todayDate.setHours(0, 0, 0, 0);
@@ -405,6 +415,11 @@ async function confirmBooking() {
     return;
   }
 
+  // Pre-fill modal with what we already know before API call
+  document.getElementById("payService").textContent = apptInput.value;
+  document.getElementById("payDateTime").textContent =
+    document.getElementById("datetimeDisplay").textContent;
+
   document.getElementById("paymentOverlay").classList.add("active");
   document.body.style.overflow = "hidden";
   document.getElementById("payMain").classList.remove("hidden");
@@ -417,7 +432,6 @@ function closePayment() {
   document.body.style.overflow = "";
 }
 
-// UPDATED: calls PHP API to save appointment + payment
 async function processPayment() {
   const btn = document.getElementById("btnPay");
   btn.classList.add("loading");
@@ -462,7 +476,6 @@ async function processPayment() {
       return;
     }
 
-    // Update payment modal rows with real data
     const apptDate = new Date(json.slot_date).toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
@@ -476,24 +489,29 @@ async function processPayment() {
       "en-US",
       { hour: "numeric", minute: "2-digit" },
     );
+    const dateTimeStr = `${apptDate} · ${start} – ${end}`;
+    const today = new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
 
-    document.querySelector(".pay-row:nth-child(2) .pay-row-right").textContent =
-      apptInput.value;
-    document.querySelector(".pay-row:nth-child(3) .pay-row-right").textContent =
-      `${apptDate} · ${start} – ${end}`;
-    document.querySelector(".pay-row:nth-child(4) .pay-row-right").textContent =
-      json.payment_ref;
-    document.querySelector(".pay-row:nth-child(5) .pay-row-right").textContent =
-      json.appointment_no;
+    document.getElementById("payDoctor").textContent = json.doctor_name || "—";
+    document.getElementById("payService").textContent = apptInput.value;
+    document.getElementById("payDateTime").textContent = dateTimeStr;
+    document.getElementById("payRef").textContent = json.payment_ref;
+    document.getElementById("payApptNo").textContent = json.appointment_no;
+    document.getElementById("payAmount").textContent =
+      "₱" + parseFloat(json.amount).toFixed(2);
 
-    if (document.getElementById("rDate")) {
-      document.getElementById("rDate").textContent =
-        new Date().toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        });
-    }
+    document.getElementById("rDate").textContent = today;
+    document.getElementById("rDoctor").textContent = json.doctor_name || "—";
+    document.getElementById("rService").textContent = apptInput.value;
+    document.getElementById("rDateTime").textContent = dateTimeStr;
+    document.getElementById("rPayRef").textContent = json.payment_ref;
+    document.getElementById("rApptNo").textContent = json.appointment_no;
+    document.getElementById("rAmount").textContent =
+      "₱" + parseFloat(json.amount).toFixed(2);
 
     setTimeout(() => {
       btn.classList.remove("loading");
@@ -538,11 +556,11 @@ document
   .addEventListener("click", function (e) {
     if (e.target === this) closePayment();
   });
+
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");
-  const serviceId = params.get("service_id");
   if (service) {
-    selectService(null, decodeURIComponent(service), serviceId || null);
+    selectService(null, decodeURIComponent(service));
   }
 });
