@@ -19,7 +19,6 @@ $base = "http://localhost/appointment_booking_system";
           href="<?php echo $base; ?>/public/css/footer.css"
         />
   </head>
-  <body>
     <footer>
       <div class="footer-grid">
         <div class="footer-col">
@@ -108,5 +107,5 @@ $base = "http://localhost/appointment_booking_system";
         <span>Happy Care Clinic</span>
       </div>
     </footer>
-  </body>
-</html>
+
+

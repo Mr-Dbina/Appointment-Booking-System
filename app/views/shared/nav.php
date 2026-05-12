@@ -1,6 +1,5 @@
-<?php
-$base = "http://localhost/appointment_booking_system";
-?>
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,36 +15,36 @@ $base = "http://localhost/appointment_booking_system";
     />
     <link
       rel="stylesheet"
-      href="<?php echo $base; ?>/public/css/nav.css"
+      href="http://localhost/appointment_booking_system/public/css/nav.css"
     />
   </head>
   <body>
     <nav>
       <a
-        href="<?php echo $base; ?>/app/views/users/main.php"
+        href="http://localhost/appointment_booking_system/app/views/users/main.php"
         class="nav-logo"
       >
         <img
-          src="<?php echo $base; ?>/public/images/logo.png"
+          src="http://localhost/appointment_booking_system/public/images/logo.png"
         />
         <span>Happy Care Clinic</span>
       </a>
       <ul class="nav-links">
         <li>
           <a
-            href="<?php echo $base; ?>/app/views/users/service.php"
+            href="http://localhost/appointment_booking_system/app/views/users/service.php"
             >Services</a
           >
         </li>
         <li>
           <a
-            href="<?php echo $base; ?>/app/views/users/aboutus.php"
+            href="http://localhost/appointment_booking_system/app/views/users/aboutus.php"
             >About Us</a
           >
         </li>
         <li>
           <a
-            href="<?php echo $base; ?>/app/views/users/appointment.php"
+            href="http://localhost/appointment_booking_system/app/views/users/appointment.php"
             >Appointment</a
           >
         </li>
@@ -71,20 +70,20 @@ $base = "http://localhost/appointment_booking_system";
         <div class="nav-icon user-menu-toggle">
           <i class="fa-solid fa-user"></i>
           <div class="user-dropdown">
-            <a href="<?php echo $base; ?>/app/views/users/profile.php" class="dropdown-item">
+            <a href="#" class="dropdown-item">
               <i class="fa-solid fa-user"></i>
               Profile
             </a>
-            <a href="<?php echo $base; ?>/app/views/users/appointment_history.php" class="dropdown-item">
+            <a href="#" class="dropdown-item">
               <i class="fa-solid fa-file-medical"></i>
               Appointment History
             </a>
-            <a href="<?php echo $base; ?>/app/views/users/payment_history.php" class="dropdown-item">
+            <a href="#" class="dropdown-item">
               <i class="fa-solid fa-credit-card"></i>
               Payment History
             </a>
             <a
-              href="<?php echo $base; ?>/app/views/auth/logout.php"
+              href="http://localhost/appointment_booking_system/app/views/auth/logout.php"
               class="dropdown-item signout"
             >
               <i class="fa-solid fa-right-from-bracket"></i>
@@ -95,5 +94,6 @@ $base = "http://localhost/appointment_booking_system";
       </div>
     </nav>
 
-    <script src="<?php echo $base; ?>/public/js/nav.js"></script>
-
+    <script src="http://localhost/appointment_booking_system/public/js/nav.js"></script>
+  </body>
+</html>
