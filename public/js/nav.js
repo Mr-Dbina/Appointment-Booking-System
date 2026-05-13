@@ -1,4 +1,4 @@
-const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
+var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
 document.addEventListener("DOMContentLoaded", () => {
   // ── Scroll behaviour ──────────────────────────────────────────────
   const nav = document.querySelector("nav");

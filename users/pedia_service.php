@@ -76,5 +76,4 @@ require_once __DIR__ . '/../config.php';
   </div>
 </section>
 <?php include __DIR__ . '/../shared/footer.php'; ?>
-<script>const BASE_URL = "<?= BASE_URL ?>";</script>
 <script src="<?= BASE_URL ?>/public/js/service_service.js"></script>

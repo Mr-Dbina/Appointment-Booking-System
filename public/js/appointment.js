@@ -1,4 +1,4 @@
-const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
+var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
 
 const serviceDropdown = document.getElementById("serviceDropdown");
 const apptInput = document.getElementById("apptInput");
@@ -254,9 +254,7 @@ async function selectDate(dateStr) {
   let slots = slotsCache[dateStr];
   if (!slots) {
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/get_slots.php?date=${dateStr}`,
-      );
+      const res = await fetch(`${BASE_URL}/api/get_slots.php?date=${dateStr}`);
       const json = await res.json();
       slots = json.slots || [];
       slotsCache[dateStr] = slots;
