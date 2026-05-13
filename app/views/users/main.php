@@ -141,7 +141,7 @@ $base = "http://localhost/appointment_booking_system";
     <div class="story-content">
       <h2>Our Story</h2>
       <p>Happy Care was established to resolve a persistent imbalance in healthcare, where patients are often forced to choose between advanced medical treatment and affordability; the clinic is founded on the principle that quality care must be accessible, evidence-based, and reliable, integrating modern medical technology with patient-centered practices to deliver consistent and safe outcomes, from general consultations and preventive screenings to skin, body, and non-invasive wellness treatments, all under transparent pricing and standardized clinical protocols, ensuring that every service provides measurable value, maintains professional integrity, and upholds the core commitment of Happy Care—to deliver modern, efficient, and compassionate healthcare without compromise.</p>
-      <a href="#" class="btn-story">Read More</a>
+      <a href="<?= $base ?>/app/views/users/aboutus.php" class="btn-story">Read More</a>
     </div>
   </div>
   <?php include __DIR__ . '/../shared/footer.php'; ?>

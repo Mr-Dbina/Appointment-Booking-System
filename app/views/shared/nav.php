@@ -1,99 +1,63 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Care Clinic</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="http://localhost/appointment_booking_system/public/css/nav.css"
-    />
-  </head>
-  <body>
-    <nav>
-      <a
-        href="http://localhost/appointment_booking_system/app/views/users/main.php"
-        class="nav-logo"
-      >
-        <img
-          src="http://localhost/appointment_booking_system/public/images/logo.png"
-        />
-        <span>Happy Care Clinic</span>
-      </a>
-      <ul class="nav-links">
-        <li>
-          <a
-            href="http://localhost/appointment_booking_system/app/views/users/service.php"
-            >Services</a
-          >
-        </li>
-        <li>
-          <a
-            href="http://localhost/appointment_booking_system/app/views/users/aboutus.php"
-            >About Us</a
-          >
-        </li>
-        <li>
-          <a
-            href="http://localhost/appointment_booking_system/app/views/users/appointment.php"
-            >Appointment</a
-          >
-        </li>
-      </ul>
-      <div class="nav-actions">
-        <div class="nav-search">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search...." />
-            <i class="fa-solid fa-xmark search-clear"></i>
-          </div>
+<?php
+session_start();
+$base = "http://localhost/appointment_booking_system";
+?>
+  <link rel="stylesheet" href="<?= $base ?>/public/css/nav.css"/>
+<nav>
+  <a href="<?= $base ?>/app/views/users/main.php" class="nav-logo">
+    <img src="<?= $base ?>/public/images/logo.png" />
+    <span>Happy Care Clinic</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="<?= $base ?>/app/views/users/service.php">Services</a></li>
+    <li><a href="<?= $base ?>/app/views/users/aboutus.php">About Us</a></li>
+    <li><a href="<?= $base ?>/app/views/users/appointment.php">Appointment</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="nav-search">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search...." />
+        <i class="fa-solid fa-xmark search-clear"></i>
+      </div>
+    </div>
+
+    <div class="nav-icon bell-menu-toggle">
+      <i class="fa-solid fa-bell"></i>
+      <span class="badge" id="notif-badge" style="display:none;"></span>
+      <div class="bell-dropdown" id="bell-dropdown">
+        <div class="bell-header">
+          <span class="bell-title">Notifications</span>
+          <span class="bell-count" id="bell-count"></span>
         </div>
-        <div class="nav-icon bell-menu-toggle">
-          <i class="fa-solid fa-bell"></i>
-          <span class="badge"></span>
-          <div class="bell-dropdown">
-            <div class="bell-empty">
-              <i class="fa-solid fa-bell-slash"></i>
-              <p>No notifications</p>
-            </div>
-          </div>
-        </div>
-        <div class="nav-icon user-menu-toggle">
-          <i class="fa-solid fa-user"></i>
-          <div class="user-dropdown">
-            <a href="#" class="dropdown-item">
-              <i class="fa-solid fa-user"></i>
-              Profile
-            </a>
-            <a href="#" class="dropdown-item">
-              <i class="fa-solid fa-file-medical"></i>
-              Appointment History
-            </a>
-            <a href="#" class="dropdown-item">
-              <i class="fa-solid fa-credit-card"></i>
-              Payment History
-            </a>
-            <a
-              href="http://localhost/appointment_booking_system/app/views/auth/logout.php"
-              class="dropdown-item signout"
-            >
-              <i class="fa-solid fa-right-from-bracket"></i>
-              Sign out
-            </a>
+        <div class="bell-body" id="bell-body">
+          <div class="bell-empty">
+            <i class="fa-solid fa-bell-slash"></i>
+            <p>No notifications</p>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
 
-    <script src="http://localhost/appointment_booking_system/public/js/nav.js"></script>
-  </body>
-</html>
+    <div class="nav-icon user-menu-toggle">
+      <i class="fa-solid fa-user"></i>
+      <div class="user-dropdown">
+        <a href="<?= $base ?>/app/views/users/profile.php" class="dropdown-item">
+          <i class="fa-solid fa-user"></i> Profile
+        </a>
+        <a href="<?= $base ?>/app/views/users/appointment_history.php" class="dropdown-item">
+          <i class="fa-solid fa-file-medical"></i> Appointment History
+        </a>
+        <a href="<?= $base ?>/app/views/users/payment_history.php" class="dropdown-item">
+          <i class="fa-solid fa-credit-card"></i> Payment History
+        </a>
+        <a href="<?= $base ?>/app/views/auth/logout.php" class="dropdown-item signout">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign out
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+<script src="<?= $base ?>/public/js/nav.js"></script>
