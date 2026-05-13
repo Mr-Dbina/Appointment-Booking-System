@@ -1,12 +1,12 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 ?>
-  <link rel="stylesheet" href="<?= $base ?>/public/css/aboutus.css"/>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/aboutus.css"/>
   <?php include __DIR__ . '/../shared/head.php'; ?>
   <?php include __DIR__ . '/../shared/nav.php'; ?>
 <div class="hero-banner">
   <div class="brand">
-    <img src="<?= $base ?>/public/images/logo.png"/>
+    <img src="<?= BASE_URL ?>/public/images/logo.png"/>
     <span>Happy Care Clinic</span>
   </div>
   <h1>At Happy Care Clinic, we believe that medical excellence shouldn't feel clinical. We combine cutting-edge "precise medicine" with a "compassionate care" philosophy to ensure every visit is personal, effective, and stress-free.</h1>
@@ -18,12 +18,12 @@ $base = "http://localhost/appointment_booking_system";
     <p>Beyond our state-of-the-art diagnostic tools, Happy Care Clinic is built on a foundation of clinical excellence. Our medical protocols are overseen by our lead specialists, ensuring that every treatment plan from routine check-ups to complex chronic care is backed by the latest evidence-based research and a deep commitment to patient safety.</p>
   </div>
   <div class="mission-img">
-    <img src="<?= $base ?>/public/images/missions.png" alt="Doctor with patient" />
+    <img src="<?= BASE_URL ?>/public/images/missions.png" alt="Doctor with patient" />
   </div>
 </section>
 <section class="why">
   <div class="why-img">
-    <img src="<?= $base ?>/public/images/choose.png" alt="Medical professionals" />
+    <img src="<?= BASE_URL ?>/public/images/choose.png" alt="Medical professionals" />
   </div>
   <div class="why-text">
     <h2>Why Choose Us</h2>

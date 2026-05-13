@@ -1,3 +1,4 @@
+const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
 document.addEventListener("DOMContentLoaded", () => {
   // ── Scroll behaviour ──────────────────────────────────────────────
   const nav = document.querySelector("nav");
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchNotifications() {
     try {
       const res = await fetch(
-        "http://localhost/appointment_booking_system/api/get_notification.php",
+        `${BASE_URL}/api/get_notification.php`,
       );
       const data = await res.json();
       renderNotifications(data.notifications);

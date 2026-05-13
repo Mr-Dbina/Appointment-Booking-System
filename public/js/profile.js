@@ -1,3 +1,4 @@
+const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
 const { createClient } = supabase;
 
 const SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
@@ -138,7 +139,7 @@ async function loadProfile() {
 
   if (userError || !user) {
     window.location.href =
-      "http://localhost/appointment_booking_system/auth/login.php";
+      `${BASE_URL}/auth/login.php`;
     return;
   }
 

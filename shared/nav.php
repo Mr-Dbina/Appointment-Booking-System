@@ -1,18 +1,18 @@
 <?php
+require_once __DIR__ . '/../config.php';
 session_start();
-$base = "http://localhost/appointment_booking_system";
 ?>
-  <link rel="stylesheet" href="<?= $base ?>/public/css/nav.css"/>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/nav.css"/>
 <nav>
-  <a href="<?= $base ?>/users/main.php" class="nav-logo">
-    <img src="<?= $base ?>/public/images/logo.png" />
+  <a href="<?= BASE_URL ?>/users/main.php" class="nav-logo">
+    <img src="<?= BASE_URL ?>/public/images/logo.png" />
     <span>Happy Care Clinic</span>
   </a>
 
   <ul class="nav-links">
-    <li><a href="<?= $base ?>/users/service.php">Services</a></li>
-    <li><a href="<?= $base ?>/users/aboutus.php">About Us</a></li>
-    <li><a href="<?= $base ?>/users/appointment.php">Appointment</a></li>
+    <li><a href="<?= BASE_URL ?>/users/service.php">Services</a></li>
+    <li><a href="<?= BASE_URL ?>/users/aboutus.php">About Us</a></li>
+    <li><a href="<?= BASE_URL ?>/users/appointment.php">Appointment</a></li>
   </ul>
 
   <div class="nav-actions">
@@ -44,15 +44,15 @@ $base = "http://localhost/appointment_booking_system";
     <div class="nav-icon user-menu-toggle">
       <i class="fa-solid fa-user"></i>
       <div class="user-dropdown">
-        <a href="<?= $base ?>/users/profile.php" class="dropdown-item">
+        <a href="<?= BASE_URL ?>/users/profile.php" class="dropdown-item">
           <i class="fa-solid fa-user"></i> Profile
         </a>
         <!-- appointment_history.php and payment_history.php not yet implemented -->
-        <a href="<?= $base ?>/auth/logout.php" class="dropdown-item signout">
+        <a href="<?= BASE_URL ?>/auth/logout.php" class="dropdown-item signout">
           <i class="fa-solid fa-right-from-bracket"></i> Sign out
         </a>
       </div>
     </div>
   </div>
 </nav>
-<script src="<?= $base ?>/public/js/nav.js"></script>
+<script src="<?= BASE_URL ?>/public/js/nav.js"></script>

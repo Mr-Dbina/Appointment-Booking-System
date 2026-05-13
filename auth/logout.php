@@ -1,5 +1,5 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 $projectRef = "alvgmydqyffyegcbtsyg";
 
 // Clear the Supabase auth cookie
@@ -35,7 +35,7 @@ setcookie("sb-{$projectRef}-auth-token-code-verifier", "", [
   );
 
   db.auth.signOut().finally(() => {
-    window.location.replace("<?= $base ?>/auth/login.php");
+    window.location.replace("<?= BASE_URL ?>/auth/login.php");
   });
 </script>
 </body>

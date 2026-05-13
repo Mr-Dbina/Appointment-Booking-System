@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/appointment_booking_system";
+const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
 
 const serviceDropdown = document.getElementById("serviceDropdown");
 const apptInput = document.getElementById("apptInput");

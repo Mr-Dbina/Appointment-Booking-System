@@ -1,5 +1,5 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 
 $appointments = [
     ['id'=>1,'patient'=>'Maria Santos',   'service'=>'OB-GYN',         'doctor'=>'Dr. Reyes',  'date'=>'2025-05-06','time'=>'09:00 AM','status'=>'confirmed'],
@@ -19,7 +19,7 @@ $appointments = [
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $base; ?>/public/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin.css">
 </head>
 <body>
 <div class="layout">
@@ -116,6 +116,6 @@ $appointments = [
         </div>
     </main>
 </div>
-<script src="<?php echo $base; ?>/public/js/admin.js"></script>
+<script src="<?= BASE_URL ?>/public/js/admin.js"></script>
 </body>
 </html>

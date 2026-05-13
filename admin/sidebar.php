@@ -1,5 +1,5 @@
 <?php
-$base    = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 $current = basename($_SERVER['PHP_SELF'], '.php');
 
 $nav_links = [
@@ -17,8 +17,8 @@ $nav_settings = [
 <div class="overlay" id="overlay"></div>
 
 <aside class="sidebar" id="sidebar">
-    <a class="sidebar-brand" href="<?= $base ?>/users/main.php">
-        <img src="<?= $base ?>/public/images/logo.png" alt="Logo">
+    <a class="sidebar-brand" href="<?= BASE_URL ?>/users/main.php">
+        <img src="<?= BASE_URL ?>/public/images/logo.png" alt="Logo">
         <span>Happy Care<br>Clinic</span>
     </a>
 
@@ -26,7 +26,7 @@ $nav_settings = [
         <div class="nav-section">Main</div>
         <?php foreach ($nav_links as $link):
             $active = ($current === $link['page']) ? ' active' : '';
-            $href   = $base . '/admin/' . $link['page'] . '.php';
+            $href   = BASE_URL . '/admin/' . $link['page'] . '.php';
         ?>
             <a class="nav-item<?= $active ?>" href="<?= $href ?>">
                 <i class="fa-solid <?= $link['icon'] ?>"></i> <?= $link['label'] ?>
@@ -36,7 +36,7 @@ $nav_settings = [
         <div class="nav-section">Settings</div>
         <?php foreach ($nav_settings as $link):
             $active = ($current === $link['page']) ? ' active' : '';
-            $href   = $base . '/admin/' . $link['page'] . '.php';
+            $href   = BASE_URL . '/admin/' . $link['page'] . '.php';
         ?>
             <a class="nav-item<?= $active ?>" href="<?= $href ?>">
                 <i class="fa-solid <?= $link['icon'] ?>"></i> <?= $link['label'] ?>
@@ -49,7 +49,7 @@ $nav_settings = [
             <strong>Admin</strong>
             Logged in as Admin
         </div>
-        <a class="nav-item" href="<?= $base ?>/auth/logout.php" style="margin-top:10px;">
+        <a class="nav-item" href="<?= BASE_URL ?>/auth/logout.php" style="margin-top:10px;">
             <i class="fa-solid fa-right-from-bracket"></i> Logout
         </a>
     </div>

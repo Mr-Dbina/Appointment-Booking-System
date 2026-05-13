@@ -1,5 +1,5 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 ?>
   <head>
     <meta charset="UTF-8" />
@@ -16,7 +16,7 @@ $base = "http://localhost/appointment_booking_system";
     />
     <link
       rel="stylesheet"
-          href="<?php echo $base; ?>/public/css/footer.css"
+          href="<?= BASE_URL ?>/public/css/footer.css"
         />
   </head>
     <footer>
@@ -26,19 +26,19 @@ $base = "http://localhost/appointment_booking_system";
           <ul>
             <li>
               <a
-                href="<?php echo $base; ?>/users/service.php"
+                href="<?= BASE_URL ?>/users/service.php"
                 >Services</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/users/aboutus.php"
+                href="<?= BASE_URL ?>/users/aboutus.php"
                 >About Us</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/users/appointment.php"
+                href="<?= BASE_URL ?>/users/appointment.php"
                 >Appointment</a
               >
             </li>
@@ -50,25 +50,25 @@ $base = "http://localhost/appointment_booking_system";
           <ul>
             <li>
               <a
-                href="<?php echo $base; ?>/users/ob_service.php"
+                href="<?= BASE_URL ?>/users/ob_service.php"
                 >OB-GYN</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/users/gen_service.php"
+                href="<?= BASE_URL ?>/users/gen_service.php"
                 >General Medicine</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/users/pedia_service.php"
+                href="<?= BASE_URL ?>/users/pedia_service.php"
                 >Pediatrics</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/users/derma_service.php"
+                href="<?= BASE_URL ?>/users/derma_service.php"
                 >Dermatology</a
               >
             </li>
@@ -77,9 +77,9 @@ $base = "http://localhost/appointment_booking_system";
         <div class="footer-col">
           <h4>Help</h4>
           <ul>
-            <li><a href="<?php echo $base; ?>/users/help.php#no-show-policy">No Show Policy</a></li>
-            <li><a href="<?php echo $base; ?>/users/help.php#data-privacy">Data Privacy</a></li>
-            <li><a href="<?php echo $base; ?>/users/help.php#faqs">FAQs</a></li>
+            <li><a href="<?= BASE_URL ?>/users/help.php#no-show-policy">No Show Policy</a></li>
+            <li><a href="<?= BASE_URL ?>/users/help.php#data-privacy">Data Privacy</a></li>
+            <li><a href="<?= BASE_URL ?>/users/help.php#faqs">FAQs</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -102,7 +102,7 @@ $base = "http://localhost/appointment_booking_system";
       </div>
       <div class="footer-bottom">
         <img
-          src="<?php echo $base; ?>/public/images/logo.png"
+          src="<?= BASE_URL ?>/public/images/logo.png"
         />
         <span>Happy Care Clinic</span>
       </div>

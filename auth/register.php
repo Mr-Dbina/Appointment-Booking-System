@@ -1,9 +1,9 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 ?>
 <?php include __DIR__ . '/../shared/head.php'; ?>
-<link rel="stylesheet" href="<?= $base ?>/public/css/register.css">
-<link rel="stylesheet" href="<?= $base ?>/public/css/register_additions.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/register.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/register_additions.css">
 
     <div class="page">
       <div class="left">
@@ -133,13 +133,13 @@ $base = "http://localhost/appointment_booking_system";
 
           <p class="signin">
             Already have account?
-            <a href="<?= $base ?>/auth/login.php">Sign in here</a>
+            <a href="<?= BASE_URL ?>/auth/login.php">Sign in here</a>
           </p>
         </div>
       </div>
 
       <div class="right">
-        <img class="bg" src="<?= $base ?>/public/images/background_login.png" alt="Medical background" />
+        <img class="bg" src="<?= BASE_URL ?>/public/images/background_login.png" alt="Medical background" />
         <div class="overlay"></div>
         <div class="content">
           <div class="brand">
@@ -147,7 +147,7 @@ $base = "http://localhost/appointment_booking_system";
               <h2>Happy Care Clinic</h2>
               <span>TRUSTED MEDICAL CARE</span>
             </div>
-            <img src="<?= $base ?>/public/images/logo.png" alt="Happy Care Clinic Logo" />
+            <img src="<?= BASE_URL ?>/public/images/logo.png" alt="Happy Care Clinic Logo" />
           </div>
           <div class="hero-text">
             <span class="line line-pink">HEALING WITH</span>
@@ -164,7 +164,7 @@ $base = "http://localhost/appointment_booking_system";
     </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="<?= $base ?>/public/js/lock.js"></script>
-<script src="<?= $base ?>/public/js/dob.js"></script>
-<script src="<?= $base ?>/public/js/address.js"></script>
-<script src="<?= $base ?>/public/js/register.js"></script>
+<script src="<?= BASE_URL ?>/public/js/lock.js"></script>
+<script src="<?= BASE_URL ?>/public/js/dob.js"></script>
+<script src="<?= BASE_URL ?>/public/js/address.js"></script>
+<script src="<?= BASE_URL ?>/public/js/register.js"></script>

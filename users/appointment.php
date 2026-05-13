@@ -1,8 +1,8 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 ?>
 <?php include __DIR__ . '/../shared/head.php'; ?>
-    <link rel="stylesheet" href="<?= $base?>/public/css/appointment.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/appointment.css">
     <?php include __DIR__ . '/../shared/nav.php'; ?>
     <div class="appt-hero">
         <h1>Healthcare made simple</h1>
@@ -90,7 +90,7 @@ $base = "http://localhost/appointment_booking_system";
     <div class="pay-modal">
       <div class="pay-header">
         <div class="pay-brand">
-          <img class="pay-brand-icon" src="<?= $base ?>/public/images/logo.png" />
+          <img class="pay-brand-icon" src="<?= BASE_URL ?>/public/images/logo.png" />
           <div class="pay-brand-name">
             Happy Care Clinic
             <span>Medical &amp; Wellness Center</span>
@@ -176,7 +176,7 @@ $base = "http://localhost/appointment_booking_system";
           <div class="receipt-card">
             <div class="receipt-header">
               <div class="receipt-brand">
-                <img class="receipt-logo" src="<?= $base ?>/public/images/logo.png" />
+                <img class="receipt-logo" src="<?= BASE_URL ?>/public/images/logo.png" />
                 <div>
                   <div class="receipt-clinic-name">Happy Care Clinic</div>
                 </div>
@@ -325,4 +325,4 @@ $base = "http://localhost/appointment_booking_system";
         </div>
     </div>
     <?php include __DIR__ . '/../shared/footer.php'; ?>
-    <script src="<?= $base ?>/public/js/appointment.js"></script>
+    <script src="<?= BASE_URL ?>/public/js/appointment.js"></script>

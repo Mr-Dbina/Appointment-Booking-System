@@ -1,8 +1,8 @@
 <?php
-$base  = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 $email = htmlspecialchars($_GET['email'] ?? '');
 if (!$email) {
-    header("Location: $base/auth/forgot.php");
+    header("Location: " . BASE_URL . "/auth/forgot.php");
     exit;
 }
 ?>
@@ -15,7 +15,7 @@ if (!$email) {
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="<?= $base ?>/public/css/login.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/login.css">
   <style>
     .steps {
       display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
@@ -92,14 +92,14 @@ if (!$email) {
 
       <p class="register">
         Back to
-        <a href="<?= $base ?>/auth/login.php">Sign in</a>
+        <a href="<?= BASE_URL ?>/auth/login.php">Sign in</a>
       </p>
 
     </div>
   </div>
 
   <div class="right">
-    <img class="bg" src="<?= $base ?>/public/images/background_login.png" alt="Medical background">
+    <img class="bg" src="<?= BASE_URL ?>/public/images/background_login.png" alt="Medical background">
     <div class="overlay"></div>
     <div class="content">
       <div class="brand">
@@ -107,7 +107,7 @@ if (!$email) {
           <h2>Happy Care Clinic</h2>
           <span>TRUSTED MEDICAL CARE</span>
         </div>
-        <img src="<?= $base ?>/public/images/logo.png" alt="Logo">
+        <img src="<?= BASE_URL ?>/public/images/logo.png" alt="Logo">
       </div>
       <div class="hero-text">
         <span class="line line-pink">ALMOST</span>
@@ -123,7 +123,7 @@ if (!$email) {
 </div>
 
 <script>
-const base  = "<?= $base ?>";
+const base  = "<?= BASE_URL ?>";
 const email = "<?= addslashes($email) ?>";
 
 // ── Toggle password visibility ────────────────────────────────────────────────

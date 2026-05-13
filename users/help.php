@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="<?php echo $base; ?>/public/css/help.css">
+<?php require_once __DIR__ . '/../config.php'; ?>
+<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/help.css">
 <section class="clinic-info-section">
   <div class="info-container">
 

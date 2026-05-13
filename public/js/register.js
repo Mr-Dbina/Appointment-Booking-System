@@ -1,3 +1,4 @@
+const BASE_URL = document.currentScript ? document.currentScript.src.substring(0, document.currentScript.src.indexOf('/public/')) : window.location.origin;
 const { createClient } = supabase;
 
 const SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
@@ -87,7 +88,7 @@ registerBtn.addEventListener("click", async () => {
   }
 
   // ── Step 3: Send welcome/verification email via PHP ───
-  fetch("http://localhost/appointment_booking_system/api/register_api.php", {
+  fetch(`${BASE_URL}/api/register_api.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, firstName }),
@@ -98,6 +99,6 @@ registerBtn.addEventListener("click", async () => {
   showMsg("✅ Account created! Redirecting to login…", "success");
   setTimeout(() => {
     window.location.href =
-      "http://localhost/appointment_booking_system/auth/login.php";
+      `${BASE_URL}/auth/login.php`;
   }, 2000);
 });

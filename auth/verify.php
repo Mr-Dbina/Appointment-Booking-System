@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../helpers/supabase.php';
-$base  = 'http://localhost/appointment_booking_system';
+require_once __DIR__ . '/../config.php';
 $token = $_GET['token'] ?? '';
 
 $status  = 'error';
@@ -47,6 +47,6 @@ $icon = match($status) { 'success' => '✅', 'done' => '👍', default => '❌' 
   <div style="font-size:2.5rem;"><?= $icon ?></div>
   <h2><?= $status === 'success' ? 'Email Verified!' : ($status === 'done' ? 'Already Verified' : 'Verification Failed') ?></h2>
   <p><?= htmlspecialchars($message) ?></p>
-  <a href="<?= $base ?>/auth/login.php">Go to Login</a>
+  <a href="<?= BASE_URL ?>/auth/login.php">Go to Login</a>
 </div>
 </body></html>

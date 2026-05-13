@@ -5,7 +5,7 @@
   <link
     rel="icon"
     type="image/png"
-    href="http://localhost/appointment_booking_system/public/images/logo.png"
+    href="<?= BASE_URL ?>/public/images/logo.png"
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link

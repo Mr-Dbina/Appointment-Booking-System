@@ -36,8 +36,10 @@ supabase_patch(
     ]
 );
 
-$base      = 'http://localhost/appointment_booking_system';
-$verifyUrl = "$base/auth/verify.php?token=$token";
+$basePath  = str_replace('\\', '/', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
+$protocol  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$baseUrl   = $protocol . '://' . $_SERVER['HTTP_HOST'] . $basePath;
+$verifyUrl = "$baseUrl/auth/verify.php?token=$token";
 $name      = $firstName ?: 'Patient';
 
 // ── Build email body ──────────────────────────────────────────────────────────

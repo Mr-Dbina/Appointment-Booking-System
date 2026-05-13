@@ -1,9 +1,9 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../config.php';
 ?>
 <?php include __DIR__ . '/../shared/head.php'; ?>
 <?php include __DIR__ . '/../shared/nav.php'; ?>
-<link rel="stylesheet" href="<?= $base ?>/public/css/profile.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/profile.css">
 
 <div class="profile-page">
 
@@ -111,7 +111,7 @@ $base = "http://localhost/appointment_booking_system";
         <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
         <h3>No appointments yet</h3>
         <p>You haven't booked any appointments yet. When you do, they'll appear here.</p>
-        <button class="btn-primary" onclick="window.location.href='<?= $base ?>/users/appointment.php'">
+        <button class="btn-primary" onclick="window.location.href='<?= BASE_URL ?>/users/appointment.php'">
           Book an Appointment
         </button>
       </div>
@@ -168,5 +168,5 @@ $base = "http://localhost/appointment_booking_system";
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="<?= $base ?>/public/js/profile.js"></script>
+<script src="<?= BASE_URL ?>/public/js/profile.js"></script>
 <?php include __DIR__ . '/../shared/footer.php'; ?>
