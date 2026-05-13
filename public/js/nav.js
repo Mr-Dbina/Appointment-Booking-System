@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchNotifications() {
     try {
       const res = await fetch(
-        "http://localhost/appointment_booking_system/app/api/get_notification.php",
+        "http://localhost/appointment_booking_system/api/get_notification.php",
       );
       const data = await res.json();
       renderNotifications(data.notifications);

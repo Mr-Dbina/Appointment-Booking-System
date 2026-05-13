@@ -111,7 +111,7 @@ $base = "http://localhost/appointment_booking_system";
         <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
         <h3>No appointments yet</h3>
         <p>You haven't booked any appointments yet. When you do, they'll appear here.</p>
-        <button class="btn-primary" onclick="window.location.href='<?= $base ?>/app/views/users/appointment.php'">
+        <button class="btn-primary" onclick="window.location.href='<?= $base ?>/users/appointment.php'">
           Book an Appointment
         </button>
       </div>

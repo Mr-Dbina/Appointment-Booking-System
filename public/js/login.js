@@ -50,6 +50,6 @@ loginBtn.addEventListener("click", async () => {
 
   setTimeout(() => {
     window.location.href =
-      "http://localhost/appointment_booking_system/app/views/users/main.php";
+      "http://localhost/appointment_booking_system/users/main.php";
   }, 1500);
 });

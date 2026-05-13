@@ -35,7 +35,7 @@ $base = "http://localhost/appointment_booking_system";
 
       <p class="register">
         Not Registered Yet?
-        <a href="<?= $base ?>/app/views/auth/register.php">Create an account</a>
+        <a href="<?= $base ?>/auth/register.php">Create an account</a>
       </p>
     </div>
   </div>

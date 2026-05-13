@@ -6,6 +6,6 @@ $projectRef = 'alvgmydqyffyegcbtsyg';
 $token = $_COOKIE["sb-{$projectRef}-auth-token"] ?? null;
 
 if (!$token) {
-    header("Location: $base/app/views/auth/login.php");
+    header("Location: $base/auth/login.php");
     exit;
 }

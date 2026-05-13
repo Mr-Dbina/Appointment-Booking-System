@@ -64,7 +64,7 @@ async function selectService(e, name) {
 
   try {
     const res = await fetch(
-      `${BASE_URL}/app/api/get_service.php?name=${encodeURIComponent(name)}`,
+      `${BASE_URL}/api/get_service.php?name=${encodeURIComponent(name)}`,
     );
     const json = await res.json();
     selectedServiceId = json.id ?? null;
@@ -255,7 +255,7 @@ async function selectDate(dateStr) {
   if (!slots) {
     try {
       const res = await fetch(
-        `${BASE_URL}/app/api/get_slots.php?date=${dateStr}`,
+        `${BASE_URL}/api/get_slots.php?date=${dateStr}`,
       );
       const json = await res.json();
       slots = json.slots || [];
@@ -458,7 +458,7 @@ async function processPayment() {
   }
 
   try {
-    const res = await fetch(`${BASE_URL}/app/api/process_appointment.php`, {
+    const res = await fetch(`${BASE_URL}/api/process_appointment.php`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
