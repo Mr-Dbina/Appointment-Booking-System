@@ -1,4 +1,6 @@
-var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
+// FIX #1: BASE_URL is now set by PHP in profile.php — no longer computed here
+// var BASE_URL is available globally from the <script> tag above this file
+
 const { createClient } = supabase;
 
 const SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
@@ -23,8 +25,9 @@ tabLinks.forEach((tab) => {
 });
 
 // ── Edit mode ─────────────────────────────────────────────
-const saveBtn = document.querySelector("#profile-tab .save-btn");
-const editBtn = document.querySelector(".btn-primary");
+// FIX #2: Use unique IDs instead of fragile class selectors
+const saveBtn = document.getElementById("profileSaveBtn");
+const editBtn = document.getElementById("editProfileBtn");
 let isEditing = false;
 
 saveBtn.style.display = "none";
@@ -56,18 +59,22 @@ function exitEditMode() {
   editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Profile';
 }
 
-editBtn.removeAttribute("onclick");
 editBtn.addEventListener("click", () => {
   isEditing ? exitEditMode() : enterEditMode();
 });
 
 // ── Save changes to Supabase ──────────────────────────────
+// FIX #3: Use getSession() instead of getUser() — more reliable on shared hosting
 saveBtn.addEventListener("click", async () => {
   const {
-    data: { user },
-  } = await db.auth.getUser();
-  if (!user) return;
+    data: { session },
+  } = await db.auth.getSession();
+  if (!session) {
+    window.location.href = `${BASE_URL}/auth/login.php`;
+    return;
+  }
 
+  const user = session.user;
   const phone = document.getElementById("fieldPhone").value.trim();
   const address = document.getElementById("fieldAddress").value.trim();
 
@@ -101,7 +108,8 @@ document.querySelectorAll(".toggle-eye").forEach((eye) => {
 });
 
 // ── Change password ───────────────────────────────────────
-const pwSaveBtn = document.querySelectorAll(".save-btn")[1];
+// FIX #4: Use unique id="pwSaveBtn" instead of querySelectorAll()[1]
+const pwSaveBtn = document.getElementById("pwSaveBtn");
 pwSaveBtn?.addEventListener("click", async () => {
   const newPw = document.getElementById("new-pw").value;
   const conPw = document.getElementById("con-pw").value;
@@ -131,17 +139,19 @@ function showToast(msg) {
 }
 
 // ── Load profile from Supabase ────────────────────────────
+// FIX #3: Use getSession() for reliable auth on InfinityFree shared hosting
 async function loadProfile() {
   const {
-    data: { user },
-    error: userError,
-  } = await db.auth.getUser();
+    data: { session },
+    error: sessionError,
+  } = await db.auth.getSession();
 
-  if (userError || !user) {
-    window.location.href =
-      `${BASE_URL}/auth/login.php`;
+  if (sessionError || !session) {
+    window.location.href = `${BASE_URL}/auth/login.php`;
     return;
   }
+
+  const user = session.user;
 
   const { data: patient, error: profileError } = await db
     .from("patients")

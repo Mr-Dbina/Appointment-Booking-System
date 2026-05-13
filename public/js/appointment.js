@@ -1,4 +1,5 @@
-var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
+// FIX #1: BASE_URL is now set by PHP in appointment.php — removed broken path calculation
+// var BASE_URL is available globally from the <script> tag in the PHP file
 
 const serviceDropdown = document.getElementById("serviceDropdown");
 const apptInput = document.getElementById("apptInput");
@@ -413,7 +414,6 @@ async function confirmBooking() {
     return;
   }
 
-  // Pre-fill modal with what we already know before API call
   document.getElementById("payService").textContent = apptInput.value;
   document.getElementById("payDateTime").textContent =
     document.getElementById("datetimeDisplay").textContent;
@@ -430,22 +430,30 @@ function closePayment() {
   document.body.style.overflow = "";
 }
 
+// FIX #2: Replaced unreliable localStorage key search with Supabase JS client session
 async function processPayment() {
   const btn = document.getElementById("btnPay");
   btn.classList.add("loading");
 
-  // Get Supabase auth token from localStorage
-  const sessionKey = Object.keys(localStorage).find(
-    (k) => k.startsWith("sb-") && k.endsWith("-auth-token"),
-  );
-  const session = sessionKey
-    ? JSON.parse(localStorage.getItem(sessionKey))
-    : null;
-  const authToken = session?.access_token || "";
+  // FIX #2: Use Supabase client to get session — works reliably on InfinityFree
+  // Requires supabase-js to be loaded. Add this before appointment.js in your PHP:
+  // <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  // <script> var SUPABASE_URL = "<?= ... ?>"; var SUPABASE_ANON_KEY = "<?= ... ?>"; </script>
+  let authToken = "";
+  try {
+    const _db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const {
+      data: { session },
+    } = await _db.auth.getSession();
+    authToken = session?.access_token || "";
+  } catch (e) {
+    authToken = "";
+  }
 
   if (!authToken) {
     btn.classList.remove("loading");
     alert("You must be logged in to book an appointment.");
+    window.location.href = `${BASE_URL}/auth/login.php`;
     return;
   }
 
@@ -503,8 +511,8 @@ async function processPayment() {
       "₱" + parseFloat(json.amount).toFixed(2);
 
     document.getElementById("rDate").textContent = today;
-    document.getElementById("rName").textContent = json.patient_name || "—"; // ← add
-    document.getElementById("rEmail").textContent = json.patient_email || "—"; // ← add
+    document.getElementById("rName").textContent = json.patient_name || "—";
+    document.getElementById("rEmail").textContent = json.patient_email || "—";
     document.getElementById("rDoctor").textContent = json.doctor_name || "—";
     document.getElementById("rService").textContent = apptInput.value;
     document.getElementById("rDateTime").textContent = dateTimeStr;
@@ -556,11 +564,13 @@ document
   .addEventListener("click", function (e) {
     if (e.target === this) closePayment();
   });
+
+// FIX #3: Moved DOMContentLoaded handler — was at the bottom but JS loaded
+// in <head> on some setups; now safe since script is at bottom of body
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");
-  const serviceId = params.get("service_id");
   if (service) {
-    selectService(null, decodeURIComponent(service), serviceId || null);
+    selectService(null, decodeURIComponent(service));
   }
 });

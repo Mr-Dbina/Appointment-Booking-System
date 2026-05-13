@@ -20,7 +20,6 @@ if (!$serviceId || !$slotId || !$authToken) {
     exit;
 }
 
-// ── Step 1: Verify auth token and get user ─────────────────────────────────
 $ch = curl_init(SUPABASE_URL . '/auth/v1/user');
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
@@ -42,7 +41,6 @@ if ($userStatus !== 200 || empty($userBody['id'])) {
 $patientId    = $userBody['id'];
 $patientEmail = $userBody['email'] ?? '—';
 
-// ── Step 2: Get patient name from patients table ───────────────────────────
 $patientResult = supabase_get('patients', '?id=eq.' . urlencode($patientId));
 
 if ($patientResult['status'] === 200 && !empty($patientResult['body'])) {
@@ -53,7 +51,6 @@ if ($patientResult['status'] === 200 && !empty($patientResult['body'])) {
     $patientName = '—';
 }
 
-// ── Step 3: Verify time slot is available ──────────────────────────────────
 $slotResult = supabase_get(
     'time_slots',
     '?id=eq.' . urlencode($slotId) . '&is_available=eq.true'
@@ -75,7 +72,6 @@ if ($slot['booked_count'] >= $slot['max_patients']) {
 
 $doctorId = $slot['doctor_id'];
 
-// ── Step 4: Check for duplicate booking ────────────────────────────────────
 $dupResult = supabase_get(
     'appointments',
     '?patient_id=eq.' . urlencode($patientId)
@@ -89,7 +85,6 @@ if (!empty($dupResult['body'])) {
     exit;
 }
 
-// ── Step 5: Get service details (name + price) ─────────────────────────────
 $serviceResult = supabase_get('services', '?id=eq.' . urlencode($serviceId));
 
 if ($serviceResult['status'] !== 200 || empty($serviceResult['body'])) {
@@ -102,7 +97,6 @@ $service      = $serviceResult['body'][0];
 $price        = $service['price'];
 $serviceName  = $service['name'];
 
-// ── Step 6: Get doctor details (name) ──────────────────────────────────────
 $doctorResult = supabase_get('doctors', '?id=eq.' . urlencode($doctorId));
 
 if ($doctorResult['status'] !== 200 || empty($doctorResult['body'])) {
@@ -112,8 +106,6 @@ if ($doctorResult['status'] !== 200 || empty($doctorResult['body'])) {
 }
 
 $doctorName = $doctorResult['body'][0]['name'];
-
-// ── Step 7: Insert appointment ─────────────────────────────────────────────
 $apptResult = supabase_post('appointments', [
     'patient_id'   => $patientId,
     'doctor_id'    => $doctorId,
@@ -132,7 +124,6 @@ $appointment   = $apptResult['body'][0];
 $appointmentId = $appointment['id'];
 $appointmentNo = $appointment['appointment_no'];
 
-// ── Step 8: Insert payment record ──────────────────────────────────────────
 $payResult = supabase_post('payments', [
     'appointment_id' => $appointmentId,
     'amount'         => $price,
@@ -140,7 +131,6 @@ $payResult = supabase_post('payments', [
 ]);
 
 if ($payResult['status'] !== 201 || empty($payResult['body'])) {
-    // Rollback: cancel the appointment
     supabase_patch(
         'appointments',
         '?id=eq.' . urlencode($appointmentId),
@@ -153,7 +143,6 @@ if ($payResult['status'] !== 201 || empty($payResult['body'])) {
 
 $paymentRef = $payResult['body'][0]['payment_ref'];
 
-// ── Step 9: Return full success response ───────────────────────────────────
 echo json_encode([
     'success'        => true,
     'appointment_no' => $appointmentNo,

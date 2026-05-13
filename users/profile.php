@@ -36,7 +36,8 @@ require_once __DIR__ . '/../config.php';
       <div class="sidebar-divider"></div>
 
       <div class="sidebar-actions">
-        <button class="btn-primary">
+        <!-- FIX #2: Added unique id="editProfileBtn" -->
+        <button class="btn-primary" id="editProfileBtn">
           <i class="fa-solid fa-pen-to-square"></i> Edit Profile
         </button>
       </div>
@@ -100,7 +101,7 @@ require_once __DIR__ . '/../config.php';
           <input type="text" id="fieldAddress">
         </div>
       </div>
-      <button class="save-btn">Save Changes</button>
+      <button class="save-btn" id="profileSaveBtn">Save Changes</button>
     </div>
 
     <!-- APPOINTMENT PANE -->
@@ -154,7 +155,8 @@ require_once __DIR__ . '/../config.php';
             <i class="fa-solid fa-eye toggle-eye" data-target="con-pw"></i>
           </div>
         </div>
-        <button class="save-btn">Update Password</button>
+        <!-- FIX #4: Added unique id="pwSaveBtn" -->
+        <button class="save-btn" id="pwSaveBtn">Update Password</button>
       </div>
     </div>
 
@@ -167,6 +169,10 @@ require_once __DIR__ . '/../config.php';
   <span id="toast-msg"></span>
 </div>
 
+<!-- FIX #1: Set BASE_URL from PHP before loading profile.js -->
+<script>
+  var BASE_URL = "<?= BASE_URL ?>";
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="<?= BASE_URL ?>/public/js/profile.js"></script>
 <?php include __DIR__ . '/../shared/footer.php'; ?>
