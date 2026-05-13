@@ -522,3 +522,12 @@ body {
     padding: 24px 20px;
   }
 }
+#profile-tab .form-field input.editing {
+  border-color: #f472b6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.12);
+  cursor: text;
+}
+#profile-tab .save-btn {
+  display: none;
+}

@@ -68,3 +68,4 @@ $base = "http://localhost/appointment_booking_system";
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="<?= $base ?>/public/js/lock.js"></script>
 <script src="<?= $base ?>/public/js/login.js"></script>
+
