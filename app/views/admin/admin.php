@@ -1,21 +1,40 @@
 <?php
 $base = "http://localhost/appointment_booking_system";
+require_once __DIR__ . '/../../helpers/supabase.php';
 
-$stats = [
-    'total_appointments' => 128,
-    'pending'            => 14,
-    'confirmed'          => 89,
-    'cancelled'          => 25,
-];
+// ── Live stats ────────────────────────────────────────────────────────────
+$allRes = supabase_get('appointments', '?select=status');
+$stats  = ['total_appointments' => 0, 'pending' => 0, 'confirmed' => 0, 'cancelled' => 0, 'completed' => 0];
+if ($allRes['status'] === 200 && is_array($allRes['body'])) {
+    foreach ($allRes['body'] as $a) {
+        $stats['total_appointments']++;
+        $s = $a['status'] ?? 'pending';
+        if (isset($stats[$s])) $stats[$s]++;
+    }
+}
 
-$appointments = [
-    ['id' => 1, 'patient' => 'Maria Santos',    'service' => 'OB-GYN',          'doctor' => 'Dr. Reyes',   'date' => '2025-05-06', 'time' => '09:00 AM', 'status' => 'confirmed'],
-    ['id' => 2, 'patient' => 'Juan dela Cruz',  'service' => 'General Medicine', 'doctor' => 'Dr. Lim',    'date' => '2025-05-06', 'time' => '10:30 AM', 'status' => 'pending'],
-    ['id' => 3, 'patient' => 'Ana Reyes',       'service' => 'Dermatology',      'doctor' => 'Dr. Cruz',   'date' => '2025-05-07', 'time' => '02:00 PM', 'status' => 'pending'],
-    ['id' => 4, 'patient' => 'Carlos Bautista', 'service' => 'Pediatrics',       'doctor' => 'Dr. Garcia', 'date' => '2025-05-07', 'time' => '11:00 AM', 'status' => 'confirmed'],
-    ['id' => 5, 'patient' => 'Rosa Mendoza',    'service' => 'OB-GYN',          'doctor' => 'Dr. Reyes',   'date' => '2025-05-08', 'time' => '03:30 PM', 'status' => 'cancelled'],
-    ['id' => 6, 'patient' => 'Pedro Torres',    'service' => 'General Medicine', 'doctor' => 'Dr. Lim',    'date' => '2025-05-08', 'time' => '08:00 AM', 'status' => 'confirmed'],
-];
+// ── Recent appointments (last 10) ─────────────────────────────────────────
+$filter = '?select=id,appointment_no,status,created_at,'
+        . 'patient:patient_id(id,email,raw_user_meta_data),'
+        . 'doctor:doctor_id(id,name),'
+        . 'service:service_id(id,name),'
+        . 'time_slot:time_slot_id(slot_date,start_time,end_time)'
+        . '&order=created_at.desc&limit=10';
+$apptRes      = supabase_get('appointments', $filter);
+$appointments = ($apptRes['status'] === 200 && is_array($apptRes['body'])) ? $apptRes['body'] : [];
+
+// ── Patient & Doctor counts ───────────────────────────────────────────────
+$pRes   = supabase_get('profiles', '?select=id');
+$dRes   = supabase_get('doctors',  '?select=id');
+$pCount = ($pRes['status'] === 200 && is_array($pRes['body'])) ? count($pRes['body']) : '—';
+$dCount = ($dRes['status'] === 200 && is_array($dRes['body'])) ? count($dRes['body']) : '—';
+
+function patientName(array $appt): string {
+    $meta = $appt['patient']['raw_user_meta_data'] ?? [];
+    if (!empty($meta['full_name']))  return $meta['full_name'];
+    if (!empty($meta['first_name'])) return trim(($meta['first_name'] ?? '') . ' ' . ($meta['last_name'] ?? ''));
+    return $appt['patient']['email'] ?? 'Unknown';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -268,19 +287,27 @@ $appointments = [
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon total"><i class="fa-solid fa-calendar-days"></i></div>
-                <div class="stat-info"><p>Total Appointments</p><h2><?php echo $stats['total_appointments']; ?></h2></div>
+                <div class="stat-info"><p>Total Appointments</p><h2><?= $stats['total_appointments'] ?></h2></div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon pending"><i class="fa-solid fa-clock"></i></div>
-                <div class="stat-info"><p>Pending</p><h2><?php echo $stats['pending']; ?></h2></div>
+                <div class="stat-info"><p>Pending</p><h2><?= $stats['pending'] ?></h2></div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon confirmed"><i class="fa-solid fa-circle-check"></i></div>
-                <div class="stat-info"><p>Confirmed</p><h2><?php echo $stats['confirmed']; ?></h2></div>
+                <div class="stat-info"><p>Confirmed</p><h2><?= $stats['confirmed'] ?></h2></div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon cancelled"><i class="fa-solid fa-circle-xmark"></i></div>
-                <div class="stat-info"><p>Cancelled</p><h2><?php echo $stats['cancelled']; ?></h2></div>
+                <div class="stat-info"><p>Cancelled</p><h2><?= $stats['cancelled'] ?></h2></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue" style="background:#dbeafe;color:#1e40af;"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-info"><p>Patients</p><h2><?= $pCount ?></h2></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#ede9fe;color:#6d28d9;"><i class="fa-solid fa-user-doctor"></i></div>
+                <div class="stat-info"><p>Doctors</p><h2><?= $dCount ?></h2></div>
             </div>
         </div>
 
@@ -288,6 +315,7 @@ $appointments = [
         <div class="section-card">
             <div class="section-header">
                 <h2>Recent Appointments</h2>
+                <a href="appointments.php" style="font-size:.85rem;color:var(--pink);text-decoration:none;">View all &rarr;</a>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="searchInput" placeholder="Search patient...">
@@ -298,31 +326,45 @@ $appointments = [
                 <table id="apptTable">
                     <thead>
                         <tr>
-                            <th>#</th><th>Patient</th><th>Service</th><th>Doctor</th>
+                            <th>Appt #</th><th>Patient</th><th>Service</th><th>Doctor</th>
                             <th>Date</th><th>Time</th><th>Status</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($appointments as $appt): ?>
-                        <tr>
-                            <td><?php echo $appt['id']; ?></td>
-                            <td><?php echo htmlspecialchars($appt['patient']); ?></td>
-                            <td><?php echo htmlspecialchars($appt['service']); ?></td>
-                            <td><?php echo htmlspecialchars($appt['doctor']); ?></td>
-                            <td><?php echo $appt['date']; ?></td>
-                            <td><?php echo $appt['time']; ?></td>
-                            <td><span class="badge <?php echo $appt['status']; ?>"><?php echo ucfirst($appt['status']); ?></span></td>
+                        <?php if (empty($appointments)): ?>
+                        <tr><td colspan="8" style="text-align:center;padding:30px;color:#888;">No appointments yet.</td></tr>
+                    <?php else: ?>
+                    <?php foreach ($appointments as $appt):
+                        $slot   = $appt['time_slot'] ?? [];
+                        $doctor = $appt['doctor']    ?? [];
+                        $svc    = $appt['service']   ?? [];
+                        $status = $appt['status']    ?? 'pending';
+                        $date   = $slot['slot_date']  ?? '—';
+                        $start  = isset($slot['start_time']) ? substr($slot['start_time'], 0, 5) : '—';
+                        $end    = isset($slot['end_time'])   ? substr($slot['end_time'],   0, 5) : '';
+                        $time   = $end ? "$start – $end" : $start;
+                    ?>
+                                                <tr>
+                            <td><?= htmlspecialchars($appt['appointment_no'] ?? strtoupper(substr($appt['id'],0,8))) ?></td>
+                            <td><?= htmlspecialchars(patientName($appt)) ?></td>
+                            <td><?= htmlspecialchars($svc['name']    ?? '—') ?></td>
+                            <td><?= htmlspecialchars($doctor['name'] ?? '—') ?></td>
+                            <td><?= htmlspecialchars($date) ?></td>
+                            <td><?= htmlspecialchars($time) ?></td>
+                            <td><span class="badge <?= $status ?>"><?= ucfirst($status) ?></span></td>
                             <td>
                                 <div class="action-btns">
-                                    <button class="btn-sm btn-view"><i class="fa-solid fa-eye"></i></button>
-                                    <?php if ($appt['status'] === 'pending'): ?>
-                                        <button class="btn-sm btn-confirm">Confirm</button>
-                                        <button class="btn-sm btn-cancel">Cancel</button>
+                                    <?php if ($status === 'pending'): ?>
+                                        <a href="appointments.php" class="btn-sm btn-confirm">Confirm</a>
+                                        <a href="appointments.php" class="btn-sm btn-cancel">Cancel</a>
+                                    <?php else: ?>
+                                        <a href="appointments.php" class="btn-sm btn-view"><i class="fa-solid fa-eye"></i></a>
                                     <?php endif; ?>
                                 </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>
+                    <?php endif; ?>
                     </tbody>
                 </table>
             </div>
