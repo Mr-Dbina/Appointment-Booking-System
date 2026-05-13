@@ -15,28 +15,28 @@ $base = "http://localhost/appointment_booking_system";
       </div>
     </div>
     <div class="sidebar-body">
-      <p class="sidebar-name">Christian Nickhos A. Divina</p>
+      <p class="sidebar-name" id="sidebarName">Loading…</p>
       <div class="sidebar-divider"></div>
 
       <div class="sidebar-contact">
         <div class="contact-row">
           <i class="fa-solid fa-envelope"></i>
-          <span>christiandivina2316@gmail.com</span>
+          <span id="sidebarEmail">—</span>
         </div>
         <div class="contact-row">
           <i class="fa-solid fa-location-dot"></i>
-          <span>Legazpi City, Albay</span>
+          <span id="sidebarAddress">—</span>
         </div>
         <div class="contact-row">
           <i class="fa-solid fa-phone"></i>
-          <span>09455566097</span>
+          <span id="sidebarPhone">—</span>
         </div>
       </div>
 
       <div class="sidebar-divider"></div>
 
       <div class="sidebar-actions">
-        <button class="btn-primary" onclick="switchTab('profile-tab')">
+        <button class="btn-primary">
           <i class="fa-solid fa-pen-to-square"></i> Edit Profile
         </button>
       </div>
@@ -73,36 +73,34 @@ $base = "http://localhost/appointment_booking_system";
       <div class="form-grid">
         <div class="form-field">
           <label>First Name</label>
-          <input type="text" value="Christian Nickhos" readonly>
+          <input type="text" id="fieldFirstName" readonly>
         </div>
         <div class="form-field">
           <label>Last Name</label>
-          <input type="text" value="Divina" readonly>
+          <input type="text" id="fieldLastName" readonly>
         </div>
         <div class="form-field">
           <label>Email Address</label>
-          <input type="email" value="christiandivina2316@gmail.com" readonly>
+          <input type="email" id="fieldEmail" readonly>
         </div>
         <div class="form-field">
           <label>Phone <span class="editable-tag">Editable</span></label>
-          <input type="text" value="09455566097">
+          <input type="text" id="fieldPhone">
         </div>
         <div class="form-field">
           <label>Date of Birth</label>
-          <input type="date" value="" readonly>
+          <input type="date" id="fieldDob" readonly>
         </div>
         <div class="form-field">
           <label>Sex</label>
-          <input type="text" value="Male" readonly>
+          <input type="text" id="fieldSex" readonly>
         </div>
         <div class="form-field">
           <label>Address <span class="editable-tag">Editable</span></label>
-          <input type="text" value="Legazpi City, Albay">
+          <input type="text" id="fieldAddress">
         </div>
       </div>
-      <button class="save-btn" onclick="showToast('Profile saved successfully!')">
-        Save Changes
-      </button>
+      <button class="save-btn">Save Changes</button>
     </div>
 
     <!-- APPOINTMENT PANE -->
@@ -113,7 +111,7 @@ $base = "http://localhost/appointment_booking_system";
         <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
         <h3>No appointments yet</h3>
         <p>You haven't booked any appointments yet. When you do, they'll appear here.</p>
-        <button class="btn-primary" onclick="window.location.href='http://localhost/appointment_booking_system/app/views/users/appointment.php'">
+        <button class="btn-primary" onclick="window.location.href='<?= $base ?>/app/views/users/appointment.php'">
           Book an Appointment
         </button>
       </div>
@@ -156,9 +154,7 @@ $base = "http://localhost/appointment_booking_system";
             <i class="fa-solid fa-eye toggle-eye" data-target="con-pw"></i>
           </div>
         </div>
-        <button class="save-btn" onclick="showToast('Password updated!')">
-          Update Password
-        </button>
+        <button class="save-btn">Update Password</button>
       </div>
     </div>
 
@@ -171,6 +167,6 @@ $base = "http://localhost/appointment_booking_system";
   <span id="toast-msg"></span>
 </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="<?= $base ?>/public/js/profile.js"></script>
 <?php include __DIR__ . '/../shared/footer.php'; ?>

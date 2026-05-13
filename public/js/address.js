@@ -1,77 +1,70 @@
-// address.js — Cascading address dropdowns (Region › Province › City › Barangay)
+// address.js — matches register.php pill/dropdown structure
 
 (function () {
   const PSGC = "https://psgc.gitlab.io/api";
 
-  // ── State ─────────────────────────────────────────────────
+  let step = 0;
   let selected = { region: null, province: null, city: null, barangay: null };
   let allItems = [];
-  let activeStep = null; // 'region' | 'province' | 'city' | 'barangay'
+  let isOpen = false;
 
   const STEPS = ["region", "province", "city", "barangay"];
-  const STEP_LABELS = {
-    region: "Region",
-    province: "Province",
-    city: "City / Municipality",
-    barangay: "Barangay",
-  };
+  const LABELS = ["Region", "Province", "City / Municipality", "Barangay"];
+  const ICONS = ["earth-asia", "map", "city", "house"];
 
-  // ── DOM ───────────────────────────────────────────────────
+  // ── DOM refs — match your register.php exactly ──────────
   const wrapper = document.getElementById("addressWrapper");
   const pill = document.getElementById("addressPill");
   const pillText = document.getElementById("addressPillText");
   const dropdown = document.getElementById("addressDropdown");
-  const searchBox = document.getElementById("addressSearch");
-  const listEl = document.getElementById("addressList");
+  const searchInput = document.getElementById("addressSearch");
+  const list = document.getElementById("addressList");
+  const hidden = {
+    region: document.getElementById("hiddenRegion"),
+    province: document.getElementById("hiddenProvince"),
+    city: document.getElementById("hiddenCity"),
+    barangay: document.getElementById("hiddenBarangay"),
+  };
 
-  // ── Init ──────────────────────────────────────────────────
-  updatePillText();
+  // ── Init ─────────────────────────────────────────────────
+  loadStep(0);
 
-  // ── Pill click → open current step ───────────────────────
-  pill.addEventListener("click", () => {
-    const step = getActiveStep();
-    openStep(step);
-  });
-
-  function getActiveStep() {
-    if (!selected.region) return "region";
-    if (!selected.province) return "province";
-    if (!selected.city) return "city";
-    if (!selected.barangay) return "barangay";
-    return "region"; // all done, clicking reopens region to change
+  async function fetchJSON(url) {
+    const res = await fetch(url);
+    return res.json();
   }
 
-  // ── Open a step ───────────────────────────────────────────
-  async function openStep(step) {
-    activeStep = step;
-    searchBox.value = "";
-    searchBox.placeholder = `Search ${STEP_LABELS[step].toLowerCase()}…`;
-    listEl.innerHTML = `<div class="addr-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading…</div>`;
-    showDropdown();
+  async function loadStep(s) {
+    step = s;
+    allItems = [];
+    searchInput.value = "";
+    searchInput.placeholder = `Search ${LABELS[s].toLowerCase()}…`;
+    showLoading();
 
     try {
       let data = [];
 
-      if (step === "region") {
+      if (s === 0) {
         data = await fetchJSON(`${PSGC}/regions/`);
-      } else if (step === "province") {
+      } else if (s === 1) {
         const provinces = await fetchJSON(
           `${PSGC}/regions/${selected.region.code}/provinces/`,
         );
         if (provinces.length > 0) {
           data = provinces;
         } else {
-          // NCR — skip province, go to city
+          // NCR: no provinces — skip to cities
           selected.province = { code: selected.region.code, name: null };
-          await openStep("city");
+          hidden.province.value = "";
+          await loadStep(2);
           return;
         }
-      } else if (step === "city") {
+      } else if (s === 2) {
         const base = selected.province?.name
           ? `${PSGC}/provinces/${selected.province.code}/cities-municipalities/`
           : `${PSGC}/regions/${selected.region.code}/cities-municipalities/`;
         data = await fetchJSON(base);
-      } else if (step === "barangay") {
+      } else if (s === 3) {
         data = await fetchJSON(
           `${PSGC}/cities-municipalities/${selected.city.code}/barangays/`,
         );
@@ -80,16 +73,27 @@
       allItems = data.sort((a, b) => a.name.localeCompare(b.name));
       renderList(allItems);
     } catch (e) {
-      listEl.innerHTML = `<div class="addr-no-result"><i class="fa-solid fa-circle-exclamation"></i> Failed to load. Try again.</div>`;
+      console.error("PSGC error", e);
+      list.innerHTML = `<div class="addr-no-result">
+        <i class="fa-solid fa-circle-exclamation"></i> Failed to load. Try again.
+      </div>`;
     }
   }
 
-  // ── Render list ───────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────────
   function renderList(items) {
-    listEl.innerHTML = "";
+    list.innerHTML = "";
+
+    const header = document.createElement("div");
+    header.className = "addr-step-header";
+    header.innerHTML = `<i class="fa-solid fa-${ICONS[step]}"></i> Select ${LABELS[step]}`;
+    list.appendChild(header);
 
     if (items.length === 0) {
-      listEl.innerHTML = `<div class="addr-no-result"><i class="fa-solid fa-circle-exclamation"></i> No results found</div>`;
+      const none = document.createElement("div");
+      none.className = "addr-no-result";
+      none.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> No results found`;
+      list.appendChild(none);
       return;
     }
 
@@ -101,34 +105,35 @@
         e.preventDefault();
         pickItem(item);
       });
-      listEl.appendChild(div);
+      list.appendChild(div);
     });
   }
 
-  // ── Pick item ─────────────────────────────────────────────
+  function showLoading() {
+    list.innerHTML = `<div class="addr-loading">
+      <i class="fa-solid fa-spinner fa-spin"></i> Loading ${LABELS[step].toLowerCase()}…
+    </div>`;
+  }
+
+  // ── Pick item ────────────────────────────────────────────
   async function pickItem(item) {
-    selected[activeStep] = item;
-
-    // Reset downstream
-    const idx = STEPS.indexOf(activeStep);
-    for (let i = idx + 1; i < STEPS.length; i++) {
-      selected[STEPS[i]] = null;
-    }
-
+    selected[STEPS[step]] = item;
+    hidden[STEPS[step]].value = item.name;
+    searchInput.value = "";
     updatePillText();
 
-    // Advance to next step
-    const next = STEPS[idx + 1];
-    if (next) {
-      await openStep(next);
+    if (step < 3) {
+      await loadStep(step + 1);
     } else {
-      hideDropdown();
+      // All 4 levels selected — close dropdown
+      closeDropdown();
     }
   }
 
-  // ── Update pill text ──────────────────────────────────────
+  // ── Pill label ───────────────────────────────────────────
   function updatePillText() {
     const parts = STEPS.map((k) => selected[k]?.name).filter(Boolean);
+
     if (parts.length === 0) {
       pillText.textContent = "Region / Province / City / Barangay";
       pillText.classList.add("placeholder");
@@ -138,38 +143,39 @@
     }
   }
 
-  // ── Search filter ─────────────────────────────────────────
-  searchBox.addEventListener("input", () => {
-    const q = searchBox.value.toLowerCase().trim();
-    renderList(
-      q ? allItems.filter((i) => i.name.toLowerCase().includes(q)) : allItems,
-    );
+  // ── Open / close ─────────────────────────────────────────
+  pill.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isOpen ? closeDropdown() : openDropdown();
   });
 
-  // ── Show / hide dropdown ──────────────────────────────────
-  function showDropdown() {
+  function openDropdown() {
     dropdown.classList.add("open");
-    pill.classList.add("active");
-    setTimeout(() => searchBox.focus(), 50);
+    wrapper.classList.add("focused");
+    isOpen = true;
+    searchInput.focus();
   }
 
-  function hideDropdown() {
+  function closeDropdown() {
     dropdown.classList.remove("open");
-    pill.classList.remove("active");
-    activeStep = null;
+    wrapper.classList.remove("focused");
+    isOpen = false;
   }
 
   document.addEventListener("click", (e) => {
-    if (!wrapper.contains(e.target)) hideDropdown();
+    if (!wrapper.contains(e.target)) closeDropdown();
   });
 
-  searchBox.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") hideDropdown();
+  // ── Search filter ────────────────────────────────────────
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    const hits = q
+      ? allItems.filter((i) => i.name.toLowerCase().includes(q))
+      : allItems;
+    renderList(hits);
   });
 
-  // ── Fetch helper ──────────────────────────────────────────
-  async function fetchJSON(url) {
-    const res = await fetch(url);
-    return res.json();
-  }
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDropdown();
+  });
 })();
