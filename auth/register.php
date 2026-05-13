@@ -133,7 +133,7 @@ $base = "http://localhost/appointment_booking_system";
 
           <p class="signin">
             Already have account?
-            <a href="<?= $base ?>/app/views/auth/login.php">Sign in here</a>
+            <a href="<?= $base ?>/auth/login.php">Sign in here</a>
           </p>
         </div>
       </div>

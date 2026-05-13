@@ -87,7 +87,7 @@ registerBtn.addEventListener("click", async () => {
   }
 
   // ── Step 3: Send welcome/verification email via PHP ───
-  fetch("/appointment_booking_system/app/api/register_api.php", {
+  fetch("http://localhost/appointment_booking_system/api/register_api.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, firstName }),
@@ -98,6 +98,6 @@ registerBtn.addEventListener("click", async () => {
   showMsg("✅ Account created! Redirecting to login…", "success");
   setTimeout(() => {
     window.location.href =
-      "http://localhost/appointment_booking_system/app/views/auth/login.php";
+      "http://localhost/appointment_booking_system/auth/login.php";
   }, 2000);
 });

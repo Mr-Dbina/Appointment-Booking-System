@@ -2,7 +2,7 @@
 $base  = "http://localhost/appointment_booking_system";
 $email = htmlspecialchars($_GET['email'] ?? '');
 if (!$email) {
-    header("Location: $base/app/views/auth/forgot.php");
+    header("Location: $base/auth/forgot.php");
     exit;
 }
 ?>
@@ -92,7 +92,7 @@ if (!$email) {
 
       <p class="register">
         Back to
-        <a href="<?= $base ?>/app/views/auth/login.php">Sign in</a>
+        <a href="<?= $base ?>/auth/login.php">Sign in</a>
       </p>
 
     </div>
@@ -194,7 +194,7 @@ resetBtn.addEventListener('click', async () => {
 
   setLoading(true);
 
-  const res  = await fetch(`${base}/app/api/reset_password_api.php`, {
+  const res  = await fetch(`${base}/api/reset_password_api.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ password: pwd }),
@@ -207,7 +207,7 @@ resetBtn.addEventListener('click', async () => {
 
   showMsg('✅ Password reset! Redirecting to login…', 'success');
   setTimeout(() => {
-    window.location.href = `${base}/app/views/auth/login.php`;
+    window.location.href = `${base}/auth/login.php`;
   }, 2000);
 });
 </script>

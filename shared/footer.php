@@ -26,19 +26,19 @@ $base = "http://localhost/appointment_booking_system";
           <ul>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/service.php"
+                href="<?php echo $base; ?>/users/service.php"
                 >Services</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/aboutus.php"
+                href="<?php echo $base; ?>/users/aboutus.php"
                 >About Us</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/appointment.php"
+                href="<?php echo $base; ?>/users/appointment.php"
                 >Appointment</a
               >
             </li>
@@ -50,25 +50,25 @@ $base = "http://localhost/appointment_booking_system";
           <ul>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/ob_service.php"
+                href="<?php echo $base; ?>/users/ob_service.php"
                 >OB-GYN</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/gen_service.php"
+                href="<?php echo $base; ?>/users/gen_service.php"
                 >General Medicine</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/ped_service.php"
+                href="<?php echo $base; ?>/users/pedia_service.php"
                 >Pediatrics</a
               >
             </li>
             <li>
               <a
-                href="<?php echo $base; ?>/app/views/users/derma_service.php"
+                href="<?php echo $base; ?>/users/derma_service.php"
                 >Dermatology</a
               >
             </li>
@@ -77,24 +77,24 @@ $base = "http://localhost/appointment_booking_system";
         <div class="footer-col">
           <h4>Help</h4>
           <ul>
-            <li><a href="<?php echo $base; ?>/app/views/users/help.php#no-show-policy">No Show Policy</a></li>
-            <li><a href="<?php echo $base; ?>/app/views/users/help.php#data-privacy">Data Privacy</a></li>
-            <li><a href="<?php echo $base; ?>/app/views/users/help.php#faqs">FAQs</a></li>
+            <li><a href="<?php echo $base; ?>/users/help.php#no-show-policy">No Show Policy</a></li>
+            <li><a href="<?php echo $base; ?>/users/help.php#data-privacy">Data Privacy</a></li>
+            <li><a href="<?php echo $base; ?>/users/help.php#faqs">FAQs</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Follow Us</h4>
           <div class="social-links">
-            <a href="<?php echo $base; ?>/app/views/users/facebook.php" class="social-icon"
+            <a href="#" class="social-icon"
               ><i class="fa-brands fa-facebook-f"></i
             ></a>
-            <a href="<?php echo $base; ?>/app/views/users/instagram.php" class="social-icon"
+            <a href="#" class="social-icon"
               ><i class="fa-brands fa-instagram"></i
             ></a>
-            <a href="<?php echo $base; ?>/app/views/users/twitter.php" class="social-icon"
+            <a href="#" class="social-icon"
               ><i class="fa-brands fa-x-twitter"></i
             ></a>
-            <a href="<?php echo $base; ?>/app/views/users/linkedin.php" class="social-icon"
+            <a href="#" class="social-icon"
               ><i class="fa-brands fa-linkedin-in"></i
             ></a>
           </div>

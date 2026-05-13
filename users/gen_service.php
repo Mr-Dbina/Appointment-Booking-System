@@ -4,7 +4,7 @@ $base = "http://localhost/appointment_booking_system";
 <link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css" />
 <?php include __DIR__ . '/../shared/head.php'; ?>
 <?php include __DIR__ . '/../shared/nav.php'; ?>
-<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
+<a class="back-btn" href="<?= $base ?>/users/service.php">⮜ Back</a>
 <section class="hero" style="background: url('<?= $base ?>/public/images/gm_service.png') center/cover no-repeat;">
   <div class="hero-content">
     <h1>General Medicine</h1>
@@ -27,7 +27,7 @@ $base = "http://localhost/appointment_booking_system";
             <div class="card-overlay">
               <h3>General Check-up</h3>
               <p>Routine health assessments and medical consultations to help monitor and maintain your overall well-being.</p>              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=General+Check-up" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=General+Check-up" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">General Check-up</div>
@@ -40,7 +40,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Vaccination / Immunization</h3>
               <p>Up-to-date vaccination and immunization services to protect you and your family from preventable diseases.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Vaccination+%2F+Immunization" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Vaccination+%2F+Immunization" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Vaccination / Immunization</div>
@@ -53,7 +53,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Fever / Flu Consultation</h3>
               <p>Professional consultation for fever and flu symptoms to ensure proper diagnosis and treatment.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Fever+%2F+Flu+Consultation" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Fever+%2F+Flu+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Fever / Flu Consultation</div>
@@ -66,7 +66,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Blood Pressure Monitoring</h3>
               <p>Regular monitoring of blood pressure to assess cardiovascular health and manage hypertension.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Blood+Pressure+Monitoring" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Blood+Pressure+Monitoring" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Blood Pressure Monitoring</div>
@@ -79,7 +79,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Diabetes Screening</h3>
               <p>Comprehensive diabetes screening to detect and manage blood sugar levels effectively.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Diabetes+Screening" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Diabetes+Screening" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Diabetes Screening</div>
@@ -92,7 +92,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Medical Certificate</h3>
               <p>Issuance of medical certificates for various purposes, including sick leave, academic requirements, and legal documentation.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Medical+Certificate" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Medical+Certificate" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Medical Certificate</div>
@@ -105,7 +105,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Follow-up Consultation</h3>
               <p>Follow-up consultations for ongoing health management and treatment adjustments.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Follow-up+Consultation" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Follow-up+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Follow-up Consultation</div>

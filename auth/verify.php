@@ -47,6 +47,6 @@ $icon = match($status) { 'success' => '✅', 'done' => '👍', default => '❌' 
   <div style="font-size:2.5rem;"><?= $icon ?></div>
   <h2><?= $status === 'success' ? 'Email Verified!' : ($status === 'done' ? 'Already Verified' : 'Verification Failed') ?></h2>
   <p><?= htmlspecialchars($message) ?></p>
-  <a href="<?= $base ?>/app/views/auth/login.php">Go to Login</a>
+  <a href="<?= $base ?>/auth/login.php">Go to Login</a>
 </div>
 </body></html>

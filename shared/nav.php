@@ -4,15 +4,15 @@ $base = "http://localhost/appointment_booking_system";
 ?>
   <link rel="stylesheet" href="<?= $base ?>/public/css/nav.css"/>
 <nav>
-  <a href="<?= $base ?>/app/views/users/main.php" class="nav-logo">
+  <a href="<?= $base ?>/users/main.php" class="nav-logo">
     <img src="<?= $base ?>/public/images/logo.png" />
     <span>Happy Care Clinic</span>
   </a>
 
   <ul class="nav-links">
-    <li><a href="<?= $base ?>/app/views/users/service.php">Services</a></li>
-    <li><a href="<?= $base ?>/app/views/users/aboutus.php">About Us</a></li>
-    <li><a href="<?= $base ?>/app/views/users/appointment.php">Appointment</a></li>
+    <li><a href="<?= $base ?>/users/service.php">Services</a></li>
+    <li><a href="<?= $base ?>/users/aboutus.php">About Us</a></li>
+    <li><a href="<?= $base ?>/users/appointment.php">Appointment</a></li>
   </ul>
 
   <div class="nav-actions">
@@ -44,16 +44,11 @@ $base = "http://localhost/appointment_booking_system";
     <div class="nav-icon user-menu-toggle">
       <i class="fa-solid fa-user"></i>
       <div class="user-dropdown">
-        <a href="<?= $base ?>/app/views/users/profile.php" class="dropdown-item">
+        <a href="<?= $base ?>/users/profile.php" class="dropdown-item">
           <i class="fa-solid fa-user"></i> Profile
         </a>
-        <a href="<?= $base ?>/app/views/users/appointment_history.php" class="dropdown-item">
-          <i class="fa-solid fa-file-medical"></i> Appointment History
-        </a>
-        <a href="<?= $base ?>/app/views/users/payment_history.php" class="dropdown-item">
-          <i class="fa-solid fa-credit-card"></i> Payment History
-        </a>
-        <a href="<?= $base ?>/app/views/auth/logout.php" class="dropdown-item signout">
+        <!-- appointment_history.php and payment_history.php not yet implemented -->
+        <a href="<?= $base ?>/auth/logout.php" class="dropdown-item signout">
           <i class="fa-solid fa-right-from-bracket"></i> Sign out
         </a>
       </div>

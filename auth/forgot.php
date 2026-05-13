@@ -54,7 +54,7 @@ $base = "http://localhost/appointment_booking_system";
   <div class="left">
     <div class="card">
 
-      <a href="<?= $base ?>/app/views/auth/login.php" class="back-link">
+      <a href="<?= $base ?>/auth/login.php" class="back-link">
         <i class="fa-solid fa-arrow-left"></i> Back to Login
       </a>
 
@@ -86,7 +86,7 @@ $base = "http://localhost/appointment_booking_system";
 
       <p class="register">
         Remembered it?
-        <a href="<?= $base ?>/app/views/auth/login.php">Sign in</a>
+        <a href="<?= $base ?>/auth/login.php">Sign in</a>
       </p>
 
     </div>
@@ -143,7 +143,7 @@ sendBtn.addEventListener('click', async () => {
 
   setLoading(true);
 
-  const res  = await fetch(`${base}/app/api/send_otp_api.php`, {
+  const res  = await fetch(`${base}/api/send_otp_api.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ email }),
@@ -162,7 +162,7 @@ sendBtn.addEventListener('click', async () => {
   // Redirect to OTP verification page, passing email as query param
   setTimeout(() => {
     window.location.href =
-      `${base}/app/views/auth/verify_otp.php?email=${encodeURIComponent(email)}`;
+      `${base}/auth/verify_otp.php?email=${encodeURIComponent(email)}`;
   }, 1600);
 });
 </script>

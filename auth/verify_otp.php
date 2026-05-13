@@ -2,7 +2,7 @@
 $base  = "http://localhost/appointment_booking_system";
 $email = htmlspecialchars($_GET['email'] ?? '');
 if (!$email) {
-    header("Location: $base/app/views/auth/forgot.php");
+    header("Location: $base/auth/forgot.php");
     exit;
 }
 ?>
@@ -76,7 +76,7 @@ if (!$email) {
   <div class="left">
     <div class="card">
 
-      <a href="<?= $base ?>/app/views/auth/forgot.php" class="back-link">
+      <a href="<?= $base ?>/auth/forgot.php" class="back-link">
         <i class="fa-solid fa-arrow-left"></i> Back
       </a>
 
@@ -200,7 +200,7 @@ const timer = setInterval(() => {
 
 async function resendOtp() {
   rsWrap.textContent = 'Sending…';
-  const res  = await fetch(`${base}/app/api/send_otp_api.php`, {
+  const res  = await fetch(`${base}/api/send_otp_api.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -231,7 +231,7 @@ verifyBtn.addEventListener('click', async () => {
 
   setLoading(true);
 
-  const res  = await fetch(`${base}/app/api/verify_otp_api.php`, {
+  const res  = await fetch(`${base}/api/verify_otp_api.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ email, otp }),
@@ -247,7 +247,7 @@ verifyBtn.addEventListener('click', async () => {
 
   setTimeout(() => {
     window.location.href =
-      `${base}/app/views/auth/reset_password.php?email=${encodeURIComponent(email)}`;
+      `${base}/auth/reset_password.php?email=${encodeURIComponent(email)}`;
   }, 1400);
 });
 </script>

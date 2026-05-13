@@ -35,7 +35,7 @@ setcookie("sb-{$projectRef}-auth-token-code-verifier", "", [
   );
 
   db.auth.signOut().finally(() => {
-    window.location.replace("<?= $base ?>/app/views/auth/login.php");
+    window.location.replace("<?= $base ?>/auth/login.php");
   });
 </script>
 </body>

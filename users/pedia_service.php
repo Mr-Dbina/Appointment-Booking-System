@@ -4,7 +4,7 @@ $base = "http://localhost/appointment_booking_system";
 <link rel="stylesheet" href="<?= $base ?>/public/css/service_service.css"/>
 <?php include __DIR__ . '/../shared/head.php'; ?>
 <?php include __DIR__ . '/../shared/nav.php'; ?>
-<a class="back-btn" href="<?= $base ?>/app/views/users/service.php">⮜ Back</a>
+<a class="back-btn" href="<?= $base ?>/users/service.php">⮜ Back</a>
 <section class="hero" style="background: url('<?= $base ?>/public/images/pedia_service.png') center/cover no-repeat;">
   <div class="hero-content">
     <h1>Pediatrics</h1>
@@ -27,7 +27,7 @@ $base = "http://localhost/appointment_booking_system";
             <div class="card-overlay">
               <h3>Growth &amp; Development Monitoring</h3>
               <p>Regular check-ups to monitor a child’s growth, development, and overall health at every stage.</p>              <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Growth+%26+Development+Monitoring" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Growth+%26+Development+Monitoring" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Growth & Development Monitoring</div>
@@ -39,7 +39,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Nutrition Consultation</h3>
               <p>Personalized nutrition advice and guidance to support healthy growth and development.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Nutrition+Consultation" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Nutrition+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Nutrition Consultation</div>
@@ -51,7 +51,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Newborn Care</h3>
               <p>Comprehensive care and guidance for new parents to ensure the health and well-being of their newborns.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Newborn+Care" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Newborn+Care" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Newborn Care</div>
@@ -63,7 +63,7 @@ $base = "http://localhost/appointment_booking_system";
               <h3>Fever / Cough Consultation</h3>
               <p>Expert consultations for fever and cough symptoms in children.</p>
               <span class="card-price">₱500</span>
-              <a href="<?= $base ?>/app/views/users/appointment.php?service=Fever+%2F+Cough+Consultation" class="btn-learn">Book Appointment</a>
+              <a href="<?= $base ?>/users/appointment.php?service=Fever+%2F+Cough+Consultation" class="btn-learn">Book Appointment</a>
             </div>
           </div>
           <div class="card-label">Fever / Cough Consultation</div>

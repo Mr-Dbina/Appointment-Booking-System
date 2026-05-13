@@ -223,7 +223,7 @@ $appointments = [
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-        <a class="sidebar-brand" href="<?php echo $base; ?>/app/views/users/main.php">
+        <a class="sidebar-brand" href="<?php echo $base; ?>/users/main.php">
             <img src="<?php echo $base; ?>/public/images/logo.png" alt="Logo">
             <span>Happy Care<br>Clinic</span>
         </a>
@@ -245,7 +245,7 @@ $appointments = [
                 <strong>Admin</strong>
                 Logged in as Admin
             </div>
-            <a class="nav-item" href="<?php echo $base; ?>/app/views/auth/logout.php" style="margin-top:10px;">
+            <a class="nav-item" href="<?php echo $base; ?>/auth/logout.php" style="margin-top:10px;">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </a>
         </div>

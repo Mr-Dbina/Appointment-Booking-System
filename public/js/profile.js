@@ -138,7 +138,7 @@ async function loadProfile() {
 
   if (userError || !user) {
     window.location.href =
-      "http://localhost/appointment_booking_system/app/views/auth/login.php";
+      "http://localhost/appointment_booking_system/auth/login.php";
     return;
   }
 

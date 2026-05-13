@@ -37,7 +37,7 @@ supabase_patch(
 );
 
 $base      = 'http://localhost/appointment_booking_system';
-$verifyUrl = "$base/app/views/auth/verify.php?token=$token";
+$verifyUrl = "$base/auth/verify.php?token=$token";
 $name      = $firstName ?: 'Patient';
 
 // ── Build email body ──────────────────────────────────────────────────────────
