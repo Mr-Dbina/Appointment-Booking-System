@@ -163,8 +163,8 @@ require_once __DIR__ . '/../config.php';
       </div>
     </div>
 
-<script>var BASE_URL = "<?= BASE_URL ?>";</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>var BASE_URL = "<?= BASE_URL ?>";</script>
 <script src="<?= BASE_URL ?>/public/js/lock.js"></script>
 <script src="<?= BASE_URL ?>/public/js/dob.js"></script>
 <script src="<?= BASE_URL ?>/public/js/address.js"></script>
