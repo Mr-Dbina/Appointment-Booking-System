@@ -2,7 +2,7 @@
 $base = "http://localhost/appointment_booking_system";
 require_once __DIR__ . '/../../helpers/supabase.php';
 
-// Fetch appointments for visit stats
+
 $apptRes = supabase_get('appointments', '?select=patient_id,status,created_at&order=created_at.desc');
 $allAppts = ($apptRes['status'] === 200 && is_array($apptRes['body'])) ? $apptRes['body'] : [];
 
@@ -14,7 +14,7 @@ foreach ($allAppts as $a) {
     if (!$patientStats[$pid]['last_visit']) $patientStats[$pid]['last_visit'] = substr($a['created_at'], 0, 10);
 }
 
-// Try profiles table first
+
 $profileRes = supabase_get('profiles', '?select=id,full_name,email,phone,birthday,status&order=full_name.asc');
 
 if ($profileRes['status'] === 200 && is_array($profileRes['body']) && !empty($profileRes['body'])) {
@@ -32,7 +32,7 @@ if ($profileRes['status'] === 200 && is_array($profileRes['body']) && !empty($pr
         ];
     }, $profileRes['body']);
 } else {
-    // Fallback: derive patients from appointments
+    
     $seen = []; $patients = [];
     foreach ($allAppts as $a) {
         $pid = $a['patient_id'];
@@ -140,7 +140,7 @@ $totalInactive = count($patients) - $totalActive;
 $base = "http://localhost/appointment_booking_system";
 require_once __DIR__ . '/../../helpers/supabase.php';
 
-// Fetch appointments for visit stats
+
 $apptRes = supabase_get('appointments', '?select=patient_id,status,created_at&order=created_at.desc');
 $allAppts = ($apptRes['status'] === 200 && is_array($apptRes['body'])) ? $apptRes['body'] : [];
 
@@ -152,7 +152,7 @@ foreach ($allAppts as $a) {
     if (!$patientStats[$pid]['last_visit']) $patientStats[$pid]['last_visit'] = substr($a['created_at'], 0, 10);
 }
 
-// Try profiles table first
+
 $profileRes = supabase_get('profiles', '?select=id,full_name,email,phone,birthday,status&order=full_name.asc');
 
 if ($profileRes['status'] === 200 && is_array($profileRes['body']) && !empty($profileRes['body'])) {
@@ -170,7 +170,7 @@ if ($profileRes['status'] === 200 && is_array($profileRes['body']) && !empty($pr
         ];
     }, $profileRes['body']);
 } else {
-    // Fallback: derive patients from appointments
+    
     $seen = []; $patients = [];
     foreach ($allAppts as $a) {
         $pid = $a['patient_id'];

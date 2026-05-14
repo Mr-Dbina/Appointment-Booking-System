@@ -1,9 +1,9 @@
 <?php
-// ============================================================
-//  app/api/register_api.php
-//  Called by register.js after successful Supabase sign-up.
-//  Sends a branded welcome + email-verification email.
-// ============================================================
+
+
+
+
+
 
 header('Content-Type: application/json');
 
@@ -21,11 +21,11 @@ if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// ── Generate verification token ───────────────────────────────────────────────
+
 $token   = bin2hex(random_bytes(32));
 $expires = date('c', strtotime('+24 hours'));
 
-// Save token to patients table (match by email via Supabase)
+
 supabase_patch(
     'patients',
     '?email=eq.' . urlencode($email),
@@ -42,7 +42,7 @@ $baseUrl   = $protocol . '://' . $_SERVER['HTTP_HOST'] . $basePath;
 $verifyUrl = "$baseUrl/auth/verify.php?token=$token";
 $name      = $firstName ?: 'Patient';
 
-// ── Build email body ──────────────────────────────────────────────────────────
+
 $body = email_template(<<<HTML
   <h2 style="margin:0 0 8px;color:#1a1a2e;font-size:1.3rem;">
     Welcome, {$name}! 👋

@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action']) && $_POST[
 $serviceRes = supabase_get('services', '?select=*&order=name.asc');
 $services   = ($serviceRes['status'] === 200 && is_array($serviceRes['body'])) ? $serviceRes['body'] : [];
 
-// Count doctors per service
+
 $doctorCounts = [];
 $dcRes = supabase_get('doctors', '?select=id,specialty,status');
 if ($dcRes['status'] === 200 && is_array($dcRes['body'])) {

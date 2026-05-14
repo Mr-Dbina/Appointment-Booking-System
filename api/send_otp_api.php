@@ -1,10 +1,10 @@
 <?php
-// ============================================================
-//  app/api/send_otp_api.php
-//  POST { email }
-//  → Generates a 6-digit OTP, stores it in patients table,
-//    and sends it via PHPMailer.
-// ============================================================
+
+
+
+
+
+
 
 header('Content-Type: application/json');
 
@@ -20,11 +20,11 @@ if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// ── Check patient exists ──────────────────────────────────────────────────────
+
 $res = supabase_get('patients', '?email=eq.' . urlencode($email) . '&select=id,first_name');
 
 if (empty($res['body'])) {
-    // Generic message — don't reveal whether email is registered
+    
     echo json_encode(['ok' => true]);
     exit;
 }
@@ -32,11 +32,11 @@ if (empty($res['body'])) {
 $patient   = $res['body'][0];
 $firstName = $patient['first_name'] ?? 'Patient';
 
-// ── Generate OTP ──────────────────────────────────────────────────────────────
+
 $otp     = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 $expires = date('c', strtotime('+10 minutes'));
 
-// ── Save OTP to Supabase ──────────────────────────────────────────────────────
+
 supabase_patch(
     'patients',
     '?email=eq.' . urlencode($email),
@@ -47,7 +47,7 @@ supabase_patch(
     ]
 );
 
-// ── Build email ───────────────────────────────────────────────────────────────
+
 $body = email_template(<<<HTML
   <h2 style="margin:0 0 8px;color:#1a1a2e;font-size:1.25rem;">
     Password Reset Request 🔐

@@ -1,10 +1,10 @@
 <?php
-// ============================================================
-//  app/api/verify_otp_api.php
-//  POST { email, otp }
-//  → Checks OTP code + expiry in patients table.
-//    On success marks otp_verified = true (clears code).
-// ============================================================
+
+
+
+
+
+
 
 header('Content-Type: application/json');
 
@@ -21,7 +21,7 @@ if (!$email || !$otp) {
     exit;
 }
 
-// ── Fetch patient record ──────────────────────────────────────────────────────
+
 $res = supabase_get(
     'patients',
     '?email=eq.' . urlencode($email) . '&select=id,otp_code,otp_expires_at,otp_verified'
@@ -49,15 +49,15 @@ if (strtotime($p['otp_expires_at']) < time()) {
     exit;
 }
 
-// ── Mark verified (keep code until password is reset) ─────────────────────────
+
 supabase_patch(
     'patients',
     '?id=eq.' . $p['id'],
     ['otp_verified' => true]
 );
 
-// Return a signed session token so reset_password.php can trust the next step.
-// We re-use the patient id as a simple server-side token stored in session.
+
+
 session_start();
 $_SESSION['otp_reset_email'] = $email;
 $_SESSION['otp_reset_id']    = $p['id'];

@@ -163,13 +163,11 @@ require_once __DIR__ . '/../config.php';
   </main>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
   <i class="fa-solid fa-circle-check"></i>
   <span id="toast-msg"></span>
 </div>
 
-<!-- FIX #1: Set BASE_URL from PHP before loading profile.js -->
 <script>
   var BASE_URL = "<?= BASE_URL ?>";
 </script>

@@ -2,7 +2,7 @@
 $base = "http://localhost/appointment_booking_system";
 require_once __DIR__ . '/../../helpers/supabase.php';
 
-// Handle add/status-update form submissions
+
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['action']) && $_POST['action'] === 'add') {

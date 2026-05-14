@@ -29,7 +29,7 @@ if ($result['status'] !== 200) {
 
 $slots = $result['body'] ?? [];
 
-// Group by start_time — merge all doctors' slots into one per time
+
 $grouped = [];
 
 foreach ($slots as $slot) {
@@ -49,11 +49,11 @@ foreach ($slots as $slot) {
             'slot_ids'   => [$slot['id']],
         ];
     } else {
-        // Accumulate remaining slots across all doctors
+        
         $grouped[$key]['remaining'] += (int) $slot['remaining'];
         $grouped[$key]['slot_ids'][] = $slot['id'];
 
-        // Pick best status: available > limited > booked
+        
         $priority = ['available' => 3, 'limited' => 2, 'booked' => 1];
         $current  = $priority[$grouped[$key]['status']] ?? 0;
         $incoming = $priority[$slot['status']] ?? 0;
@@ -65,7 +65,7 @@ foreach ($slots as $slot) {
     }
 }
 
-// Re-index and return
+
 $formatted = array_values($grouped);
 
 echo json_encode(['slots' => $formatted]);

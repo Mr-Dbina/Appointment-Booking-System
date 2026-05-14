@@ -8,7 +8,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-// ── PATCH: update appointment status ──────────────────────────────────────
+
 if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
     $input = json_decode(file_get_contents('php://input'), true);
     $id     = $input['id']     ?? '';
@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
     exit;
 }
 
-// ── GET: fetch all appointments with related data ─────────────────────────
-// Supabase PostgREST embedded resource syntax
+
+
 $filter = '?select=id,appointment_no,status,created_at,'
         . 'patient:patient_id(id,email,raw_user_meta_data),'
         . 'doctor:doctor_id(id,name,specialty),'

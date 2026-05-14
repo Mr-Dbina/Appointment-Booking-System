@@ -27,7 +27,7 @@ if (!$email) {
     .step-dot.active { background: var(--pink); }
     .step-line { flex: 1; height: 2px; background: #f9a8c4; }
 
-    /* strength bar */
+    
     .strength-wrap { margin: -6px 0 14px; padding: 0 4px; }
     .strength-bar {
       height: 4px; border-radius: 4px;
@@ -126,7 +126,7 @@ if (!$email) {
 const base  = "<?= BASE_URL ?>";
 const email = "<?= addslashes($email) ?>";
 
-// ── Toggle password visibility ────────────────────────────────────────────────
+
 function toggleVisibility(inputId, iconId) {
   const input = document.getElementById(inputId);
   const icon  = document.getElementById(iconId);
@@ -139,7 +139,7 @@ document.getElementById('togglePwd').addEventListener('click', () =>
 document.getElementById('toggleConfirm').addEventListener('click', () =>
   toggleVisibility('confirmPassword', 'lockIcon2'));
 
-// ── Password strength ─────────────────────────────────────────────────────────
+
 const pwdInput     = document.getElementById('password');
 const strengthFill = document.getElementById('strengthFill');
 const strengthLbl  = document.getElementById('strengthLabel');
@@ -166,7 +166,7 @@ pwdInput.addEventListener('input', () => {
   strengthLbl.style.color       = lvl.color;
 });
 
-// ── Reset ─────────────────────────────────────────────────────────────────────
+
 const resetBtn    = document.getElementById('resetBtn');
 const resetBtnTxt = document.getElementById('resetBtnText');
 const msgBox      = document.getElementById('formMessage');

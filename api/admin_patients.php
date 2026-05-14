@@ -8,7 +8,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-// Fetch all appointments grouped by patient for visit counts
+
 $apptRes = supabase_get(
     'appointments',
     '?select=patient_id,status,created_at&order=created_at.desc'
@@ -17,7 +17,7 @@ $apptRes = supabase_get(
 $appointments = ($apptRes['status'] === 200 && is_array($apptRes['body']))
     ? $apptRes['body'] : [];
 
-// Build per-patient stats
+
 $patientStats = [];
 foreach ($appointments as $a) {
     $pid = $a['patient_id'];
@@ -30,8 +30,8 @@ foreach ($appointments as $a) {
     }
 }
 
-// Fetch profiles (public user metadata stored by your register flow)
-// Try profiles table first; fall back gracefully
+
+
 $profileRes = supabase_get(
     'profiles',
     '?select=id,full_name,email,phone,birthday,status&order=full_name.asc'
@@ -55,7 +55,7 @@ if ($profileRes['status'] === 200 && is_array($profileRes['body'])) {
 
     echo json_encode($patients);
 } else {
-    // profiles table doesn't exist — derive patients from appointments
+    
     $seen = [];
     $patients = [];
     foreach ($appointments as $a) {

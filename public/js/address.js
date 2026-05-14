@@ -1,5 +1,3 @@
-// address.js — matches register.php pill/dropdown structure
-
 (function () {
   const PSGC = "https://psgc.gitlab.io/api";
 
@@ -12,7 +10,6 @@
   const LABELS = ["Region", "Province", "City / Municipality", "Barangay"];
   const ICONS = ["earth-asia", "map", "city", "house"];
 
-  // ── DOM refs — match your register.php exactly ──────────
   const wrapper = document.getElementById("addressWrapper");
   const pill = document.getElementById("addressPill");
   const pillText = document.getElementById("addressPillText");
@@ -26,7 +23,6 @@
     barangay: document.getElementById("hiddenBarangay"),
   };
 
-  // ── Init ─────────────────────────────────────────────────
   loadStep(0);
 
   async function fetchJSON(url) {
@@ -53,7 +49,6 @@
         if (provinces.length > 0) {
           data = provinces;
         } else {
-          // NCR: no provinces — skip to cities
           selected.province = { code: selected.region.code, name: null };
           hidden.province.value = "";
           await loadStep(2);
@@ -80,7 +75,6 @@
     }
   }
 
-  // ── Render ───────────────────────────────────────────────
   function renderList(items) {
     list.innerHTML = "";
 
@@ -115,7 +109,6 @@
     </div>`;
   }
 
-  // ── Pick item ────────────────────────────────────────────
   async function pickItem(item) {
     selected[STEPS[step]] = item;
     hidden[STEPS[step]].value = item.name;
@@ -125,12 +118,10 @@
     if (step < 3) {
       await loadStep(step + 1);
     } else {
-      // All 4 levels selected — close dropdown
       closeDropdown();
     }
   }
 
-  // ── Pill label ───────────────────────────────────────────
   function updatePillText() {
     const parts = STEPS.map((k) => selected[k]?.name).filter(Boolean);
 
@@ -143,7 +134,6 @@
     }
   }
 
-  // ── Open / close ─────────────────────────────────────────
   pill.addEventListener("click", (e) => {
     e.stopPropagation();
     isOpen ? closeDropdown() : openDropdown();
@@ -166,7 +156,6 @@
     if (!wrapper.contains(e.target)) closeDropdown();
   });
 
-  // ── Search filter ────────────────────────────────────────
   searchInput.addEventListener("input", () => {
     const q = searchInput.value.toLowerCase().trim();
     const hits = q

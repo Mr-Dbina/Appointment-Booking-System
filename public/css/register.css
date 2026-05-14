@@ -32,7 +32,6 @@ body {
   overflow: hidden;
 }
 
-/* ── LEFT ── */
 .left {
   width: 46%;
   flex-shrink: 0;
@@ -94,7 +93,6 @@ body {
   margin-bottom: 18px;
 }
 
-/* ── FIELD ROW ── */
 .field-row {
   display: flex;
   gap: 10px;
@@ -103,7 +101,6 @@ body {
   flex: 1;
 }
 
-/* ── FIELD ── */
 .field {
   position: relative;
   margin-bottom: 12px;
@@ -268,7 +265,6 @@ body {
   text-decoration: underline;
 }
 
-/* ── RIGHT PANEL ── */
 .right {
   width: 54%;
   flex-shrink: 0;
@@ -397,7 +393,6 @@ body {
   margin: 6px 0 8px;
 }
 
-/* ── CUSTOM DOB PICKER ── */
 .dob-trigger {
   width: 100%;
   padding: 12px 46px 12px 20px;

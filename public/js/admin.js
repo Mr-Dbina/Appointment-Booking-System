@@ -20,7 +20,6 @@ document.querySelectorAll(".nav-item").forEach((item) => {
   });
 });
 
-// Generic search filter — looks for data-table attribute on input
 document.querySelectorAll(".search-input").forEach((input) => {
   input.addEventListener("input", function () {
     const tableId = this.dataset.table;

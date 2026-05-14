@@ -3,7 +3,6 @@
 <section class="clinic-info-section">
   <div class="info-container">
 
-    <!-- NO SHOW POLICY -->
     <div class="info-card">
       <h2>No-Show Policy</h2>
 
@@ -22,7 +21,6 @@
       </p>
     </div>
 
-    <!-- DATA PRIVACY -->
     <div class="info-card">
       <h2>Data Privacy</h2>
 
@@ -40,7 +38,6 @@
       </p>
     </div>
 
-    <!-- FAQS -->
     <div class="info-card">
       <h2>Frequently Asked Questions</h2>
 
@@ -69,7 +66,6 @@
       </div>
     </div>
 
-    <!-- QUOTE -->
     <div class="quote-box">
       <p>
         “Compassionate Care, Trusted Service.”

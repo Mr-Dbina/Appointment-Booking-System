@@ -1,10 +1,10 @@
 <?php
-// ============================================================
-//  app/api/reset_password_api.php
-//  POST { password }
-//  Session must contain otp_reset_email + otp_reset_id
-//  (set by verify_otp_api.php on successful OTP verification).
-// ============================================================
+
+
+
+
+
+
 
 header('Content-Type: application/json');
 
@@ -29,8 +29,8 @@ if (strlen($password) < 8) {
     exit;
 }
 
-// ── Update password via Supabase Auth Admin API ───────────────────────────────
-// This requires the SERVICE_ROLE key (already used in supabase.php).
+
+
 $ch = curl_init(SUPABASE_URL . '/auth/v1/admin/users/' . urlencode($patientId));
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
@@ -52,7 +52,7 @@ if ($status !== 200) {
     exit;
 }
 
-// ── Clear OTP fields from patients table ──────────────────────────────────────
+
 supabase_patch(
     'patients',
     '?id=eq.' . urlencode($patientId),
@@ -63,7 +63,7 @@ supabase_patch(
     ]
 );
 
-// ── Destroy session ───────────────────────────────────────────────────────────
+
 unset($_SESSION['otp_reset_email'], $_SESSION['otp_reset_id']);
 
 echo json_encode(['ok' => true]);

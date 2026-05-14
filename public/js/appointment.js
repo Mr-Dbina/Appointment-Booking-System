@@ -1,6 +1,3 @@
-// FIX #1: BASE_URL is now set by PHP in appointment.php — removed broken path calculation
-// var BASE_URL is available globally from the <script> tag in the PHP file
-
 const serviceDropdown = document.getElementById("serviceDropdown");
 const apptInput = document.getElementById("apptInput");
 const clearBtn = document.getElementById("clearBtn");
@@ -430,15 +427,10 @@ function closePayment() {
   document.body.style.overflow = "";
 }
 
-// FIX #2: Replaced unreliable localStorage key search with Supabase JS client session
 async function processPayment() {
   const btn = document.getElementById("btnPay");
   btn.classList.add("loading");
 
-  // FIX #2: Use Supabase client to get session — works reliably on InfinityFree
-  // Requires supabase-js to be loaded. Add this before appointment.js in your PHP:
-  // <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  // <script> var SUPABASE_URL = "<?= ... ?>"; var SUPABASE_ANON_KEY = "<?= ... ?>"; </script>
   let authToken = "";
   try {
     const _db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -565,8 +557,6 @@ document
     if (e.target === this) closePayment();
   });
 
-// FIX #3: Moved DOMContentLoaded handler — was at the bottom but JS loaded
-// in <head> on some setups; now safe since script is at bottom of body
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");

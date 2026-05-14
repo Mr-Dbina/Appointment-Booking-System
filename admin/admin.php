@@ -2,7 +2,7 @@
 $base = "http://localhost/appointment_booking_system";
 require_once __DIR__ . '/../../helpers/supabase.php';
 
-// ── Live stats ────────────────────────────────────────────────────────────
+
 $allRes = supabase_get('appointments', '?select=status');
 $stats  = ['total_appointments' => 0, 'pending' => 0, 'confirmed' => 0, 'cancelled' => 0, 'completed' => 0];
 if ($allRes['status'] === 200 && is_array($allRes['body'])) {
@@ -13,7 +13,7 @@ if ($allRes['status'] === 200 && is_array($allRes['body'])) {
     }
 }
 
-// ── Recent appointments (last 10) ─────────────────────────────────────────
+
 $filter = '?select=id,appointment_no,status,created_at,'
         . 'patient:patient_id(id,email,raw_user_meta_data),'
         . 'doctor:doctor_id(id,name),'
@@ -23,7 +23,7 @@ $filter = '?select=id,appointment_no,status,created_at,'
 $apptRes      = supabase_get('appointments', $filter);
 $appointments = ($apptRes['status'] === 200 && is_array($apptRes['body'])) ? $apptRes['body'] : [];
 
-// ── Patient & Doctor counts ───────────────────────────────────────────────
+
 $pRes   = supabase_get('profiles', '?select=id');
 $dRes   = supabase_get('doctors',  '?select=id');
 $pCount = ($pRes['status'] === 200 && is_array($pRes['body'])) ? count($pRes['body']) : '—';

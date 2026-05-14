@@ -16,7 +16,7 @@ if ($res['status'] !== 200) {
     exit;
 }
 
-// Count doctors per service
+
 $doctorCounts = [];
 $dcRes = supabase_get('doctors', '?select=service_id,status');
 if ($dcRes['status'] === 200 && is_array($dcRes['body'])) {

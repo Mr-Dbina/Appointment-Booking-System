@@ -1,12 +1,13 @@
-var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
+var BASE_URL =
+  window.location.origin +
+  (window.location.pathname.split("/").slice(0, -2).join("/") ||
+    window.location.pathname.split("/").slice(0, -1).join("/"));
 document.addEventListener("DOMContentLoaded", () => {
-  // ── Scroll behaviour ──────────────────────────────────────────────
   const nav = document.querySelector("nav");
   window.addEventListener("scroll", () => {
     nav.classList.toggle("scrolled", window.scrollY > 80);
   });
 
-  // ── Search ────────────────────────────────────────────────────────
   const searchBox = document.querySelector(".search-box");
   const searchInput = document.querySelector(".search-input");
   const searchClear = document.querySelector(".search-clear");
@@ -41,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ── Dropdowns ─────────────────────────────────────────────────────
   const userToggle = document.querySelector(".user-menu-toggle");
   const userDropdown = document.querySelector(".user-dropdown");
   const bellToggle = document.querySelector(".bell-menu-toggle");
@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!bellToggle.contains(e.target)) bellDropdown.classList.remove("open");
   });
 
-  // ── Notifications ─────────────────────────────────────────────────
   const bellBody = document.getElementById("bell-body");
   const bellCount = document.getElementById("bell-count");
   const badge = document.getElementById("notif-badge");
@@ -109,11 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Show badge
     badge.style.display = "block";
     bellCount.textContent = notifications.length;
 
-    // Render cards
     bellBody.innerHTML = notifications
       .map(
         (n) => `
@@ -136,9 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchNotifications() {
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/get_notification.php`,
-      );
+      const res = await fetch(`${BASE_URL}/api/get_notification.php`);
       const data = await res.json();
       renderNotifications(data.notifications);
     } catch (err) {
@@ -146,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Initial load + refresh every 2 minutes
   fetchNotifications();
   setInterval(fetchNotifications, 2 * 60 * 1000);
 });

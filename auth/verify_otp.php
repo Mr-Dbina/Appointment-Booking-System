@@ -34,7 +34,7 @@ if (!$email) {
     .step-dot.active { background: var(--pink); }
     .step-line { flex: 1; height: 2px; background: #f9a8c4; }
 
-    /* OTP digit boxes */
+    
     .otp-row {
       display: flex; gap: 10px; justify-content: center;
       margin: 6px 0 18px;
@@ -149,7 +149,7 @@ if (!$email) {
 const base  = "<?= BASE_URL ?>";
 const email = "<?= addslashes($email) ?>";
 
-// ── OTP boxes auto-advance ────────────────────────────────────────────────────
+
 const boxes = Array.from(document.querySelectorAll('.otp-box'));
 
 boxes.forEach((box, i) => {
@@ -166,7 +166,7 @@ boxes.forEach((box, i) => {
     if (e.key === 'Backspace' && !box.value && i > 0) boxes[i - 1].focus();
     if (e.key === 'Enter') verifyBtn.click();
   });
-  // Handle paste into first box
+  
   box.addEventListener('paste', e => {
     const pasted = (e.clipboardData || window.clipboardData)
       .getData('text').replace(/\D/g, '').slice(0, 6);
@@ -181,7 +181,7 @@ boxes.forEach((box, i) => {
   });
 });
 
-// ── Countdown timer + resend ──────────────────────────────────────────────────
+
 let seconds = 120;
 const cdEl  = document.getElementById('countdown');
 const rsWrap = document.getElementById('resendWrap');
@@ -209,7 +209,7 @@ async function resendOtp() {
   rsWrap.textContent = json.ok ? '✅ New OTP sent!' : '❌ ' + (json.error || 'Error');
 }
 
-// ── Verify ────────────────────────────────────────────────────────────────────
+
 const verifyBtn    = document.getElementById('verifyBtn');
 const verifyBtnTxt = document.getElementById('verifyBtnText');
 const msgBox       = document.getElementById('formMessage');

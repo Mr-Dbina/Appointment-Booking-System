@@ -1,6 +1,3 @@
-// FIX #1: BASE_URL is now set by PHP in profile.php — no longer computed here
-// var BASE_URL is available globally from the <script> tag above this file
-
 const { createClient } = supabase;
 
 const SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
@@ -9,7 +6,6 @@ const SUPABASE_ANON_KEY =
 
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── Tab switching ─────────────────────────────────────────
 const tabLinks = document.querySelectorAll(".tab-link");
 const tabPanes = document.querySelectorAll(".tab-pane");
 
@@ -24,8 +20,6 @@ tabLinks.forEach((tab) => {
   tab.addEventListener("click", () => switchTab(tab.getAttribute("data-tab")));
 });
 
-// ── Edit mode ─────────────────────────────────────────────
-// FIX #2: Use unique IDs instead of fragile class selectors
 const saveBtn = document.getElementById("profileSaveBtn");
 const editBtn = document.getElementById("editProfileBtn");
 let isEditing = false;
@@ -63,8 +57,6 @@ editBtn.addEventListener("click", () => {
   isEditing ? exitEditMode() : enterEditMode();
 });
 
-// ── Save changes to Supabase ──────────────────────────────
-// FIX #3: Use getSession() instead of getUser() — more reliable on shared hosting
 saveBtn.addEventListener("click", async () => {
   const {
     data: { session },
@@ -88,7 +80,6 @@ saveBtn.addEventListener("click", async () => {
     return;
   }
 
-  // Update sidebar live
   document.getElementById("sidebarPhone").textContent = phone || "—";
   document.getElementById("sidebarAddress").textContent = address || "—";
 
@@ -96,7 +87,6 @@ saveBtn.addEventListener("click", async () => {
   exitEditMode();
 });
 
-// ── Password toggle ───────────────────────────────────────
 document.querySelectorAll(".toggle-eye").forEach((eye) => {
   eye.addEventListener("click", () => {
     const input = document.getElementById(eye.dataset.target);
@@ -107,8 +97,6 @@ document.querySelectorAll(".toggle-eye").forEach((eye) => {
   });
 });
 
-// ── Change password ───────────────────────────────────────
-// FIX #4: Use unique id="pwSaveBtn" instead of querySelectorAll()[1]
 const pwSaveBtn = document.getElementById("pwSaveBtn");
 pwSaveBtn?.addEventListener("click", async () => {
   const newPw = document.getElementById("new-pw").value;
@@ -130,7 +118,6 @@ pwSaveBtn?.addEventListener("click", async () => {
   }
 });
 
-// ── Toast ─────────────────────────────────────────────────
 function showToast(msg) {
   const toast = document.getElementById("toast");
   document.getElementById("toast-msg").textContent = msg;
@@ -138,8 +125,6 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-// ── Load profile from Supabase ────────────────────────────
-// FIX #3: Use getSession() for reliable auth on InfinityFree shared hosting
 async function loadProfile() {
   const {
     data: { session },
@@ -172,13 +157,11 @@ async function loadProfile() {
     [patient.city, patient.province].filter(Boolean).join(", ") ||
     "—";
 
-  // ── Sidebar ───────────────────────────────────────────
   document.getElementById("sidebarName").textContent = fullName;
   document.getElementById("sidebarEmail").textContent = user.email;
   document.getElementById("sidebarPhone").textContent = patient.phone || "—";
   document.getElementById("sidebarAddress").textContent = displayAddress;
 
-  // ── Form fields ───────────────────────────────────────
   document.getElementById("fieldFirstName").value = patient.first_name || "";
   document.getElementById("fieldLastName").value = patient.last_name || "";
   document.getElementById("fieldEmail").value = user.email;
@@ -190,5 +173,4 @@ async function loadProfile() {
   document.getElementById("fieldAddress").value = displayAddress;
 }
 
-// ── Init ──────────────────────────────────────────────────
 loadProfile();

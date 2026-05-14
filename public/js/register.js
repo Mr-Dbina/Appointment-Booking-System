@@ -24,7 +24,6 @@ function setLoading(on) {
 }
 
 registerBtn.addEventListener("click", async () => {
-  // ── Collect ────────────────────────────────────────────
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -34,13 +33,11 @@ registerBtn.addEventListener("click", async () => {
   const password = passwordInput.value;
   const terms = document.getElementById("terms").checked;
 
-  // ── Address (populated by address.js) ─────────────────
   const region = document.getElementById("hiddenRegion").value;
   const province = document.getElementById("hiddenProvince").value;
   const city = document.getElementById("hiddenCity").value;
   const barangay = document.getElementById("hiddenBarangay").value;
 
-  // ── Validate ───────────────────────────────────────────
   if (!firstName || !lastName)
     return showMsg("Please enter your first and last name.", "error");
   if (!email) return showMsg("Please enter your email address.", "error");
@@ -55,7 +52,6 @@ registerBtn.addEventListener("click", async () => {
 
   setLoading(true);
 
-  // ── Step 1: Create auth user ───────────────────────────
   const { data: authData, error: authError } = await db.auth.signUp({
     email,
     password,
@@ -66,8 +62,6 @@ registerBtn.addEventListener("click", async () => {
     return showMsg(authError.message, "error");
   }
 
-  // ── Step 2: Insert patient profile ────────────────────
-  // DB trigger (trg_patient_address) will auto-build the address column
   const { error: profileError } = await db.from("patients").insert({
     id: authData.user.id,
     first_name: firstName,
@@ -86,14 +80,12 @@ registerBtn.addEventListener("click", async () => {
     return showMsg(profileError.message, "error");
   }
 
-  // ── Step 3: Send welcome/verification email via PHP ───
   fetch(`${BASE_URL}/api/register_api.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, firstName }),
   });
 
-  // ── Done ───────────────────────────────────────────────
   setLoading(false);
   showMsg("✅ Account created! Redirecting to login…", "success");
   setTimeout(() => {

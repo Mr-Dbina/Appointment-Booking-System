@@ -8,7 +8,6 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-// ── GET ───────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $res = supabase_get('doctors', '?select=*&order=name.asc');
     if ($res['status'] !== 200) {
