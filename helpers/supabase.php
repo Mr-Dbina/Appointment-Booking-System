@@ -1,6 +1,6 @@
 <?php
 define('SUPABASE_URL', 'https://alvgmydqyffyegcbtsyg.supabase.co');
-define('SUPABASE_KEY', 'your_service_role_key_here');
+define('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODA3MDQxNywiZXhwIjoyMDkzNjQ2NDE3fQ.uYnOkTQccvhwB7IBR8KJP8kXSE8C-BsiRKsr1RWNn44');
 
 function supabase_rpc(string $function, array $params): array {
     $ch = curl_init(SUPABASE_URL . '/rest/v1/rpc/' . $function);
