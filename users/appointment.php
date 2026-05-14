@@ -326,7 +326,6 @@ require_once __DIR__ . '/../config.php';
     </div>
     <?php include __DIR__ . '/../shared/footer.php'; ?>
 
-    <!-- FIX #1: Set BASE_URL and Supabase credentials from PHP before loading appointment.js -->
     <script>
         var BASE_URL       = "<?= BASE_URL ?>";
         var SUPABASE_URL   = "https://alvgmydqyffyegcbtsyg.supabase.co";
