@@ -1,4 +1,3 @@
-var BASE_URL = window.location.origin + (window.location.pathname.split('/').slice(0, -2).join('/') || window.location.pathname.split('/').slice(0, -1).join('/'));
 const { createClient } = supabase;
 
 const SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
@@ -50,7 +49,6 @@ loginBtn.addEventListener("click", async () => {
   showMsg("✅ Login successful! Redirecting…", "success");
 
   setTimeout(() => {
-    window.location.href =
-      `${BASE_URL}/users/main.php`;
+    window.location.href = `${BASE_URL}/users/main.php`;
   }, 1500);
 });
