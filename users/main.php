@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config.php';
       const { createClient } = supabase;
       const db = createClient(
         "https://alvgmydqyffyegcbtsyg.supabase.co",
-        "YOUR_ANON_KEY_HERE"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k"
       );
       const { data: { session } } = await db.auth.getSession();
       if (!session) {
