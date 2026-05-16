@@ -6,8 +6,6 @@ require_once __DIR__ . '/../config.php';
 <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/profile.css">
 
 <div class="profile-page">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-banner">
       <div class="sidebar-avatar">
@@ -36,7 +34,6 @@ require_once __DIR__ . '/../config.php';
       <div class="sidebar-divider"></div>
 
       <div class="sidebar-actions">
-        <!-- FIX #2: Added unique id="editProfileBtn" -->
         <button class="btn-primary" id="editProfileBtn">
           <i class="fa-solid fa-pen-to-square"></i> Edit Profile
         </button>
@@ -48,10 +45,7 @@ require_once __DIR__ . '/../config.php';
       </div>
     </div>
   </aside>
-
-  <!-- MAIN -->
   <main class="profile-main">
-
     <ul class="tab-nav">
       <li class="tab-link active" data-tab="profile-tab">
         <i class="fa-solid fa-user"></i> Profile
@@ -67,7 +61,6 @@ require_once __DIR__ . '/../config.php';
       </li>
     </ul>
 
-    <!-- PROFILE PANE -->
     <div class="tab-pane active" id="profile-tab">
       <h2 class="pane-heading">Profile Information</h2>
       <p class="pane-sub">Manage your personal information and account details.</p>
@@ -104,7 +97,6 @@ require_once __DIR__ . '/../config.php';
       <button class="save-btn" id="profileSaveBtn">Save Changes</button>
     </div>
 
-    <!-- APPOINTMENT PANE -->
     <div class="tab-pane" id="appointment-tab">
       <h2 class="pane-heading">Appointment History</h2>
       <p class="pane-sub">Your past and upcoming bookings.</p>
@@ -117,8 +109,6 @@ require_once __DIR__ . '/../config.php';
         </button>
       </div>
     </div>
-
-    <!-- PAYMENT PANE -->
     <div class="tab-pane" id="payment-tab">
       <h2 class="pane-heading">Payment History</h2>
       <p class="pane-sub">Review your past transactions.</p>
@@ -128,8 +118,6 @@ require_once __DIR__ . '/../config.php';
         <p>Your previous transactions will appear here once you've completed a payment.</p>
       </div>
     </div>
-
-    <!-- PASSWORD PANE -->
     <div class="tab-pane" id="password-tab">
       <h2 class="pane-heading">Change Password</h2>
       <p class="pane-sub">Update your account password regularly to stay secure.</p>
@@ -155,7 +143,6 @@ require_once __DIR__ . '/../config.php';
             <i class="fa-solid fa-eye toggle-eye" data-target="con-pw"></i>
           </div>
         </div>
-        <!-- FIX #4: Added unique id="pwSaveBtn" -->
         <button class="save-btn" id="pwSaveBtn">Update Password</button>
       </div>
     </div>

@@ -6,15 +6,7 @@ if (!$email) {
     exit;
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reset Password — Happy Care Clinic</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <?php include __DIR__ . '/../shared/head.php'; ?>
   <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/login.css">
   <style>
     .steps {
@@ -43,8 +35,6 @@ if (!$email) {
       margin-top: 4px; text-align: right;
     }
   </style>
-</head>
-<body>
 <div class="page">
   <div class="left">
     <div class="card">
@@ -211,5 +201,3 @@ resetBtn.addEventListener('click', async () => {
   }, 2000);
 });
 </script>
-</body>
-</html>

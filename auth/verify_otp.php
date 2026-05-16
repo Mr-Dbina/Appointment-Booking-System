@@ -6,15 +6,7 @@ if (!$email) {
     exit;
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verify OTP — Happy Care Clinic</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <?php include __DIR__ . '/../shared/head.php'; ?>
   <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/login.css">
   <style>
     .back-link {
@@ -70,8 +62,7 @@ if (!$email) {
     .resend-row a:hover, .resend-row button:hover { opacity: .7; }
     #countdown { color: var(--sub); font-weight: 700; }
   </style>
-</head>
-<body>
+
 <div class="page">
   <div class="left">
     <div class="card">
@@ -97,7 +88,6 @@ if (!$email) {
 
       <div id="formMessage" class="form-message"></div>
 
-      <!-- 6 separate digit inputs -->
       <div class="otp-row">
         <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="d0" autocomplete="one-time-code"/>
         <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="d1"/>
@@ -251,6 +241,5 @@ verifyBtn.addEventListener('click', async () => {
   }, 1400);
 });
 </script>
-</body>
-</html>
+
 

@@ -19,14 +19,7 @@ setcookie("sb-{$projectRef}-auth-token-code-verifier", "", [
     "samesite" => "Lax",
 ]);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Signing out…</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body>
 <script>
   const { createClient } = supabase;
   const db = createClient(
@@ -38,5 +31,3 @@ setcookie("sb-{$projectRef}-auth-token-code-verifier", "", [
     window.location.replace("<?= BASE_URL ?>/auth/login.php");
   });
 </script>
-</body>
-</html>

@@ -12,7 +12,6 @@
         <i class="fa-solid fa-arrow-left"></i> Back to Login
       </a>
 
-      <!-- Step dots: 1 active -->
       <div class="steps">
         <div class="step-dot active" id="s1"></div>
         <div class="step-line"></div>
@@ -46,7 +45,6 @@
     </div>
   </div>
 
-  <!-- Right panel (same as login) -->
   <div class="right">
     <img class="bg" src="<?= BASE_URL ?>/public/images/background_login.png" alt="Medical background">
     <div class="overlay"></div>
