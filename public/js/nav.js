@@ -1,7 +1,160 @@
-var BASE_URL =
-  window.location.origin +
-  (window.location.pathname.split("/").slice(0, -2).join("/") ||
-    window.location.pathname.split("/").slice(0, -1).join("/"));
+if (typeof BASE_URL === "undefined") {
+  var BASE_URL =
+    window.location.origin +
+    (window.location.pathname.split("/").slice(0, -2).join("/") ||
+      window.location.pathname.split("/").slice(0, -1).join("/"));
+}
+
+const SEARCH_PAGES = [
+  {
+    name: "Home",
+    url: BASE_URL + "/users/main.php",
+    icon: "fa-house",
+    keywords: ["home", "main", "dashboard", "welcome", "happy care", "clinic"],
+  },
+  {
+    name: "Services",
+    url: BASE_URL + "/users/service.php",
+    icon: "fa-briefcase-medical",
+    keywords: ["services", "service", "medical", "treatments", "all services"],
+  },
+  {
+    name: "Dermatology",
+    url: BASE_URL + "/users/derma_service.php",
+    icon: "fa-hand-dots",
+    keywords: [
+      "dermatology",
+      "derma",
+      "skin",
+      "acne",
+      "rash",
+      "facial",
+      "eczema",
+      "wart",
+      "hair loss",
+      "mole",
+      "psoriasis",
+      "chemical peel",
+      "allergy",
+    ],
+  },
+  {
+    name: "General Medicine",
+    url: BASE_URL + "/users/gen_service.php",
+    icon: "fa-stethoscope",
+    keywords: [
+      "general",
+      "medicine",
+      "check-up",
+      "checkup",
+      "fever",
+      "flu",
+      "blood pressure",
+      "diabetes",
+      "medical certificate",
+      "follow-up",
+      "vaccination",
+      "immunization",
+    ],
+  },
+  {
+    name: "OB-GYN",
+    url: BASE_URL + "/users/ob_service.php",
+    icon: "fa-heart",
+    keywords: [
+      "ob",
+      "gyn",
+      "obgyn",
+      "ob-gyn",
+      "prenatal",
+      "ultrasound",
+      "family planning",
+      "menstrual",
+      "pregnancy",
+      "pap smear",
+      "cervical",
+      "maternity",
+    ],
+  },
+  {
+    name: "Pediatrics",
+    url: BASE_URL + "/users/pedia_service.php",
+    icon: "fa-child",
+    keywords: [
+      "pediatrics",
+      "pedia",
+      "child",
+      "baby",
+      "newborn",
+      "kids",
+      "growth",
+      "nutrition",
+      "vaccination",
+      "cough",
+      "infant",
+    ],
+  },
+  {
+    name: "About Us",
+    url: BASE_URL + "/users/aboutus.php",
+    icon: "fa-circle-info",
+    keywords: [
+      "about",
+      "about us",
+      "story",
+      "clinic",
+      "history",
+      "mission",
+      "vision",
+      "doctors",
+      "team",
+    ],
+  },
+  {
+    name: "Appointment",
+    url: BASE_URL + "/users/appointment.php",
+    icon: "fa-calendar-check",
+    keywords: [
+      "appointment",
+      "book",
+      "booking",
+      "schedule",
+      "reserve",
+      "slot",
+      "date",
+      "time",
+    ],
+  },
+  {
+    name: "Profile",
+    url: BASE_URL + "/users/profile.php",
+    icon: "fa-user",
+    keywords: [
+      "profile",
+      "account",
+      "personal",
+      "password",
+      "settings",
+      "my account",
+      "edit profile",
+    ],
+  },
+  {
+    name: "Help",
+    url: BASE_URL + "/users/help.php",
+    icon: "fa-circle-question",
+    keywords: [
+      "help",
+      "support",
+      "faq",
+      "question",
+      "guide",
+      "how to",
+      "contact",
+    ],
+  },
+];
+
 document.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector("nav");
   window.addEventListener("scroll", () => {
@@ -13,32 +166,93 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchClear = document.querySelector(".search-clear");
   const searchIcon = document.querySelector(".search-icon");
 
+  let searchDropdown = document.createElement("div");
+  searchDropdown.className = "search-dropdown";
+  searchBox.appendChild(searchDropdown);
+
+  function getMatches(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return [];
+    return SEARCH_PAGES.filter(
+      (page) =>
+        page.name.toLowerCase().includes(q) ||
+        page.keywords.some((k) => k.includes(q) || q.includes(k)),
+    );
+  }
+
+  function renderDropdown(query) {
+    const matches = getMatches(query);
+    searchDropdown.innerHTML = "";
+
+    if (!query.trim()) {
+      searchDropdown.classList.remove("open");
+      return;
+    }
+
+    if (matches.length === 0) {
+      searchDropdown.innerHTML = `
+        <div class="search-no-result">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>No results found for "<strong>${query}</strong>"</span>
+        </div>`;
+    } else {
+      matches.forEach((page) => {
+        const item = document.createElement("div");
+        item.className = "search-result-item";
+        item.innerHTML = `
+          <i class="fa-solid ${page.icon}"></i>
+          <span>${page.name}</span>
+        `;
+        item.addEventListener("click", () => {
+          window.location.href = page.url;
+        });
+        searchDropdown.appendChild(item);
+      });
+    }
+
+    searchDropdown.classList.add("open");
+  }
+
+  searchInput.addEventListener("input", () => {
+    const val = searchInput.value;
+    searchClear.classList.toggle("visible", val.length > 0);
+    renderDropdown(val);
+  });
+
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const matches = getMatches(searchInput.value);
+      if (matches.length > 0) {
+        window.location.href = matches[0].url;
+      }
+    }
+  });
+
   searchIcon.addEventListener("click", (e) => {
     e.stopPropagation();
     if (searchBox.classList.contains("open")) {
       searchBox.classList.remove("open");
-      searchInput.value = "";
-      searchClear.classList.remove("visible");
+      searchDropdown.classList.remove("open");
     } else {
       searchBox.classList.add("open");
       searchInput.focus();
+      if (searchInput.value.trim()) {
+        renderDropdown(searchInput.value);
+      }
     }
-  });
-
-  searchInput.addEventListener("input", () => {
-    searchClear.classList.toggle("visible", searchInput.value.length > 0);
   });
 
   searchClear.addEventListener("click", () => {
     searchInput.value = "";
     searchClear.classList.remove("visible");
-    searchBox.classList.remove("open");
+    searchDropdown.classList.remove("open");
+    searchDropdown.innerHTML = "";
   });
 
   document.addEventListener("click", (e) => {
     if (!searchBox.contains(e.target)) {
       searchBox.classList.remove("open");
-      searchClear.classList.remove("visible");
+      searchDropdown.classList.remove("open");
     }
   });
 
