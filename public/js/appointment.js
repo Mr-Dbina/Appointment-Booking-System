@@ -63,6 +63,7 @@ async function selectService(e, name) {
   try {
     const res = await fetch(
       `${BASE_URL}/api/get_service.php?name=${encodeURIComponent(name)}`,
+      { credentials: "include" },
     );
     const json = await res.json();
     selectedServiceId = json.id ?? null;
@@ -252,7 +253,17 @@ async function selectDate(dateStr) {
   let slots = slotsCache[dateStr];
   if (!slots) {
     try {
-      const res = await fetch(`${BASE_URL}/api/get_slots.php?date=${dateStr}`);
+      // ── KEY FIX: credentials: "include" passes the anti-bot cookie ──
+      const res = await fetch(`${BASE_URL}/api/get_slots.php?date=${dateStr}`, {
+        credentials: "include",
+      });
+
+      // Check if response is actually JSON before parsing
+      const contentType = res.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        throw new Error("Non-JSON response from server");
+      }
+
       const json = await res.json();
       slots = json.slots || [];
       slotsCache[dateStr] = slots;
@@ -459,6 +470,7 @@ async function processPayment() {
     const res = await fetch(`${BASE_URL}/api/process_appointment.php`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({
         service_id: selectedServiceId,
         time_slot_id: selectedSlot.id,
@@ -545,7 +557,7 @@ function printReceipt() {
           .receipt-label { font-size: .82rem; color: #4b5563; }
           .receipt-value { font-size: .82rem; font-weight: 600; color: #1f2937; text-align: right; }
           .receipt-value.amount { color: #f472b6; font-size: .95rem; font-weight: 700; }
-          .receipt-vat-note { background: #f9fafb; padding: 12px 22px; text-align: center; border-top: 1px solid #e5e7eb; font-size: .78rem; font-weight: 700; color: #1f2937; }
+          .receipt-vat-note { background: #f9fafb; padding: 12px 22px; text-align: center; font-size: .78rem; font-weight: 700; color: #1f2937; }
         </style></head><body>${card}</body></html>`);
   win.document.close();
   win.print();

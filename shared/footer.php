@@ -1,10 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
 ?>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Care Clinic</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap"
@@ -18,7 +14,6 @@ require_once __DIR__ . '/../config.php';
       rel="stylesheet"
           href="<?= BASE_URL ?>/public/css/footer.css"
         />
-  </head>
     <footer>
       <div class="footer-grid">
         <div class="footer-col">

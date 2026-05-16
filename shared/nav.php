@@ -47,7 +47,6 @@ session_start();
         <a href="<?= BASE_URL ?>/users/profile.php" class="dropdown-item">
           <i class="fa-solid fa-user"></i> Profile
         </a>
-        <!-- appointment_history.php and payment_history.php not yet implemented -->
         <a href="<?= BASE_URL ?>/auth/logout.php" class="dropdown-item signout">
           <i class="fa-solid fa-right-from-bracket"></i> Sign out
         </a>

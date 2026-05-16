@@ -2,74 +2,61 @@
 define('SUPABASE_URL', 'https://alvgmydqyffyegcbtsyg.supabase.co');
 define('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODA3MDQxNywiZXhwIjoyMDkzNjQ2NDE3fQ.uYnOkTQccvhwB7IBR8KJP8kXSE8C-BsiRKsr1RWNn44');
 
-function supabase_rpc(string $function, array $params): array {
-    $ch = curl_init(SUPABASE_URL . '/rest/v1/rpc/' . $function);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => json_encode($params),
-        CURLOPT_HTTPHEADER     => [
-            'apikey: '               . SUPABASE_KEY,
-            'Authorization: Bearer ' . SUPABASE_KEY,
-            'Content-Type: application/json',
-        ],
-    ]);
-    $body   = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+function supabase_request(string $url, string $method = 'GET', array $data = [], array $extraHeaders = []): array {
+    $headers = array_merge([
+        'apikey: ' . SUPABASE_KEY,
+        'Authorization: Bearer ' . SUPABASE_KEY,
+        'Content-Type: application/json',
+    ], $extraHeaders);
+
+    $opts = [
+        'http' => [
+            'method'  => $method,
+            'header'  => implode("\r\n", $headers),
+            'content' => $data ? json_encode($data) : null,
+            'ignore_errors' => true,
+        ]
+    ];
+
+    $context  = stream_context_create($opts);
+    $body     = file_get_contents($url, false, $context);
+    $status   = 0;
+
+    foreach ($http_response_header as $h) {
+        if (preg_match('/HTTP\/\d\.\d (\d+)/', $h, $m)) {
+            $status = (int) $m[1];
+        }
+    }
+
     return ['status' => $status, 'body' => json_decode($body, true)];
 }
 
 function supabase_get(string $table, string $filter = ''): array {
-    $ch = curl_init(SUPABASE_URL . '/rest/v1/' . $table . $filter);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => [
-            'apikey: '               . SUPABASE_KEY,
-            'Authorization: Bearer ' . SUPABASE_KEY,
-        ],
-    ]);
-    $body   = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return ['status' => $status, 'body' => json_decode($body, true)];
+    return supabase_request(SUPABASE_URL . '/rest/v1/' . $table . $filter);
 }
 
-
 function supabase_post(string $table, array $data): array {
-    $ch = curl_init(SUPABASE_URL . '/rest/v1/' . $table);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => json_encode($data),
-        CURLOPT_HTTPHEADER     => [
-            'apikey: '               . SUPABASE_KEY,
-            'Authorization: Bearer ' . SUPABASE_KEY,
-            'Content-Type: application/json',
-            'Prefer: return=representation',
-        ],
-    ]);
-    $body   = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return ['status' => $status, 'body' => json_decode($body, true)];
+    return supabase_request(
+        SUPABASE_URL . '/rest/v1/' . $table,
+        'POST',
+        $data,
+        ['Prefer: return=representation']
+    );
 }
 
 function supabase_patch(string $table, string $filter, array $data): array {
-    $ch = curl_init(SUPABASE_URL . '/rest/v1/' . $table . $filter);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST  => 'PATCH',
-        CURLOPT_POSTFIELDS     => json_encode($data),
-        CURLOPT_HTTPHEADER     => [
-            'apikey: '               . SUPABASE_KEY,
-            'Authorization: Bearer ' . SUPABASE_KEY,
-            'Content-Type: application/json',
-            'Prefer: return=minimal',
-        ],
-    ]);
-    $body   = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return ['status' => $status, 'body' => json_decode($body, true)];
+    return supabase_request(
+        SUPABASE_URL . '/rest/v1/' . $table . $filter,
+        'PATCH',
+        $data,
+        ['Prefer: return=minimal']
+    );
+}
+
+function supabase_rpc(string $function, array $params): array {
+    return supabase_request(
+        SUPABASE_URL . '/rest/v1/rpc/' . $function,
+        'POST',
+        $params
+    );
 }
