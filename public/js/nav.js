@@ -1,8 +1,5 @@
 if (typeof BASE_URL === "undefined") {
-  var BASE_URL =
-    window.location.origin +
-    (window.location.pathname.split("/").slice(0, -2).join("/") ||
-      window.location.pathname.split("/").slice(0, -1).join("/"));
+  var BASE_URL = window.location.origin;
 }
 
 const SEARCH_PAGES = [
@@ -199,10 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
       matches.forEach((page) => {
         const item = document.createElement("div");
         item.className = "search-result-item";
-        item.innerHTML = `
-          <i class="fa-solid ${page.icon}"></i>
-          <span>${page.name}</span>
-        `;
+        item.innerHTML = `<span>${page.name}</span>`;
         item.addEventListener("click", () => {
           window.location.href = page.url;
         });
@@ -347,7 +341,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchNotifications() {
     try {
-      const res = await fetch(`${BASE_URL}/api/get_notification.php`);
+      const _db = supabase.createClient(
+        "https://alvgmydqyffyegcbtsyg.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k",
+      );
+      const {
+        data: { session },
+      } = await _db.auth.getSession();
+      const token = session?.access_token || "";
+
+      if (!token) {
+        renderNotifications([]);
+        return;
+      }
+
+      const res = await fetch(`${BASE_URL}/api/get_notification.php`, {
+        headers: { Authorization: "Bearer " + token },
+      });
       const data = await res.json();
       renderNotifications(data.notifications);
     } catch (err) {

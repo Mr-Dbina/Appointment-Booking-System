@@ -1,0 +1,2 @@
+SetEnvIf Request_URI "." noabp=1
+Header set X-Content-Type-Options "nosniff"
