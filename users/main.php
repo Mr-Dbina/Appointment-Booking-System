@@ -4,19 +4,6 @@ require_once __DIR__ . '/../config.php';
   <?php include __DIR__ . '/../shared/head.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/index.css" />
-  <script>
-    (async () => {
-      const { createClient } = supabase;
-      const db = createClient(
-        "https://alvgmydqyffyegcbtsyg.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k"
-      );
-      const { data: { session } } = await db.auth.getSession();
-      if (!session) {
-        window.location.href = "<?= BASE_URL ?>/auth/login.php";
-      }
-    })();
-  </script>
   <?php include __DIR__ . '/../shared/nav.php'; ?>
   <div class="hero">
     <div class="hero-text">

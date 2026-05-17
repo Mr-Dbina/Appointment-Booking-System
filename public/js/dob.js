@@ -3,8 +3,7 @@
   let dobYear = today.getFullYear() - 25;
   let dobMonth = today.getMonth();
   let dobSelected = null;
-  let ymMode = false;
-  let ymType = "month";
+  let editMode = false;
 
   window.toggleDobCal = function (e) {
     e.stopPropagation();
@@ -16,8 +15,9 @@
     } else {
       cal.classList.add("active");
       trigger.classList.add("open");
+      editMode = false;
+      showCalendarMode();
       renderDobGrid();
-
       setTimeout(() => document.addEventListener("click", outsideClose), 0);
     }
   };
@@ -25,9 +25,7 @@
   function outsideClose(e) {
     const cal = document.getElementById("dobCal");
     const field = document.getElementById("dobField");
-    if (!field.contains(e.target)) {
-      closeDobCal();
-    }
+    if (!field.contains(e.target)) closeDobCal();
   }
 
   function closeDobCal() {
@@ -37,7 +35,6 @@
   }
 
   window.dobChangeMonth = function (dir) {
-    if (ymMode) return;
     dobMonth += dir;
     if (dobMonth > 11) {
       dobMonth = 0;
@@ -50,73 +47,79 @@
     renderDobGrid();
   };
 
-  window.toggleYMPicker = function () {
-    ymMode = !ymMode;
-    ymType = "year";
-    document.getElementById("dobDayMode").style.display = ymMode
-      ? "none"
-      : "block";
-    document.getElementById("dobYMMode").style.display = ymMode
-      ? "block"
-      : "none";
-    if (ymMode) renderYMGrid();
-    updateMonthLabel();
-  };
-
-  function renderYMGrid() {
-    const grid = document.getElementById("dobYMGrid");
-    grid.innerHTML = "";
-    const startYear = dobYear - 60;
-    const endYear = today.getFullYear();
-    for (let y = endYear; y >= startYear; y--) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "dob-ym-item" + (y === dobYear ? " selected" : "");
-      btn.textContent = y;
-      btn.onclick = function () {
-        dobYear = y;
-        ymType = "month";
-        renderMonthGrid();
-      };
-      grid.appendChild(btn);
-    }
+  function showCalendarMode() {
+    editMode = false;
+    document.getElementById("dobCalendarMode").style.display = "block";
+    document.getElementById("dobEditMode").style.display = "none";
+    updateDateHeader();
   }
 
-  function renderMonthGrid() {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const grid = document.getElementById("dobYMGrid");
-    grid.innerHTML = "";
-    months.forEach((m, i) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "dob-ym-item" + (i === dobMonth ? " selected" : "");
-      btn.textContent = m;
-      btn.onclick = function () {
-        dobMonth = i;
-        ymMode = false;
-        document.getElementById("dobDayMode").style.display = "block";
-        document.getElementById("dobYMMode").style.display = "none";
-        renderDobGrid();
-      };
-      grid.appendChild(btn);
-    });
+  function showEditMode() {
+    editMode = true;
+    document.getElementById("dobCalendarMode").style.display = "none";
+    document.getElementById("dobEditMode").style.display = "block";
+
+    const d = dobSelected || today;
+    document.getElementById("dobEditMonth").value = String(
+      d.getMonth() + 1,
+    ).padStart(2, "0");
+    document.getElementById("dobEditDay").value = String(d.getDate()).padStart(
+      2,
+      "0",
+    );
+    document.getElementById("dobEditYear").value = d.getFullYear();
+    updateDateHeader();
+  }
+
+  window.toggleDobEditMode = function () {
+    if (editMode) showCalendarMode();
+    else showEditMode();
+  };
+
+  window.dobConfirmEdit = function () {
+    const m = parseInt(document.getElementById("dobEditMonth").value) - 1;
+    const d = parseInt(document.getElementById("dobEditDay").value);
+    const y = parseInt(document.getElementById("dobEditYear").value);
+    if (isNaN(m) || isNaN(d) || isNaN(y)) return;
+    const date = new Date(y, m, d);
+    if (date > today) return;
+    selectDob(date);
+    showCalendarMode();
+  };
+
+  window.dobCancelEdit = function () {
+    showCalendarMode();
+  };
+
+  function updateDateHeader() {
+    const headerEl = document.getElementById("dobHeaderDate");
+    if (!headerEl) return;
+    const d = dobSelected || null;
+    if (d) {
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      headerEl.textContent = `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+    } else {
+      headerEl.textContent = "Select date";
+    }
   }
 
   function renderDobGrid() {
     updateMonthLabel();
+    updateDateHeader();
     const grid = document.getElementById("dobGrid");
     grid.innerHTML = "";
 
@@ -124,8 +127,7 @@
     const daysInMonth = new Date(dobYear, dobMonth + 1, 0).getDate();
 
     for (let i = 0; i < firstDay; i++) {
-      const empty = document.createElement("button");
-      empty.type = "button";
+      const empty = document.createElement("div");
       empty.className = "dob-day empty";
       grid.appendChild(empty);
     }
@@ -134,7 +136,6 @@
       const btn = document.createElement("button");
       btn.type = "button";
       const thisDate = new Date(dobYear, dobMonth, d);
-
       const isFuture = thisDate > today;
       const isToday = sameDay(thisDate, today);
       const isSel = dobSelected && sameDay(thisDate, dobSelected);
@@ -146,11 +147,7 @@
         (isSel ? " selected" : "");
       btn.textContent = d;
 
-      if (!isFuture) {
-        btn.onclick = function () {
-          selectDob(thisDate);
-        };
-      }
+      if (!isFuture) btn.onclick = () => selectDob(thisDate);
       grid.appendChild(btn);
     }
   }
@@ -170,8 +167,8 @@
       "November",
       "December",
     ];
-    document.getElementById("dobMonthLabel").textContent =
-      months[dobMonth] + " " + dobYear;
+    const el = document.getElementById("dobMonthLabel");
+    if (el) el.textContent = months[dobMonth] + " " + dobYear;
   }
 
   function selectDob(date) {
@@ -179,14 +176,13 @@
     dobYear = date.getFullYear();
     dobMonth = date.getMonth();
 
-    const iso = formatISO(date);
-    document.getElementById("dob").value = iso;
-
+    document.getElementById("dob").value = formatISO(date);
     const trigger = document.getElementById("dobTrigger");
     trigger.textContent = formatDisplay(date);
     trigger.classList.remove("placeholder");
 
     renderDobGrid();
+    updateDateHeader();
     setTimeout(closeDobCal, 150);
   }
 
@@ -197,6 +193,7 @@
     trigger.textContent = "Date of Birth";
     trigger.classList.add("placeholder");
     renderDobGrid();
+    updateDateHeader();
   };
 
   window.dobSelectToday = function () {

@@ -34,28 +34,63 @@ require_once __DIR__ . '/../config.php';
               <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
               <input type="hidden" id="dob" />
               <div class="dob-cal" id="dobCal">
-                <div class="dob-nav">
-                  <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(-1)">
-                    <i class="fa-solid fa-chevron-left"></i>
-                  </button>
-                  <span class="dob-month-label" id="dobMonthLabel" onclick="toggleYMPicker()"></span>
-                  <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(1)">
-                    <i class="fa-solid fa-chevron-right"></i>
+                <!-- Header -->
+                <div class="dob-header">
+                  <div class="dob-header-label">Select date</div>
+                  <div class="dob-header-date" id="dobHeaderDate">Select date</div>
+                  <button type="button" class="dob-edit-btn" onclick="toggleDobEditMode()">
+                    <i class="fa-solid fa-pen"></i>
                   </button>
                 </div>
-                <div id="dobDayMode">
+
+                <!-- Calendar Mode -->
+                <div id="dobCalendarMode">
+                  <div class="dob-nav">
+                    <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(-1)">
+                      <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span class="dob-month-label" id="dobMonthLabel"></span>
+                    <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(1)">
+                      <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                  </div>
                   <div class="dob-day-headers">
-                    <span>Su</span><span>Mo</span><span>Tu</span>
-                    <span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                    <span>S</span><span>M</span><span>T</span>
+                    <span>W</span><span>T</span><span>F</span><span>S</span>
                   </div>
                   <div class="dob-grid" id="dobGrid"></div>
+                  <div class="dob-cal-footer">
+                    <button type="button" class="dob-clear" onclick="dobClear()">Clear</button>
+                    <button type="button" class="dob-today" onclick="dobSelectToday()">Today</button>
+                  </div>
                 </div>
-                <div id="dobYMMode" style="display:none;">
-                  <div class="dob-ym-grid" id="dobYMGrid"></div>
-                </div>
-                <div class="dob-cal-footer">
-                  <button type="button" class="dob-clear" onclick="dobClear()">Clear</button>
-                  <button type="button" class="dob-today" onclick="dobSelectToday()">Today</button>
+
+                <!-- Edit Mode -->
+                <div id="dobEditMode" style="display:none;">
+                  <div class="dob-edit-wrap">
+                    <p class="dob-edit-label">Enter Date</p>
+                    <div class="dob-edit-fields">
+                      <div class="dob-edit-group">
+                        <label>Month</label>
+                        <input type="number" id="dobEditMonth" min="1" max="12" placeholder="MM" />
+                      </div>
+                      <span class="dob-edit-sep">/</span>
+                      <div class="dob-edit-group">
+                        <label>Day</label>
+                        <input type="number" id="dobEditDay" min="1" max="31" placeholder="DD" />
+                      </div>
+                      <span class="dob-edit-sep">/</span>
+                      <div class="dob-edit-group">
+                        <label>Year</label>
+                        <input type="number" id="dobEditYear" min="1900" max="2099" placeholder="YYYY" />
+                      </div>
+                    </div>
+                    <p class="dob-edit-format">Format: MM/DD/YYYY</p>
+                  </div>
+                  <div class="dob-cal-footer">
+                    <button type="button" class="dob-clear" onclick="dobCancelEdit()">Cancel</button>
+                    <button type="button" class="dob-today" onclick="dobConfirmEdit()">OK</button>
+                  </div>
                 </div>
               </div>
             </div>

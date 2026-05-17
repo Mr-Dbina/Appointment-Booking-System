@@ -1,6 +1,6 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
-require_once __DIR__ . '/../../helpers/supabase.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../helpers/supabase.php';
 
 
 $allRes = supabase_get('appointments', '?select=status');
@@ -45,7 +45,7 @@ function patientName(array $appt): string {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $base; ?>/public/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin.css">
 </head>
 <body>
 
@@ -55,8 +55,8 @@ function patientName(array $appt): string {
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-        <a class="sidebar-brand" href="<?php echo $base; ?>/app/views/users/main.php">
-            <img src="<?php echo $base; ?>/public/images/logo.png" alt="Logo">
+        <a class="sidebar-brand" href="<?= BASE_URL ?>/app/views/users/main.php">
+            <img src="<?= BASE_URL ?>/public/images/logo.png" alt="Logo">
             <span>Happy Care<br>Clinic</span>
         </a>
 
@@ -77,7 +77,7 @@ function patientName(array $appt): string {
                 <strong>Admin</strong>
                 Logged in as Admin
             </div>
-            <a class="nav-item" href="<?php echo $base; ?>/app/views/auth/logout.php" style="margin-top:10px;">
+            <a class="nav-item" href="<?= BASE_URL ?>/app/views/auth/logout.php" style="margin-top:10px;">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </a>
         </div>

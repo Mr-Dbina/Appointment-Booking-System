@@ -59,4 +59,18 @@ session_start();
   var SUPABASE_URL = "https://alvgmydqyffyegcbtsyg.supabase.co";
   var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k";
 </script>
+<script>
+  (async () => {
+    if (typeof supabase === 'undefined') return;
+    const { createClient } = supabase;
+    const db = createClient(
+      window.SUPABASE_URL || "https://alvgmydqyffyegcbtsyg.supabase.co",
+      window.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k"
+    );
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) {
+      window.location.href = "<?= BASE_URL ?>/auth/login.php";
+    }
+  })();
+</script>
 <script src="<?= BASE_URL ?>/public/js/nav.js"></script>

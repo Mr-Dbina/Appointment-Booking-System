@@ -1,4 +1,4 @@
-
+<?php
 require_once __DIR__ . '/../helpers/supabase.php';
 
 header('Content-Type: application/json');

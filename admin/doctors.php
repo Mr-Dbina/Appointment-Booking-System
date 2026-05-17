@@ -1,6 +1,6 @@
 <?php
-$base = "http://localhost/appointment_booking_system";
-require_once __DIR__ . '/../../helpers/supabase.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../helpers/supabase.php';
 
 
 $message = '';
@@ -54,7 +54,7 @@ $totalInactive = count($doctors) - $totalActive;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Ponomar&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $base; ?>/public/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin.css">
     <style>
         .alert { padding:10px 16px; border-radius:8px; margin-bottom:16px; font-size:.9rem; }
         .alert-success { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
@@ -194,6 +194,6 @@ $totalInactive = count($doctors) - $totalActive;
         </div>
     </main>
 </div>
-<script src="<?php echo $base; ?>/public/js/admin.js"></script>
+<script src="<?= BASE_URL ?>/public/js/admin.js"></script>
 </body>
 </html>
