@@ -192,4 +192,27 @@
   });
 
   render();
+
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener("click", () => {
+      if (busy) return;
+      busy = true;
+      current -= 1;
+      setPos(current, true);
+      updateDots();
+      track.addEventListener("transitionend", clampLoop, { once: true });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (busy) return;
+      busy = true;
+      current += 1;
+      setPos(current, true);
+      updateDots();
+      track.addEventListener("transitionend", clampLoop, { once: true });
+    });
+  }
 })();

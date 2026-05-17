@@ -147,10 +147,8 @@ body {
   width: 100%;
 }
 .carousel-wrapper {
-  background: transparent;
-  border-radius: 20px;
-  padding: 0 0 8px;
   position: relative;
+  padding: 0 30px;
 }
 .carousel-track-container {
   overflow: hidden;
@@ -339,4 +337,40 @@ body {
     margin: 12px 12px 0;
     font-size: 16px;
   }
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--text);
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.carousel-arrow:hover {
+  background: var(--pink);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(232, 81, 122, 0.35);
+}
+
+.carousel-prev {
+  left: -10px;
+}
+
+.carousel-next {
+  right: -10px;
 }

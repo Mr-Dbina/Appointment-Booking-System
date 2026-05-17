@@ -127,7 +127,7 @@ require_once __DIR__ . '/../config.php';
           <div class="field">
             <input type="password" id="password" placeholder="Password" autocomplete="new-password" />
             <span class="icon clickable" id="togglePwd">
-              <i class="fa-solid fa-lock"></i>s
+              <i class="fa-solid fa-eye" id="eyeIcon"></i>
             </span>
           </div>
           <div class="terms-row">

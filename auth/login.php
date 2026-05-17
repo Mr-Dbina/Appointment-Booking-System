@@ -19,7 +19,7 @@ require_once __DIR__ . '/../config.php';
       <div class="field">
         <input type="password" id="password" placeholder="Password" autocomplete="current-password">
         <span class="icon clickable" id="togglePwd">
-          <i class="fa-solid fa-lock"></i>
+          <i class="fa-solid fa-eye" id="eyeIcon"></i>
         </span>
       </div>
       <div class="row-mid">

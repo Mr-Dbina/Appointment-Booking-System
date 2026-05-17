@@ -19,6 +19,12 @@ require_once __DIR__ . '/../config.php';
 <section class="services-section">
   <h2>Services</h2>
   <div class="carousel-wrapper">
+    <button class="carousel-arrow carousel-prev" id="prevBtn">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="carousel-arrow carousel-next" id="nextBtn">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
     <div class="carousel-track-container">
       <div class="carousel-track" id="carouselTrack">
         <div class="service-card">
