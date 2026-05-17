@@ -2,25 +2,30 @@
 require_once __DIR__ . '/../helpers/supabase.php';
 header('Content-Type: application/json');
 
-$authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-$token = str_replace('Bearer ', '', $authHeader);
+$token = $_GET['token'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+$token = str_replace('Bearer ', '', $token);
 
 if (!$token) {
     echo json_encode(['notifications' => [], 'count' => 0]);
     exit;
 }
 
-$ch = curl_init(SUPABASE_URL . '/auth/v1/user');
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => [
-        'apikey: ' . SUPABASE_KEY,
-        'Authorization: Bearer ' . $token,
-    ],
-]);
-$userBody   = json_decode(curl_exec($ch), true);
-$userStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+$opts = [
+    'http' => [
+        'method' => 'GET',
+        'header' => implode("\r\n", [
+            'apikey: ' . SUPABASE_KEY,
+            'Authorization: Bearer ' . $token,
+        ]),
+        'ignore_errors' => true,
+    ]
+];
+$context  = stream_context_create($opts);
+$userBody = json_decode(file_get_contents(SUPABASE_URL . '/auth/v1/user', false, $context), true);
+$userStatus = 0;
+foreach ($http_response_header as $h) {
+    if (preg_match('/HTTP\/\d\.\d (\d+)/', $h, $m)) $userStatus = (int) $m[1];
+}
 
 if ($userStatus !== 200 || empty($userBody['id'])) {
     echo json_encode(['notifications' => [], 'count' => 0]);

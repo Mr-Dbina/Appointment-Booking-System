@@ -20,17 +20,22 @@ if (!$serviceId || !$slotId || !$authToken) {
     exit;
 }
 
-$ch = curl_init(SUPABASE_URL . '/auth/v1/user');
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => [
-        'apikey: '               . SUPABASE_KEY,
-        'Authorization: Bearer ' . $authToken,
-    ],
-]);
-$userBody   = json_decode(curl_exec($ch), true);
-$userStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+$opts = [
+    'http' => [
+        'method' => 'GET',
+        'header' => implode("\r\n", [
+            'apikey: ' . SUPABASE_KEY,
+            'Authorization: Bearer ' . $authToken,
+        ]),
+        'ignore_errors' => true,
+    ]
+];
+$context    = stream_context_create($opts);
+$userBody   = json_decode(file_get_contents(SUPABASE_URL . '/auth/v1/user', false, $context), true);
+$userStatus = 0;
+foreach ($http_response_header as $h) {
+    if (preg_match('/HTTP\/\d\.\d (\d+)/', $h, $m)) $userStatus = (int) $m[1];
+}
 
 if ($userStatus !== 200 || empty($userBody['id'])) {
     http_response_code(401);
@@ -93,9 +98,9 @@ if ($serviceResult['status'] !== 200 || empty($serviceResult['body'])) {
     exit;
 }
 
-$service      = $serviceResult['body'][0];
-$price        = $service['price'];
-$serviceName  = $service['name'];
+$service     = $serviceResult['body'][0];
+$price       = $service['price'];
+$serviceName = $service['name'];
 
 $doctorResult = supabase_get('doctors', '?id=eq.' . urlencode($doctorId));
 
@@ -106,6 +111,7 @@ if ($doctorResult['status'] !== 200 || empty($doctorResult['body'])) {
 }
 
 $doctorName = $doctorResult['body'][0]['name'];
+
 $apptResult = supabase_post('appointments', [
     'patient_id'   => $patientId,
     'doctor_id'    => $doctorId,

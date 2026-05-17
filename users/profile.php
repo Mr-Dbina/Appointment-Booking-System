@@ -97,25 +97,41 @@ require_once __DIR__ . '/../config.php';
       <button class="save-btn" id="profileSaveBtn">Save Changes</button>
     </div>
 
+    <!-- APPOINTMENT PANE -->
     <div class="tab-pane" id="appointment-tab">
       <h2 class="pane-heading">Appointment History</h2>
       <p class="pane-sub">Your past and upcoming bookings.</p>
-      <div class="empty-state">
-        <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
-        <h3>No appointments yet</h3>
-        <p>You haven't booked any appointments yet. When you do, they'll appear here.</p>
-        <button class="btn-primary" onclick="window.location.href='<?= BASE_URL ?>/users/appointment.php'">
-          Book an Appointment
-        </button>
+      <div id="appointment-body">
+        <div class="empty-state">
+          <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+          <h3>No appointments yet</h3>
+          <p>You haven't booked any appointments yet. When you do, they'll appear here.</p>
+          <button class="btn-primary" onclick="window.location.href='<?= BASE_URL ?>/users/appointment.php'">
+            Book an Appointment
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- PAYMENT PANE -->
     <div class="tab-pane" id="payment-tab">
       <h2 class="pane-heading">Payment History</h2>
       <p class="pane-sub">Review your past transactions.</p>
-      <div class="payment-placeholder">
-        <i class="fa-solid fa-receipt"></i>
-        <h3>No transactions found</h3>
-        <p>Your previous transactions will appear here once you've completed a payment.</p>
+      <div class="payment-table-wrap">
+        <table class="payment-table">
+          <thead>
+            <tr>
+              <th>Reference</th>
+              <th>Service</th>
+              <th>Date & Time</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="payment-body">
+            <tr><td colspan="5" class="pay-empty">No transactions found.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="tab-pane" id="password-tab">
@@ -151,13 +167,11 @@ require_once __DIR__ . '/../config.php';
 </div>
 
 <div class="toast" id="toast">
-  <i class="fa-solid fa-circle-check"></i>
   <span id="toast-msg"></span>
 </div>
 
 <script>
   var BASE_URL = "<?= BASE_URL ?>";
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="<?= BASE_URL ?>/public/js/profile.js"></script>
 <?php include __DIR__ . '/../shared/footer.php'; ?>

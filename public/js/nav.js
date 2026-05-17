@@ -247,6 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!searchBox.contains(e.target)) {
       searchBox.classList.remove("open");
       searchDropdown.classList.remove("open");
+      searchClear.classList.remove("visible");
     }
   });
 
@@ -341,10 +342,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchNotifications() {
     try {
-      const _db = supabase.createClient(
-        "https://alvgmydqyffyegcbtsyg.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k",
-      );
+      const SUPA_URL =
+        window.SUPABASE_URL || "https://alvgmydqyffyegcbtsyg.supabase.co";
+      const SUPA_KEY =
+        window.SUPABASE_ANON_KEY ||
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k";
+
+      if (typeof supabase === "undefined") {
+        renderNotifications([]);
+        return;
+      }
+
+      const _db = supabase.createClient(SUPA_URL, SUPA_KEY);
       const {
         data: { session },
       } = await _db.auth.getSession();
@@ -355,9 +364,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const res = await fetch(`${BASE_URL}/api/get_notification.php`, {
-        headers: { Authorization: "Bearer " + token },
-      });
+      const res = await fetch(
+        `${BASE_URL}/api/get_notification.php?token=${encodeURIComponent(token)}`,
+      );
       const data = await res.json();
       renderNotifications(data.notifications);
     } catch (err) {
