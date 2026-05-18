@@ -24,7 +24,7 @@ require_once __DIR__ . '/../config.php';
                             id="apptInput"
                             class="appt-value"
                             placeholder="Book Appointment"
-                            oninput="filterServices(this.value); openDropdown();"
+                             oninput="filterServices(this.value)"
                             onclick="event.stopPropagation(); openDropdown();"
                             autocomplete="off"
                         />
@@ -68,7 +68,7 @@ require_once __DIR__ . '/../config.php';
                         <div class="dropdown-item" id="noResultItem" style="display:none; cursor:default; pointer-events:none;">
                             <i class="fa-solid fa-circle-exclamation" style="color:#aaa;"></i>
                             <div>
-                                <div class="dropdown-name" style="color:#aaa; font-weight:500;">No service provided</div>
+                                <div class="dropdown-name" style="color:#aaa; font-weight:500;">No results found</div>
                                 <div class="dropdown-sub">Try a different keyword</div>
                             </div>
                         </div>
@@ -331,4 +331,4 @@ require_once __DIR__ . '/../config.php';
         var SUPABASE_URL   = "https://alvgmydqyffyegcbtsyg.supabase.co";
         var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdmdteWRxeWZmeWVnY2J0c3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzA0MTcsImV4cCI6MjA5MzY0NjQxN30.7YGzh5EX569NXZhGvrZWh48RUNBYrSagINZQhCePX8k";
     </script>
-    <script src="<?= BASE_URL ?>/public/js/appointment.js"></script>
+    <script src="<?= BASE_URL ?>/public/js/appointment.js?v=<?= time() ?>"></script>

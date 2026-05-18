@@ -45,10 +45,16 @@ function clearService(e) {
   apptInput.value = "";
   selectedServiceId = null;
   clearBtn.style.display = "none";
-  filterServices("");
   showRotator();
   apptInput.focus();
-  openDropdown();
+  serviceDropdown.classList.remove("open");
+
+  const items = document.querySelectorAll("#dropdownList .dropdown-item");
+  const groups = document.querySelectorAll("#dropdownList .dropdown-group");
+  const noResult = document.getElementById("noResultItem");
+  items.forEach((item) => (item.style.display = "flex"));
+  groups.forEach((group) => (group.style.display = "block"));
+  noResult.style.display = "none";
 }
 
 async function selectService(e, name) {
@@ -57,7 +63,6 @@ async function selectService(e, name) {
   selectedServiceId = null;
   clearBtn.style.display = "inline";
   hideRotator();
-  filterServices(name);
   serviceDropdown.classList.remove("open");
 
   try {
@@ -67,19 +72,69 @@ async function selectService(e, name) {
     );
     const json = await res.json();
     selectedServiceId = json.id ?? null;
+    slotsCache = {};
+    prefetchMonthSlots();
   } catch (err) {
     selectedServiceId = null;
   }
 }
 
 function filterServices(query) {
+  const q = query.toLowerCase().trim();
+  clearBtn.style.display = query.length > 0 ? "inline" : "none";
+  query.length > 0 ? hideRotator() : showRotator();
+
   const items = document.querySelectorAll("#dropdownList .dropdown-item");
   const groups = document.querySelectorAll("#dropdownList .dropdown-group");
   const noResult = document.getElementById("noResultItem");
-  const q = query.toLowerCase().trim();
 
-  clearBtn.style.display = query.length > 0 ? "inline" : "none";
-  query.length > 0 ? hideRotator() : showRotator();
+  // Always reset first
+  items.forEach((item) => {
+    if (item.id !== "noResultItem") item.style.display = "flex";
+  });
+  groups.forEach((group) => (group.style.display = "block"));
+  noResult.style.display = "none";
+
+  if (!q) {
+    serviceDropdown.classList.remove("open");
+    return;
+  }
+
+  const aliases = {
+    "acne treatment": ["pimple", "pimples", "zits", "acne"],
+    "wart / mole removal": ["warts", "mole", "wart"],
+    "skin consultation": ["skin check", "derma consult", "skin"],
+    "eczema & psoriasis care": ["eczema", "psoriasis", "skin disease"],
+    "allergy / rash treatment": ["allergy", "rash", "itchy"],
+    "chemical peel / facial treatments": ["facial", "peel"],
+    "hair loss treatment": ["baldness", "alopecia", "hair fall", "hair"],
+    "general check-up": ["checkup", "check up", "physical", "general"],
+    "vaccination / immunization": ["vaccine", "immunization", "shot"],
+    "fever / flu consultation": ["flu", "cold", "fever"],
+    "blood pressure monitoring": ["bp", "hypertension", "blood pressure"],
+    "diabetes screening": ["blood sugar", "glucose", "diabetes"],
+    "medical certificate": ["certificate", "medcert"],
+    "follow-up consultation": ["follow up", "followup"],
+    "growth & development monitoring": [
+      "growth",
+      "development",
+      "child growth",
+    ],
+    "nutrition consultation": ["nutrition", "diet", "food"],
+    "newborn care": ["newborn", "infant", "baby"],
+    "fever / cough consultation": ["cough", "ubo"],
+    "prenatal check-up": ["prenatal", "ob check", "pregnancy check"],
+    ultrasound: ["ultrasound", "echo"],
+    "family planning": ["family planning", "contraceptive"],
+    "menstrual problems consultation": [
+      "period",
+      "menstrual",
+      "dysmenorrhea",
+      "regla",
+    ],
+    "pregnancy test & monitoring": ["pregnant", "pregnancy test"],
+    "pap smear / cervical screening": ["pap smear", "cervical", "cervix"],
+  };
 
   let anyVisible = false;
 
@@ -88,13 +143,14 @@ function filterServices(query) {
     const serviceName = item
       .querySelector(".dropdown-name")
       .textContent.toLowerCase();
-    const groupName =
-      item.querySelector(".dropdown-sub")?.textContent.toLowerCase() || "";
+    const aliasMatch = (aliases[serviceName] || []).some(
+      (v) => v.includes(q) || q.includes(v) || v.startsWith(q),
+    );
     const match =
-      !q ||
-      serviceName.startsWith(q) ||
       serviceName.includes(q) ||
-      groupName.includes(q);
+      serviceName.split(" ").some((word) => word.startsWith(q)) ||
+      aliasMatch;
+
     item.style.display = match ? "flex" : "none";
     if (match) anyVisible = true;
   });
@@ -110,7 +166,13 @@ function filterServices(query) {
     group.style.display = hasVisible ? "block" : "none";
   });
 
-  noResult.style.display = !anyVisible && q ? "flex" : "none";
+  if (!anyVisible) {
+    noResult.style.display = "flex";
+    noResult.querySelector(".dropdown-name").textContent =
+      `No results found for "${query}"`;
+  }
+
+  openDropdown();
 }
 
 document.addEventListener("click", (e) => {
@@ -134,6 +196,42 @@ function isWeekend(y, m, d) {
   return [0, 6].includes(new Date(y, m - 1, d).getDay());
 }
 
+async function prefetchMonthSlots() {
+  if (!selectedServiceId) return;
+
+  const daysInMonth = new Date(dtpYear, dtpMonth + 1, 0).getDate();
+  const promises = [];
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const m = dtpMonth + 1;
+    const dateStr = `${dtpYear}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    const cellDate = new Date(dtpYear, dtpMonth, d);
+    const isPast = cellDate < todayDate;
+    const wknd = isWeekend(dtpYear, m, d);
+
+    if (!isPast && !wknd && !slotsCache[dateStr]) {
+      promises.push(
+        fetch(
+          `${BASE_URL}/api/get_slots.php?date=${dateStr}&service_id=${encodeURIComponent(selectedServiceId)}`,
+          {
+            credentials: "include",
+          },
+        )
+          .then((r) => r.json())
+          .then((json) => {
+            slotsCache[dateStr] = json.slots || [];
+          })
+          .catch(() => {
+            slotsCache[dateStr] = [];
+          }),
+      );
+    }
+  }
+
+  await Promise.all(promises);
+  renderCalendar();
+}
+
 function openDatetimePanel() {
   dtpYear = todayDate.getFullYear();
   dtpMonth = todayDate.getMonth();
@@ -145,6 +243,7 @@ function openDatetimePanel() {
   document.getElementById("dtpOverlay").classList.add("open");
   document.getElementById("datetime-field").classList.add("active");
   document.body.style.overflow = "hidden";
+  prefetchMonthSlots();
 }
 
 function closeDatetimePanel() {
@@ -177,6 +276,7 @@ function changeMonth(dir) {
     dtpYear--;
   }
   renderCalendar();
+  prefetchMonthSlots();
 }
 
 function renderCalendar() {
@@ -210,8 +310,22 @@ function renderCalendar() {
 
     const clickable = !isPast && !wknd;
     const onclick = clickable ? `onclick="selectDate('${dateStr}')"` : "";
-    const dotHtml =
-      isPast || wknd ? "" : `<span class="cal-dot available"></span>`;
+    let dotHtml = "";
+    if (!isPast && !wknd) {
+      const cached = slotsCache[dateStr];
+      if (cached) {
+        const avail = cached.filter((s) => s.status !== "booked").length;
+        if (avail === 0) {
+          dotHtml = `<span class="cal-dot booked"></span>`;
+        } else if (avail <= LIMITED_THRESHOLD) {
+          dotHtml = `<span class="cal-dot limited"></span>`;
+        } else {
+          dotHtml = `<span class="cal-dot available"></span>`;
+        }
+      } else {
+        dotHtml = `<span class="cal-dot available"></span>`;
+      }
+    }
 
     html += `<div class="${cls}" ${onclick}><span class="cal-num">${d}</span>${dotHtml}</div>`;
   }
@@ -231,6 +345,12 @@ function resetSlotsPanel() {
 }
 
 async function selectDate(dateStr) {
+  if (!selectedServiceId) {
+    alert("Please select a service first before choosing a date.");
+    closeDatetimePanel();
+    return;
+  }
+
   selectedDate = dateStr;
   selectedSlot = null;
   renderCalendar();
@@ -254,9 +374,12 @@ async function selectDate(dateStr) {
   if (!slots) {
     try {
       // ── KEY FIX: credentials: "include" passes the anti-bot cookie ──
-      const res = await fetch(`${BASE_URL}/api/get_slots.php?date=${dateStr}`, {
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${BASE_URL}/api/get_slots.php?date=${dateStr}&service_id=${encodeURIComponent(selectedServiceId || "")}`,
+        {
+          credentials: "include",
+        },
+      );
 
       // Check if response is actually JSON before parsing
       const contentType = res.headers.get("content-type") || "";
@@ -436,6 +559,20 @@ async function confirmBooking() {
 function closePayment() {
   document.getElementById("paymentOverlay").classList.remove("active");
   document.body.style.overflow = "";
+
+  const successShown = document
+    .getElementById("paySuccess")
+    .classList.contains("show");
+  if (successShown) {
+    apptInput.value = "";
+    selectedServiceId = null;
+    selectedDate = null;
+    selectedSlot = null;
+    clearBtn.style.display = "none";
+    document.getElementById("datetimeDisplay").textContent =
+      "Select date & time";
+    showRotator();
+  }
 }
 
 async function processPayment() {
@@ -529,6 +666,18 @@ async function processPayment() {
       btn.classList.remove("loading");
       document.getElementById("payMain").classList.add("hidden");
       document.getElementById("paySuccess").classList.add("show");
+
+      apptInput.value = "";
+      selectedServiceId = null;
+      selectedDate = null;
+      selectedSlot = null;
+      slotsCache = {};
+      renderCalendar();
+      prefetchMonthSlots();
+      clearBtn.style.display = "none";
+      document.getElementById("datetimeDisplay").textContent =
+        "Select date & time";
+      showRotator();
     }, 1800);
   } catch (err) {
     btn.classList.remove("loading");

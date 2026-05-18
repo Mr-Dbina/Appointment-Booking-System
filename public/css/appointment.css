@@ -91,6 +91,8 @@ body {
   transition: background 0.2s;
   position: relative;
   text-align: left;
+  overflow: visible;
+  min-width: 0;
 }
 
 .appt-field:hover {
@@ -158,6 +160,9 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
 }
 
 .appt-value {
@@ -170,8 +175,12 @@ body {
   color: var(--dark);
   cursor: text;
   width: 100%;
-  min-width: 180px;
+  max-width: 100%;
+  min-width: 0;
   padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .appt-value::placeholder {
@@ -575,6 +584,10 @@ body {
 .cal-dot.available {
   background: #22c55e;
 }
+.cal-dot.limited {
+  background: #f59e0b;
+}
+
 .cal-dot.booked {
   background: #ef4444;
 }
