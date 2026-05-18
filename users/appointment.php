@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config.php';
 ?>
 <?php include __DIR__ . '/../shared/head.php'; ?>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/appointment.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/appointment.css?v=<?= time() ?>">
     <?php include __DIR__ . '/../shared/nav.php'; ?>
     <div class="appt-hero">
         <h1>Healthcare made simple</h1>

@@ -283,9 +283,9 @@ body {
 }
 
 .dropdown-item {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 14px;
   padding: 12px 16px;
   border-radius: 10px;

@@ -92,46 +92,58 @@ function filterServices(query) {
   clearBtn.style.display = query.length > 0 ? "inline" : "none";
   query.length > 0 ? hideRotator() : showRotator();
 
-  const items = document.querySelectorAll("#dropdownList .dropdown-item");
-  const groups = document.querySelectorAll("#dropdownList .dropdown-group");
   const noResult = document.getElementById("noResultItem");
 
-  items.forEach((item) => {
-    if (item.id !== "noResultItem") item.style.display = "flex";
-  });
-  groups.forEach((g) => (g.style.display = "block"));
-  noResult.style.display = "none";
-
   if (!q) {
+    document
+      .querySelectorAll("#dropdownList .dropdown-item")
+      .forEach((item) => {
+        item.style.setProperty("display", "flex", "important");
+      });
+    document.querySelectorAll("#dropdownList .dropdown-group").forEach((g) => {
+      g.style.setProperty("display", "block", "important");
+    });
+    noResult.style.setProperty("display", "none", "important");
     serviceDropdown.classList.remove("open");
     return;
   }
 
   let anyVisible = false;
 
-  items.forEach((item) => {
+  document.querySelectorAll("#dropdownList .dropdown-item").forEach((item) => {
     if (item.id === "noResultItem") return;
     const nameEl = item.querySelector(".dropdown-name");
-    if (!nameEl) return;
-    const serviceName = nameEl.textContent.toLowerCase();
-    const match = serviceName.includes(q);
-    item.style.display = match ? "flex" : "none";
+    const match = nameEl && nameEl.textContent.toLowerCase().includes(q);
+    item.style.setProperty("display", match ? "flex" : "none", "important");
     if (match) anyVisible = true;
   });
 
-  groups.forEach((group) => {
-    let sibling = group.nextElementSibling;
-    let hasVisible = false;
-    while (sibling && !sibling.classList.contains("dropdown-group")) {
-      if (sibling.id !== "noResultItem" && sibling.style.display !== "none")
-        hasVisible = true;
-      sibling = sibling.nextElementSibling;
-    }
-    group.style.display = hasVisible ? "block" : "none";
-  });
+  document
+    .querySelectorAll("#dropdownList .dropdown-group")
+    .forEach((group) => {
+      let sibling = group.nextElementSibling;
+      let hasVisible = false;
+      while (sibling && !sibling.classList.contains("dropdown-group")) {
+        if (
+          sibling.id !== "noResultItem" &&
+          sibling.style.getPropertyValue("display") !== "none"
+        ) {
+          hasVisible = true;
+          break;
+        }
+        sibling = sibling.nextElementSibling;
+      }
+      group.style.setProperty(
+        "display",
+        hasVisible ? "block" : "none",
+        "important",
+      );
+    });
 
-  if (!anyVisible) {
-    noResult.style.display = "flex";
+  if (anyVisible) {
+    noResult.style.setProperty("display", "none", "important");
+  } else {
+    noResult.style.setProperty("display", "flex", "important");
     noResult.querySelector(".dropdown-name").textContent =
       `No results found for "${query}"`;
   }
