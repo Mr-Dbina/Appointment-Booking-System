@@ -40,6 +40,12 @@ function openDropdown() {
   serviceDropdown.classList.add("open");
 }
 
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("service-field").contains(e.target)) {
+    serviceDropdown.classList.remove("open");
+  }
+});
+
 function clearService(e) {
   e.stopPropagation();
   apptInput.value = "";
@@ -49,12 +55,13 @@ function clearService(e) {
   apptInput.focus();
   serviceDropdown.classList.remove("open");
 
-  const items = document.querySelectorAll("#dropdownList .dropdown-item");
-  const groups = document.querySelectorAll("#dropdownList .dropdown-group");
-  const noResult = document.getElementById("noResultItem");
-  items.forEach((item) => (item.style.display = "flex"));
-  groups.forEach((group) => (group.style.display = "block"));
-  noResult.style.display = "none";
+  document
+    .querySelectorAll("#dropdownList .dropdown-item")
+    .forEach((item) => (item.style.display = "flex"));
+  document
+    .querySelectorAll("#dropdownList .dropdown-group")
+    .forEach((g) => (g.style.display = "block"));
+  document.getElementById("noResultItem").style.display = "none";
 }
 
 async function selectService(e, name) {
@@ -74,13 +81,14 @@ async function selectService(e, name) {
     selectedServiceId = json.id ?? null;
     slotsCache = {};
     prefetchMonthSlots();
-  } catch (err) {
+  } catch {
     selectedServiceId = null;
   }
 }
 
 function filterServices(query) {
   const q = query.toLowerCase().trim();
+
   clearBtn.style.display = query.length > 0 ? "inline" : "none";
   query.length > 0 ? hideRotator() : showRotator();
 
@@ -88,11 +96,10 @@ function filterServices(query) {
   const groups = document.querySelectorAll("#dropdownList .dropdown-group");
   const noResult = document.getElementById("noResultItem");
 
-  // Always reset first
   items.forEach((item) => {
     if (item.id !== "noResultItem") item.style.display = "flex";
   });
-  groups.forEach((group) => (group.style.display = "block"));
+  groups.forEach((g) => (g.style.display = "block"));
   noResult.style.display = "none";
 
   if (!q) {
@@ -100,68 +107,25 @@ function filterServices(query) {
     return;
   }
 
-  const aliases = {
-    "acne treatment": ["pimple", "pimples", "zits", "acne"],
-    "wart / mole removal": ["warts", "mole", "wart"],
-    "skin consultation": ["skin check", "derma consult", "skin"],
-    "eczema & psoriasis care": ["eczema", "psoriasis", "skin disease"],
-    "allergy / rash treatment": ["allergy", "rash", "itchy"],
-    "chemical peel / facial treatments": ["facial", "peel"],
-    "hair loss treatment": ["baldness", "alopecia", "hair fall", "hair"],
-    "general check-up": ["checkup", "check up", "physical", "general"],
-    "vaccination / immunization": ["vaccine", "immunization", "shot"],
-    "fever / flu consultation": ["flu", "cold", "fever"],
-    "blood pressure monitoring": ["bp", "hypertension", "blood pressure"],
-    "diabetes screening": ["blood sugar", "glucose", "diabetes"],
-    "medical certificate": ["certificate", "medcert"],
-    "follow-up consultation": ["follow up", "followup"],
-    "growth & development monitoring": [
-      "growth",
-      "development",
-      "child growth",
-    ],
-    "nutrition consultation": ["nutrition", "diet", "food"],
-    "newborn care": ["newborn", "infant", "baby"],
-    "fever / cough consultation": ["cough", "ubo"],
-    "prenatal check-up": ["prenatal", "ob check", "pregnancy check"],
-    ultrasound: ["ultrasound", "echo"],
-    "family planning": ["family planning", "contraceptive"],
-    "menstrual problems consultation": [
-      "period",
-      "menstrual",
-      "dysmenorrhea",
-      "regla",
-    ],
-    "pregnancy test & monitoring": ["pregnant", "pregnancy test"],
-    "pap smear / cervical screening": ["pap smear", "cervical", "cervix"],
-  };
-
   let anyVisible = false;
 
   items.forEach((item) => {
     if (item.id === "noResultItem") return;
-    const serviceName = item
-      .querySelector(".dropdown-name")
-      .textContent.toLowerCase();
-    const aliasMatch = (aliases[serviceName] || []).some(
-      (v) => v.includes(q) || q.includes(v) || v.startsWith(q),
-    );
-    const match =
-      serviceName.includes(q) ||
-      serviceName.split(" ").some((word) => word.startsWith(q)) ||
-      aliasMatch;
-
+    const nameEl = item.querySelector(".dropdown-name");
+    if (!nameEl) return;
+    const serviceName = nameEl.textContent.toLowerCase();
+    const match = serviceName.includes(q);
     item.style.display = match ? "flex" : "none";
     if (match) anyVisible = true;
   });
 
   groups.forEach((group) => {
-    let next = group.nextElementSibling;
+    let sibling = group.nextElementSibling;
     let hasVisible = false;
-    while (next && !next.classList.contains("dropdown-group")) {
-      if (next.id !== "noResultItem" && next.style.display !== "none")
+    while (sibling && !sibling.classList.contains("dropdown-group")) {
+      if (sibling.id !== "noResultItem" && sibling.style.display !== "none")
         hasVisible = true;
-      next = next.nextElementSibling;
+      sibling = sibling.nextElementSibling;
     }
     group.style.display = hasVisible ? "block" : "none";
   });
@@ -174,12 +138,6 @@ function filterServices(query) {
 
   openDropdown();
 }
-
-document.addEventListener("click", (e) => {
-  if (!document.getElementById("service-field").contains(e.target)) {
-    serviceDropdown.classList.remove("open");
-  }
-});
 
 const LIMITED_THRESHOLD = 3;
 
@@ -213,9 +171,7 @@ async function prefetchMonthSlots() {
       promises.push(
         fetch(
           `${BASE_URL}/api/get_slots.php?date=${dateStr}&service_id=${encodeURIComponent(selectedServiceId)}`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         )
           .then((r) => r.json())
           .then((json) => {
@@ -310,18 +266,16 @@ function renderCalendar() {
 
     const clickable = !isPast && !wknd;
     const onclick = clickable ? `onclick="selectDate('${dateStr}')"` : "";
+
     let dotHtml = "";
     if (!isPast && !wknd) {
       const cached = slotsCache[dateStr];
       if (cached) {
         const avail = cached.filter((s) => s.status !== "booked").length;
-        if (avail === 0) {
-          dotHtml = `<span class="cal-dot booked"></span>`;
-        } else if (avail <= LIMITED_THRESHOLD) {
+        if (avail === 0) dotHtml = `<span class="cal-dot booked"></span>`;
+        else if (avail <= LIMITED_THRESHOLD)
           dotHtml = `<span class="cal-dot limited"></span>`;
-        } else {
-          dotHtml = `<span class="cal-dot available"></span>`;
-        }
+        else dotHtml = `<span class="cal-dot available"></span>`;
       } else {
         dotHtml = `<span class="cal-dot available"></span>`;
       }
@@ -373,24 +327,17 @@ async function selectDate(dateStr) {
   let slots = slotsCache[dateStr];
   if (!slots) {
     try {
-      // ── KEY FIX: credentials: "include" passes the anti-bot cookie ──
       const res = await fetch(
         `${BASE_URL}/api/get_slots.php?date=${dateStr}&service_id=${encodeURIComponent(selectedServiceId || "")}`,
-        {
-          credentials: "include",
-        },
+        { credentials: "include" },
       );
-
-      // Check if response is actually JSON before parsing
       const contentType = res.headers.get("content-type") || "";
-      if (!contentType.includes("application/json")) {
-        throw new Error("Non-JSON response from server");
-      }
-
+      if (!contentType.includes("application/json"))
+        throw new Error("Non-JSON response");
       const json = await res.json();
       slots = json.slots || [];
       slotsCache[dateStr] = slots;
-    } catch (err) {
+    } catch {
       document.getElementById("slotList").innerHTML =
         `<div class="slots-empty"><i class="fa-solid fa-circle-exclamation" style="color:#ef4444"></i><p>Failed to load slots. Please try again.</p></div>`;
       return;
@@ -404,6 +351,7 @@ async function selectDate(dateStr) {
       : availCount < LIMITED_THRESHOLD
         ? "limited"
         : "available";
+
   const statusMap = {
     available: {
       badge: "Available",
@@ -586,7 +534,7 @@ async function processPayment() {
       data: { session },
     } = await _db.auth.getSession();
     authToken = session?.access_token || "";
-  } catch (e) {
+  } catch {
     authToken = "";
   }
 
@@ -630,11 +578,17 @@ async function processPayment() {
     });
     const start = new Date("1970-01-01T" + json.start_time).toLocaleTimeString(
       "en-US",
-      { hour: "numeric", minute: "2-digit" },
+      {
+        hour: "numeric",
+        minute: "2-digit",
+      },
     );
     const end = new Date("1970-01-01T" + json.end_time).toLocaleTimeString(
       "en-US",
-      { hour: "numeric", minute: "2-digit" },
+      {
+        hour: "numeric",
+        minute: "2-digit",
+      },
     );
     const dateTimeStr = `${apptDate} · ${start} – ${end}`;
     const today = new Date().toLocaleDateString("en-US", {
@@ -672,14 +626,14 @@ async function processPayment() {
       selectedDate = null;
       selectedSlot = null;
       slotsCache = {};
-      renderCalendar();
-      prefetchMonthSlots();
       clearBtn.style.display = "none";
       document.getElementById("datetimeDisplay").textContent =
         "Select date & time";
+      renderCalendar();
+      prefetchMonthSlots();
       showRotator();
     }, 1800);
-  } catch (err) {
+  } catch {
     btn.classList.remove("loading");
     alert("Network error. Please try again.");
   }
@@ -689,25 +643,25 @@ function printReceipt() {
   const card = document.querySelector(".receipt-card").outerHTML;
   const win = window.open("", "_blank");
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
-        <title>Receipt – Happy Care Clinic</title>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
-        <style>
-          body { font-family: 'DM Sans', sans-serif; background: #fff; padding: 32px; max-width: 480px; margin: auto; }
-          .receipt-card { border: 2px solid #6366f1; border-radius: 16px; overflow: hidden; }
-          .receipt-header { padding: 20px 22px 16px; border-bottom: 1px solid #e5e7eb; }
-          .receipt-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-          .receipt-logo { width: 44px; height: 44px; background: #fce7f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid #e5e7eb; }
-          .receipt-clinic-name { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: #f472b6; }
-          .receipt-tagline { font-size: .78rem; color: #9ca3af; }
-          .receipt-section { padding: 14px 22px; border-bottom: 1px solid #f3f4f6; }
-          .receipt-section-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #1f2937; margin-bottom: 10px; }
-          .receipt-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #f3f4f6; }
-          .receipt-row:last-child { border-bottom: none; }
-          .receipt-label { font-size: .82rem; color: #4b5563; }
-          .receipt-value { font-size: .82rem; font-weight: 600; color: #1f2937; text-align: right; }
-          .receipt-value.amount { color: #f472b6; font-size: .95rem; font-weight: 700; }
-          .receipt-vat-note { background: #f9fafb; padding: 12px 22px; text-align: center; font-size: .78rem; font-weight: 700; color: #1f2937; }
-        </style></head><body>${card}</body></html>`);
+    <title>Receipt – Happy Care Clinic</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+    <style>
+      body { font-family: 'DM Sans', sans-serif; background: #fff; padding: 32px; max-width: 480px; margin: auto; }
+      .receipt-card { border: 2px solid #6366f1; border-radius: 16px; overflow: hidden; }
+      .receipt-header { padding: 20px 22px 16px; border-bottom: 1px solid #e5e7eb; }
+      .receipt-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+      .receipt-logo { width: 44px; height: 44px; background: #fce7f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid #e5e7eb; }
+      .receipt-clinic-name { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: #f472b6; }
+      .receipt-tagline { font-size: .78rem; color: #9ca3af; }
+      .receipt-section { padding: 14px 22px; border-bottom: 1px solid #f3f4f6; }
+      .receipt-section-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #1f2937; margin-bottom: 10px; }
+      .receipt-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #f3f4f6; }
+      .receipt-row:last-child { border-bottom: none; }
+      .receipt-label { font-size: .82rem; color: #4b5563; }
+      .receipt-value { font-size: .82rem; font-weight: 600; color: #1f2937; text-align: right; }
+      .receipt-value.amount { color: #f472b6; font-size: .95rem; font-weight: 700; }
+      .receipt-vat-note { background: #f9fafb; padding: 12px 22px; text-align: center; font-size: .78rem; font-weight: 700; color: #1f2937; }
+    </style></head><body>${card}</body></html>`);
   win.document.close();
   win.print();
 }
@@ -721,7 +675,5 @@ document
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get("service");
-  if (service) {
-    selectService(null, decodeURIComponent(service));
-  }
+  if (service) selectService(null, decodeURIComponent(service));
 });

@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config.php';
         <p>Find the right doctor and book in seconds</p>
         <div class="appointment-bar">
             <div class="appt-field" id="service-field">
-                <i class="fa-solid fa-magnifying-glass appt-icon"></i>
+                
                 <div class="appt-field-text">
                     <span class="appt-label word-rotator" id="wordRotator">
                         <span class="word active">General Check-up</span>
@@ -28,45 +28,44 @@ require_once __DIR__ . '/../config.php';
                             onclick="event.stopPropagation(); openDropdown();"
                             autocomplete="off"
                         />
-                        <i class="fa-solid fa-xmark clear-btn" id="clearBtn" onclick="clearService(event)" style="display:none;"></i>
+                        
                     </div>
                 </div>
                 <div class="service-dropdown" id="serviceDropdown">
                     <div class="dropdown-list" id="dropdownList">
                         <div class="dropdown-group">Dermatology</div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Acne Treatment')"><i class="fa-solid fa-face-sad-tear"></i><div><div class="dropdown-name">Acne Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Skin Consultation')"><i class="fa-solid fa-hand-dots"></i><div><div class="dropdown-name">Skin Consultation</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Allergy / Rash Treatment')"><i class="fa-solid fa-allergies"></i><div><div class="dropdown-name">Allergy / Rash Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Eczema & Psoriasis Care')"><i class="fa-solid fa-disease"></i><div><div class="dropdown-name">Eczema & Psoriasis Care</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Wart / Mole Removal')"><i class="fa-solid fa-scissors"></i><div><div class="dropdown-name">Wart / Mole Removal</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Chemical Peel / Facial Treatments')"><i class="fa-solid fa-spa"></i><div><div class="dropdown-name">Chemical Peel / Facial Treatments</div><div class="dropdown-sub">Dermatology</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Hair Loss Treatment')"><i class="fa-solid fa-head-side-virus"></i><div><div class="dropdown-name">Hair Loss Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Acne Treatment')"><div><div class="dropdown-name">Acne Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Skin Consultation')"><div><div class="dropdown-name">Skin Consultation</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Allergy / Rash Treatment')"><div><div class="dropdown-name">Allergy / Rash Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Eczema & Psoriasis Care')"><div><div class="dropdown-name">Eczema & Psoriasis Care</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Wart / Mole Removal')"><div><div class="dropdown-name">Wart / Mole Removal</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Chemical Peel / Facial Treatments')"><div><div class="dropdown-name">Chemical Peel / Facial Treatments</div><div class="dropdown-sub">Dermatology</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Hair Loss Treatment')"><div><div class="dropdown-name">Hair Loss Treatment</div><div class="dropdown-sub">Dermatology</div></div></div>
 
                         <div class="dropdown-group">General Medicine</div>
-                        <div class="dropdown-item" onclick="selectService(event, 'General Check-up')"><i class="fa-solid fa-stethoscope"></i><div><div class="dropdown-name">General Check-up</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Vaccination / Immunization')"><i class="fa-solid fa-syringe"></i><div><div class="dropdown-name">Vaccination / Immunization</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Fever / Flu Consultation')"><i class="fa-solid fa-temperature-high"></i><div><div class="dropdown-name">Fever / Flu Consultation</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Blood Pressure Monitoring')"><i class="fa-solid fa-heart-pulse"></i><div><div class="dropdown-name">Blood Pressure Monitoring</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Diabetes Screening')"><i class="fa-solid fa-droplet"></i><div><div class="dropdown-name">Diabetes Screening</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Medical Certificate')"><i class="fa-solid fa-file-medical"></i><div><div class="dropdown-name">Medical Certificate</div><div class="dropdown-sub">General Medicine</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Follow-up Consultation')"><i class="fa-solid fa-rotate-right"></i><div><div class="dropdown-name">Follow-up Consultation</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'General Check-up')"><div><div class="dropdown-name">General Check-up</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Vaccination / Immunization')"><div><div class="dropdown-name">Vaccination / Immunization</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Fever / Flu Consultation')"><div><div class="dropdown-name">Fever / Flu Consultation</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Blood Pressure Monitoring')"><div><div class="dropdown-name">Blood Pressure Monitoring</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Diabetes Screening')"><div><div class="dropdown-name">Diabetes Screening</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Medical Certificate')"><div><div class="dropdown-name">Medical Certificate</div><div class="dropdown-sub">General Medicine</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Follow-up Consultation')"><div><div class="dropdown-name">Follow-up Consultation</div><div class="dropdown-sub">General Medicine</div></div></div>
 
                         <div class="dropdown-group">Pediatrics</div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Growth & Development Monitoring')"><i class="fa-solid fa-child"></i><div><div class="dropdown-name">Growth & Development Monitoring</div><div class="dropdown-sub">Pediatrics</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Nutrition Consultation')"><i class="fa-solid fa-apple-whole"></i><div><div class="dropdown-name">Nutrition Consultation</div><div class="dropdown-sub">Pediatrics</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Newborn Care')"><i class="fa-solid fa-baby"></i><div><div class="dropdown-name">Newborn Care</div><div class="dropdown-sub">Pediatrics</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Fever / Cough Consultation')"><i class="fa-solid fa-head-side-cough"></i><div><div class="dropdown-name">Fever / Cough Consultation</div><div class="dropdown-sub">Pediatrics</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Growth & Development Monitoring')"><div><div class="dropdown-name">Growth & Development Monitoring</div><div class="dropdown-sub">Pediatrics</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Nutrition Consultation')"><div><div class="dropdown-name">Nutrition Consultation</div><div class="dropdown-sub">Pediatrics</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Newborn Care')"><div><div class="dropdown-name">Newborn Care</div><div class="dropdown-sub">Pediatrics</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Fever / Cough Consultation')"><div><div class="dropdown-name">Fever / Cough Consultation</div><div class="dropdown-sub">Pediatrics</div></div></div>
 
                         <div class="dropdown-group">OB-GYN</div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Prenatal Check-up')"><i class="fa-solid fa-heart"></i><div><div class="dropdown-name">Prenatal Check-up</div><div class="dropdown-sub">OB-GYN</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Ultrasound')"><i class="fa-solid fa-wave-square"></i><div><div class="dropdown-name">Ultrasound</div><div class="dropdown-sub">OB-GYN</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Family Planning')"><i class="fa-solid fa-people-roof"></i><div><div class="dropdown-name">Family Planning</div><div class="dropdown-sub">OB-GYN</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Menstrual Problems Consultation')"><i class="fa-solid fa-calendar-days"></i><div><div class="dropdown-name">Menstrual Problems Consultation</div><div class="dropdown-sub">OB-GYN</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Pregnancy Test & Monitoring')"><i class="fa-solid fa-baby-carriage"></i><div><div class="dropdown-name">Pregnancy Test & Monitoring</div><div class="dropdown-sub">OB-GYN</div></div></div>
-                        <div class="dropdown-item" onclick="selectService(event, 'Pap Smear / Cervical Screening')"><i class="fa-solid fa-microscope"></i><div><div class="dropdown-name">Pap Smear / Cervical Screening</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Prenatal Check-up')"><div><div class="dropdown-name">Prenatal Check-up</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Ultrasound')"><div><div class="dropdown-name">Ultrasound</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Family Planning')"><div><div class="dropdown-name">Family Planning</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Menstrual Problems Consultation')"><div><div class="dropdown-name">Menstrual Problems Consultation</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Pregnancy Test & Monitoring')"><div><div class="dropdown-name">Pregnancy Test & Monitoring</div><div class="dropdown-sub">OB-GYN</div></div></div>
+                        <div class="dropdown-item" onclick="selectService(event, 'Pap Smear / Cervical Screening')"><div><div class="dropdown-name">Pap Smear / Cervical Screening</div><div class="dropdown-sub">OB-GYN</div></div></div>
 
                         <div class="dropdown-item" id="noResultItem" style="display:none; cursor:default; pointer-events:none;">
-                            <i class="fa-solid fa-circle-exclamation" style="color:#aaa;"></i>
                             <div>
                                 <div class="dropdown-name" style="color:#aaa; font-weight:500;">No results found</div>
                                 <div class="dropdown-sub">Try a different keyword</div>
@@ -77,7 +76,7 @@ require_once __DIR__ . '/../config.php';
             </div>
             <div class="appt-divider"></div>
             <div class="appt-field" id="datetime-field" onclick="openDatetimePanel()">
-                <i class="fa-solid fa-calendar-days appt-icon"></i>
+                
                 <div class="appt-field-text">
                     <span class="appt-label-static">Appointment</span>
                     <span class="appt-value" id="datetimeDisplay">Select date &amp; time</span>
@@ -250,7 +249,7 @@ require_once __DIR__ . '/../config.php';
             <div class="dtp-panel-header">
                 <div class="dtp-panel-header-left">
                     <div class="dtp-panel-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
+                        
                     </div>
                     <div>
                         <div class="dtp-panel-title">Appointment Calendar</div>
@@ -265,16 +264,16 @@ require_once __DIR__ . '/../config.php';
                         <div class="legend-item"><span class="legend-dot NA"></span>Not Available</div>
                     </div>
                     <button class="dtp-close-btn" onclick="closeDatetimePanel()">
-                        <i class="fa-solid fa-xmark"></i>
+                        
                     </button>
                 </div>
             </div>
             <div class="dtp-panel-body">
                 <div class="dtp-cal">
                     <div class="cal-nav">
-                        <button class="cal-nav-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="cal-nav-btn" onclick="changeMonth(-1)"></button>
                         <span class="cal-month-label" id="calMonthLabel"></span>
-                        <button class="cal-nav-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="cal-nav-btn" onclick="changeMonth(1)"></button>
                     </div>
                     <div class="cal-grid-wrap">
                         <div class="cal-day-headers">
@@ -285,7 +284,7 @@ require_once __DIR__ . '/../config.php';
                     </div>
                     <div class="cal-summary" id="calSummary" style="display:none;">
                         <div class="cal-summary-left">
-                            <div class="cal-summary-icon"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="cal-summary-icon"></div>
                             <div>
                                 <div class="cal-summary-date" id="summaryDate"></div>
                                 <span class="cal-summary-badge" id="summaryBadge"></span>
@@ -301,7 +300,7 @@ require_once __DIR__ . '/../config.php';
                 <div class="dtp-divider-v"></div>
                 <div class="dtp-slots">
                     <div class="slots-header" id="slotsHeader" style="display:none;">
-                        <div class="slots-header-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="slots-header-icon"></div>
                         <div>
                             <div class="slots-date" id="slotsDate"></div>
                             <div class="slots-count" id="slotsCount"></div>
