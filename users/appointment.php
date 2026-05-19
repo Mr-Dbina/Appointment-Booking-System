@@ -9,6 +9,7 @@ require_once __DIR__ . '/../config.php';
         <p>Find the right doctor and book in seconds</p>
         <div class="appointment-bar">
             <div class="appt-field" id="service-field">
+    <i class="fa-solid fa-magnifying-glass appt-icon"></i>
                 
                 <div class="appt-field-text">
                     <span class="appt-label word-rotator" id="wordRotator">
@@ -20,15 +21,15 @@ require_once __DIR__ . '/../config.php';
                     </span>
                     <div class="appt-input-wrap">
                         <input
-                            type="text"
+                            type="text"s
                             id="apptInput"
                             class="appt-value"
                             placeholder="Book Appointment"
-                             oninput="filterServices(this.value)"
+                            oninput="filterServices(this.value)"
                             onclick="event.stopPropagation(); openDropdown();"
                             autocomplete="off"
                         />
-                        
+                        <i class="fa-solid fa-xmark clear-btn" id="clearBtn" onclick="clearService(event)" style="display:none;"></i>
                     </div>
                 </div>
                 <div class="service-dropdown" id="serviceDropdown">

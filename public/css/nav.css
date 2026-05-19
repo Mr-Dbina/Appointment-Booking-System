@@ -184,7 +184,7 @@ nav.scrolled {
   pointer-events: all;
   transform: translateY(0);
 }
-.dropdown-item {
+.user-dropdown .dropdown-item {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -196,15 +196,15 @@ nav.scrolled {
   font-weight: 600;
   transition: background 0.2s;
 }
-.dropdown-item:hover {
+.user-dropdown .dropdown-item:hover {
   background: #f4f4f4;
 }
-.dropdown-item i {
+.user-dropdown .dropdown-item i {
   font-size: 1.1rem;
   width: 20px;
   text-align: center;
 }
-.dropdown-item.signout {
+.user-dropdown .dropdown-item.signout {
   color: var(--pink);
 }
 .bell-menu-toggle {
