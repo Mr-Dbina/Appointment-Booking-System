@@ -21,7 +21,7 @@ require_once __DIR__ . '/../config.php';
                     </span>
                     <div class="appt-input-wrap">
                         <input
-                            type="text"s
+                            type="text"
                             id="apptInput"
                             class="appt-value"
                             placeholder="Book Appointment"
